@@ -1,0 +1,7 @@
+body {
+    background: radial-gradient(185.24% 213.48% at 50% 50%, #7E89EC 0%, #16D4E6 55.21%, #006D74 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
