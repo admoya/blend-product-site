@@ -2,7 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
-import { browser } from "$app/environment";
+import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signOut as firebaseSignOut, linkWithPopup, fetchSignInMethodsForEmail } from "firebase/auth";
+import type { AuthProvider, AuthError } from "firebase/auth";
+import { readable } from "svelte/store";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC0SkY_uSkrB-oIaFxeC0wOVc_jgF3NMVo",
@@ -15,5 +17,42 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const analytics = browser && getAnalytics(app);
-export const auth = browser && getAuth(app);
+export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+
+export const user = readable(auth.currentUser, (set) => {
+    set(auth.currentUser);
+    auth.onAuthStateChanged(user => set(user));
+});
+
+const getProvider = (providerId: String) => {
+    switch (providerId) {
+      case GoogleAuthProvider.PROVIDER_ID:
+        return new GoogleAuthProvider();
+      case FacebookAuthProvider.PROVIDER_ID:
+        return new FacebookAuthProvider();
+      default:
+        throw new Error(`No provider implemented for ${providerId}`);
+    }
+  }
+
+
+const signInFactory = (provider: AuthProvider) => async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        window.location.href = "/";
+    } 
+    catch (error) {
+        console.error(error);
+        console.log(JSON.stringify(error, null, 2));
+        const authError = error as AuthError;
+        if (authError.code === 'auth/account-exists-with-different-credential') {
+            const providers = await fetchSignInMethodsForEmail(auth, authError.customData.email!);
+            alert(`You previously signed in with ${providers[0]}, please use that option.`);
+        }
+    }
+}
+
+export const signInWithGoogle = signInFactory(new GoogleAuthProvider());
+export const signInWithFacebook = signInFactory(new FacebookAuthProvider());
+export const signOut = () => firebaseSignOut(auth);
