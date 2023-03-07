@@ -2,6 +2,16 @@ body {
     background: radial-gradient(185.24% 213.48% at 50% 50%, #7E89EC 0%, #16D4E6 55.21%, #006D74 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
     height: 100vh;
     display: flex;
+    font-family: "Contrail One";
     flex-direction: column;
     margin: 0;
 }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: normal;
+  }
+  
+  h2 {
+    font-family: "Heebo";
+  }
