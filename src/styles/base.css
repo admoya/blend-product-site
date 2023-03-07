@@ -6,6 +6,8 @@ body {
     flex-direction: column;
     margin: 0;
     font-size: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
   h1 {

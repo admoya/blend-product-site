@@ -21,11 +21,6 @@
 </section>
 
 <style>
-    :global(body) {
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-    }
     .cards img {
         max-width: 100%;
     }
