@@ -17,7 +17,7 @@
     <div class="cards">
         <img src={cards} alt="cards spelling BLEND"/>
     </div>
-    <a href="https://www.listmonk.app"><button class="btn"><h2>sign up for updates</h2></button></a>
+    <a href="/subscribe"><button class="btn"><h2>sign up for updates</h2></button></a>
 </section>
 
 <style>
@@ -40,18 +40,10 @@
         margin: 0px;
         letter-spacing: 2px;
     }
-    .btn {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
-        border: 1px solid #FFFFFF;
-        border-radius: 8px;
-        height: 2.7rem;
-        width: 13rem;
-    }
     .btn h2 {
         margin: 0px;
     }
-    a:hover .btn {
+    .btn:hover {
         background: rgba(255, 255, 255, 0.30);
     }
 </style>
