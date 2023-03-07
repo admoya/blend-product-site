@@ -5,6 +5,7 @@ body {
     font-family: "Contrail One";
     flex-direction: column;
     margin: 0;
+    font-size: 100%;
 }
 
   h1 {

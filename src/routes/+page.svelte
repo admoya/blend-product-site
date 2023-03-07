@@ -21,6 +21,11 @@
 </section>
 
 <style>
+    :global(body) {
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
     .cards img {
         max-width: 100%;
     }
@@ -29,10 +34,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 8%;
+        padding: 1rem;
     }
     .coming-soon h1 {
-        margin-bottom: 0px;
+        margin: 0px;
         letter-spacing: 2px;
     }
     .btn {
