@@ -1,5 +1,5 @@
 <form method="post" action="https://communications.csma.technology/subscription/form" class="listmonk-form">
-    <div>
+    <div class="subscribe-form">
         <h2>Subscribe to Blend Updates</h2>
         <input type="hidden" name="nonce" />
         <p><input type="email" name="email" required placeholder="E-mail" /></p>
@@ -14,15 +14,21 @@
 </form>
 
 <style>
+    .subscribe-form {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1rem;
+        margin: 0px;
+    }
     input[type="text"], input[type="email"]{
         width: 90%;
-        padding: 10px 4px 10px 4px;
-        border-radius: 2px;
+        padding: 10px 8px;
+        border-radius: 8px;
         border-color: transparent;
         font-size: 1.5em;
     }
     .btn {
-        width: 100%;
+        width: 95%;
         font-family: "Heebo";
         font-weight: bold;
         font-size: 1.5em;
