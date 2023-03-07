@@ -17,7 +17,7 @@
     <div class="cards">
         <img src={cards} alt="cards spelling BLEND"/>
     </div>
-    <a href="/subscribe"><button class="btn"><h2>sign up for updates</h2></button></a>
+    <a href="/subscribe"><button class="btn"><h2>get updates</h2></button></a>
 </section>
 
 <style>
