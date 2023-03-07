@@ -2,6 +2,33 @@ body {
     background: radial-gradient(185.24% 213.48% at 50% 50%, #7E89EC 0%, #16D4E6 55.21%, #006D74 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
     height: 100vh;
     display: flex;
+    font-family: "Contrail One";
     flex-direction: column;
     margin: 0;
+    font-size: 100%;
+    align-items: center;
+    justify-content: center;
 }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: normal;
+  }
+  
+  h2 {
+    font-family: "Heebo";
+    font-weight: 600;
+  }
+
+  .btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px;
+    height: 2.7rem;
+    width: 13rem;
+  }
+  
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.30);
+  }
