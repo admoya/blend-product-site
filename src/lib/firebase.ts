@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, get, set, child } from 'firebase/database';
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signOut as firebaseSignOut, linkWithPopup, fetchSignInMethodsForEmail } from "firebase/auth";
 import type { AuthProvider, AuthError } from "firebase/auth";
 import { readable } from "svelte/store";
@@ -19,23 +20,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const database = getDatabase(app);
+
+export const getUserData = async (path?: string) => auth.currentUser && (await get(child(ref(database), `users/${auth.currentUser.uid}/${path}`))).val();
+export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
 export const user = readable(auth.currentUser, (set) => {
     set(auth.currentUser);
     auth.onAuthStateChanged(user => set(user));
 });
-
-const getProvider = (providerId: String) => {
-    switch (providerId) {
-      case GoogleAuthProvider.PROVIDER_ID:
-        return new GoogleAuthProvider();
-      case FacebookAuthProvider.PROVIDER_ID:
-        return new FacebookAuthProvider();
-      default:
-        throw new Error(`No provider implemented for ${providerId}`);
-    }
-  }
-
 
 const signInFactory = (provider: AuthProvider) => async () => {
     try {

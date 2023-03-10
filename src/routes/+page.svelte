@@ -1,13 +1,14 @@
 <script lang="ts">
     import { user, signOut } from '$lib/firebase';
     import cards from '$lib/assets/cards.png'
-    console.log($user);
 </script>
 
 <!-- <h1>Blend: The Orton-Gillingham method made easy</h1>
 {#if $user}
     <p>Welcome back, {$user.displayName}</p>
-    <button style="max-width: 100px;" on:click={signOut}>Sign out</button>
+    <button on:click={signOut}>Sign out</button>
+    <h3>Available Pages:</h3>
+    <a href={`/account/${$user.uid}`}>Account Management</a>
 {:else}
     <p>Welcome, new user! Make an account or log in <a href="/login">here</a></p>
 {/if} -->
