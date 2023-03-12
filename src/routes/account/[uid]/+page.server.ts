@@ -1,29 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
-import Stripe from 'stripe';
-import { STRIPE_SECRET_KEY } from '$env/static/private';
-const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2022-11-15',
-});
-import firebaseAdmin from 'firebase-admin';
-import firebaseAdminCredential from "$lib/server/firebaseAdminCredential";
 import { error, redirect } from "@sveltejs/kit";
-if (!firebaseAdmin.apps.length) {
-  firebaseAdmin.initializeApp({
-      credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
-      databaseURL: 'https://csma-blend-default-rtdb.firebaseio.com'
-  });
-}
-const db = firebaseAdmin.database();
-
-const getStripeCustomerWithSubscriptions = async (uid: string) => {
-    const stripeCustomerId: string | null = (await db.ref(`/users/${uid}/private/stripeCustomerId`).once('value')).val();
-    if (stripeCustomerId === null)
-        return stripeCustomerId;
-    return await stripe.customers.retrieve(stripeCustomerId, {
-        expand: ['subscriptions']
-    });
-}
-const getBlendProSubscription = (customer: Stripe.Customer) => customer.subscriptions?.data.find((subscription) => subscription.items.data.find(({plan: { product, active }}) => active && product === 'prod_NSYFxnG6hkBro8'));
+import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription } from "$lib/server/subscriptionUtils";
 
 export const load = (async ({ params: { uid } }) => {
     const customer = await getStripeCustomerWithSubscriptions(uid);
@@ -46,11 +23,11 @@ export const actions = {
     createSubscriptionOrder: async ( { request, params: { uid }, url: { origin } }, ) => {
         const data = await request.formData();
         console.log(`Fetching Stripe customer ID for user ${uid}`);
-        const stripeCustomerIdRef = db.ref(`/users/${uid}/private/stripeCustomerId`);
+        const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
         let customer = await getStripeCustomerWithSubscriptions(uid);
         if (!customer || customer.deleted) {
             console.log(`No Stripe customer exists for user ${uid}, creating one`);
-            customer = await stripe.customers.create({
+            customer = await stripeClient.customers.create({
                 email: data.get('email')! as string,
                 name: data.get('name')! as string,
                 metadata: { uid }
@@ -64,7 +41,7 @@ export const actions = {
             }
         }
         console.log("Creating Stripe session");
-        const session = await stripe.checkout.sessions.create({
+        const session = await stripeClient.checkout.sessions.create({
             customer: customer.id,
             billing_address_collection: 'auto',
             line_items: [
@@ -95,7 +72,7 @@ export const actions = {
             console.error(`No active Blend Pro subscriptions for user ${uid}, aborting.`);
             throw error(400, `No active Blend Pro subscriptions for user ${uid}`);
         }
-        await stripe.subscriptions.update(subscription.id, { cancel_at_period_end: true })
+        await stripeClient.subscriptions.update(subscription.id, { cancel_at_period_end: true })
     },
     reactivateSubscription: async ({ params: { uid }}) => {
         console.log(`Reactivating subscription for user ${uid}`);
@@ -109,6 +86,6 @@ export const actions = {
             console.error(`No active Blend Pro subscriptions for user ${uid}, aborting.`);
             throw error(400, `No active Blend Pro subscriptions for user ${uid}`);
         }
-        await stripe.subscriptions.update(subscription.id, { cancel_at_period_end: false })
+        await stripeClient.subscriptions.update(subscription.id, { cancel_at_period_end: false })
     }
 } satisfies Actions;
