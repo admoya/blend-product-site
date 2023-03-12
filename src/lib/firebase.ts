@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from 'firebase/auth';
+import { getAuth, type User } from 'firebase/auth';
 import { getDatabase, ref, get, set, child } from 'firebase/database';
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signOut as firebaseSignOut, linkWithPopup, fetchSignInMethodsForEmail } from "firebase/auth";
 import type { AuthProvider, AuthError } from "firebase/auth";
@@ -30,10 +30,10 @@ export const user = readable(auth.currentUser, (set) => {
     auth.onAuthStateChanged(user => set(user));
 });
 
-const signInFactory = (provider: AuthProvider) => async () => {
+const signInFactory = (provider: AuthProvider) => async (redirectBuilder: (user: User) => string = () => '/') => {
     try {
         const result = await signInWithPopup(auth, provider);
-        window.location.href = "/";
+        window.location.href = redirectBuilder(result.user);
     } 
     catch (error) {
         console.error(error);
