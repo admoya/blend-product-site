@@ -1,10 +1,9 @@
 <script lang="ts">
   import { user } from '$lib/firebase';
   import type { PageData } from './$types';
-
+  
   export let data: PageData;
   const { isSubscribedToBlendPro, subscriptionPendingCancellation, subscriptionPeriodEnd } = data;
-
   // Remove query params because they are handled on the server and any relevant state should be passed as a prop
   window.history.replaceState({}, document.title, window.location.toString().replace(window.location.search, ''));
 </script>
