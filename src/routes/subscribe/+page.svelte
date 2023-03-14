@@ -1,4 +1,4 @@
-<form method="post" action="https://communications.csma.technology/subscription/form" class="listmonk-form">
+<form method="post" action="https://communications.blendreading.com/subscription/form" class="listmonk-form">
     <div>
         <h2>Join our mailing list to be notified when we launch! &#127881;</h2>
         <input type="hidden" name="nonce" />
