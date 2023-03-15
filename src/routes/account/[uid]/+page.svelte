@@ -15,8 +15,11 @@
   <p>{$user?.displayName}</p>
 </div>
 <div>
-  <h3>UID</h3>
-  <p>{$user?.uid}</p>
+  <h3>Email</h3>
+  <p>{$user?.email}</p>
+</div>
+<div>
+  <button on:click={() => console.log($user)}>Debug</button>
 </div>
 <div>
   <h3>Subscription Status</h3>

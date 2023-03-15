@@ -30,9 +30,16 @@ export const user = readable(auth.currentUser, (set) => {
     auth.onAuthStateChanged(user => set(user));
 });
 
-const signInFactory = (provider: AuthProvider) => async (redirectBuilder: (user: User) => string = () => '/') => {
+const signInFactory = (provider: GoogleAuthProvider | FacebookAuthProvider, scopes: string[] = []) => async (redirectBuilder: (user: User) => string = () => '/') => {
     try {
+        scopes.forEach((scope) => provider.addScope(scope));
         const result = await signInWithPopup(auth, provider);
+        if (provider instanceof FacebookAuthProvider) {
+            const credential = FacebookAuthProvider.credentialFromResult(result);
+            console.log(`Access token: 
+            ${credential?.accessToken}
+            `)
+        }
         window.location.href = redirectBuilder(result.user);
     } 
     catch (error) {
@@ -47,5 +54,5 @@ const signInFactory = (provider: AuthProvider) => async (redirectBuilder: (user:
 }
 
 export const signInWithGoogle = signInFactory(new GoogleAuthProvider());
-export const signInWithFacebook = signInFactory(new FacebookAuthProvider());
+export const signInWithFacebook = signInFactory(new FacebookAuthProvider(), ['email']);
 export const signOut = () => firebaseSignOut(auth);
