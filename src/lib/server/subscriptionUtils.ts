@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { STRIPE_SECRET_KEY } from '$env/static/private';
+import { STRIPE_SECRET_KEY, STRIPE_BLEND_PRO_PRICE_CODE, STRIPE_BLEND_PRO_PRODUCT_CODE } from '$env/static/private';
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: '2022-11-15',
 });
@@ -16,6 +16,9 @@ const db = firebaseAdmin.database();
 export const stripeClient = stripe;
 export const firebaseDb = db;
 
+export const PRICE_CODE = STRIPE_BLEND_PRO_PRICE_CODE;
+export const PRODUCT_CODE = STRIPE_BLEND_PRO_PRODUCT_CODE;
+
 export const getStripeCustomerWithSubscriptions = async (uid: string) => {
     const stripeCustomerId: string | null = (await db.ref(`/users/${uid}/private/stripeCustomerId`).once('value')).val();
     if (stripeCustomerId === null)
@@ -24,4 +27,4 @@ export const getStripeCustomerWithSubscriptions = async (uid: string) => {
         expand: ['subscriptions']
     });
 }
-export const getBlendProSubscription = (customer: Stripe.Customer) => customer.subscriptions?.data.find((subscription) => subscription.items.data.find(({plan: { product, active }}) => active && product === 'prod_NSYFxnG6hkBro8'));
+export const getBlendProSubscription = (customer: Stripe.Customer) => customer.subscriptions?.data.find((subscription) => subscription.items.data.find(({plan: { product, active }}) => active && product === STRIPE_BLEND_PRO_PRODUCT_CODE));

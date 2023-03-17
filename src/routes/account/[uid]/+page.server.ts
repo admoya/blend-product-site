@@ -47,10 +47,12 @@ export const actions = {
             line_items: [
                 {
                     price: 'price_1Mhd96L7q6D0NeacKVGPhbmh',
-                    // For metered billing, do not pass quantity
                     quantity: 1,
                 },
             ],
+            subscription_data: {
+                trial_period_days: 30,
+            },
             mode: 'subscription',
             success_url: `${origin}/account/${uid}?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/account/${uid}?subscription_checkout_status=cancel`,
