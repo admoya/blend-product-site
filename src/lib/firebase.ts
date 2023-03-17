@@ -30,29 +30,4 @@ export const user = readable(auth.currentUser, (set) => {
     auth.onAuthStateChanged(user => set(user));
 });
 
-const signInFactory = (provider: GoogleAuthProvider | FacebookAuthProvider, scopes: string[] = []) => async (redirectBuilder: (user: User) => string = () => '/') => {
-    try {
-        scopes.forEach((scope) => provider.addScope(scope));
-        const result = await signInWithPopup(auth, provider);
-        if (provider instanceof FacebookAuthProvider) {
-            const credential = FacebookAuthProvider.credentialFromResult(result);
-            console.log(`Access token: 
-            ${credential?.accessToken}
-            `)
-        }
-        window.location.href = redirectBuilder(result.user);
-    } 
-    catch (error) {
-        console.error(error);
-        console.log(JSON.stringify(error, null, 2));
-        const authError = error as AuthError;
-        if (authError.code === 'auth/account-exists-with-different-credential') {
-            const providers = await fetchSignInMethodsForEmail(auth, authError.customData.email!);
-            alert(`You previously signed in with ${providers[0]}, please use that option.`);
-        }
-    }
-}
-
-export const signInWithGoogle = signInFactory(new GoogleAuthProvider());
-export const signInWithFacebook = signInFactory(new FacebookAuthProvider(), ['email']);
 export const signOut = () => firebaseSignOut(auth);
