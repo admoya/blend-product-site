@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from "@sveltejs/kit";
-import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription } from "$lib/server/subscriptionUtils";
+import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, PRICE_CODE } from "$lib/server/subscriptionUtils";
 
 export const load = (async ({ params: { uid } }) => {
     const customer = await getStripeCustomerWithSubscriptions(uid);
@@ -46,7 +46,7 @@ export const actions = {
             billing_address_collection: 'auto',
             line_items: [
                 {
-                    price: 'price_1Mhd96L7q6D0NeacKVGPhbmh',
+                    price: PRICE_CODE,
                     quantity: 1,
                 },
             ],
@@ -60,6 +60,7 @@ export const actions = {
             // automatic_tax: { enabled: true },
             // customer_update: { address: 'auto' }
         });
+        console.log(`Stripe session created: ${session.id}`);
         throw redirect(303, session.url!);
     },
     cancelSubscription: async ({ params: { uid }}) => {
