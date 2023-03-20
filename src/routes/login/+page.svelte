@@ -55,6 +55,7 @@
                 GoogleAuthProvider.PROVIDER_ID,
                 // FacebookAuthProvider.PROVIDER_ID
             ],
+            signInFlow: 'popup',
         })
     });
 </script>
