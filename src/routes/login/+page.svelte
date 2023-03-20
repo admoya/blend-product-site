@@ -10,7 +10,7 @@
     const ui = firebaseui.auth.AuthUI.getInstance() ?? new firebaseui.auth.AuthUI(auth);
     
     const APP_URL = 'https://app.blendreading.com';
-    const PREVIEW_APP_URL = 'https://csma-technology.github.io/blending-board-app';
+    const PREVIEW_APP_URL = 'https://preview-app.blendreading.com';
 
     const redirectParam = $page.url.searchParams.get('successRedirect') || '/';
     
