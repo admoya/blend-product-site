@@ -24,19 +24,19 @@ export const database = getDatabase(app);
 export const getUserData = async (path?: string) => auth.currentUser && (await get(child(ref(database), `users/${auth.currentUser.uid}/${path}`))).val();
 export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
+export const setWillAttempLogin = (willAttempt: boolean) => localStorage.setItem('willAttemptLogin', willAttempt ? 'yes' : 'no'); 
 export const willAttemptLogin = () => localStorage.getItem('willAttemptLogin') === 'yes';
 
 export const user = readable(auth.currentUser, (set) => {
+    console.log(`Initial user: ${auth.currentUser}`);
     set(auth.currentUser);
     auth.onAuthStateChanged(user => {
-      if (user) {
-        localStorage.setItem('willAttemptLogin', 'yes');
-      }
+      setWillAttempLogin(!!user);
       set(user);
     });
 });
 
 export const signOut = async () => {
-  localStorage.setItem('willAttemptLogin', 'no');
+  setWillAttempLogin(false);
   await firebaseSignOut(auth);
 };
