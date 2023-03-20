@@ -3,8 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, type User } from 'firebase/auth';
 import { getDatabase, ref, get, set, child } from 'firebase/database';
-import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signOut as firebaseSignOut, linkWithPopup, fetchSignInMethodsForEmail } from "firebase/auth";
-import type { AuthProvider, AuthError } from "firebase/auth";
+import { signOut as firebaseSignOut } from "firebase/auth";
 import { readable } from "svelte/store";
 
 const firebaseConfig = {
@@ -25,9 +24,19 @@ export const database = getDatabase(app);
 export const getUserData = async (path?: string) => auth.currentUser && (await get(child(ref(database), `users/${auth.currentUser.uid}/${path}`))).val();
 export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
+export const willAttemptLogin = () => localStorage.getItem('willAttemptLogin') === 'yes';
+
 export const user = readable(auth.currentUser, (set) => {
     set(auth.currentUser);
-    auth.onAuthStateChanged(user => set(user));
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        localStorage.setItem('willAttemptLogin', 'yes');
+      }
+      set(user);
+    });
 });
 
-export const signOut = () => firebaseSignOut(auth);
+export const signOut = async () => {
+  localStorage.setItem('willAttemptLogin', 'no');
+  await firebaseSignOut(auth);
+};

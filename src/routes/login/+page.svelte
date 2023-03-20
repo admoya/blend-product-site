@@ -40,10 +40,10 @@
                         fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken })})
                             .then(async (response) => {
                                 const token = (await response.json()).customToken;
-                                window.location.href = redirectBuilder(authResult.user, token);
+                                window.location.replace(redirectBuilder(authResult.user, token));
                             });
                     } else {
-                        goto(redirectBuilder(authResult.user))
+                        goto(redirectBuilder(authResult.user), { replaceState: true })
                     }
                     return false;
                 },
@@ -53,7 +53,7 @@
             signInOptions: [
                 EmailAuthProvider.PROVIDER_ID,
                 GoogleAuthProvider.PROVIDER_ID,
-                FacebookAuthProvider.PROVIDER_ID
+                // FacebookAuthProvider.PROVIDER_ID
             ],
         })
     });
