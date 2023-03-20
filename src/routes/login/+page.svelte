@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { auth, user } from "$lib/firebase";
+    import { auth, setWillAttempLogin } from "$lib/firebase";
     import { page } from "$app/stores";
     import { EmailAuthProvider, FacebookAuthProvider, GoogleAuthProvider, type User } from "firebase/auth";
     import * as firebaseui from 'firebaseui'
@@ -36,6 +36,7 @@
         ui.start('#firebaseui-auth-container', {
             callbacks: {
                 signInSuccessWithAuthResult(authResult, redirectUrl) {
+                    setWillAttempLogin(true);
                     if (isAppRedirect) {
                         fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken })})
                             .then(async (response) => {
@@ -49,7 +50,6 @@
                 },
             },
             signInSuccessUrl: `'/login'`,
-            signInFlow: 'popup',
             signInOptions: [
                 EmailAuthProvider.PROVIDER_ID,
                 GoogleAuthProvider.PROVIDER_ID,
