@@ -53,7 +53,7 @@
             signInOptions: [
                 EmailAuthProvider.PROVIDER_ID,
                 GoogleAuthProvider.PROVIDER_ID,
-                FacebookAuthProvider.PROVIDER_ID
+                // FacebookAuthProvider.PROVIDER_ID
             ],
         })
     });
