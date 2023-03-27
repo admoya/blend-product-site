@@ -6,6 +6,19 @@
   const { isSubscribedToBlendPro, subscriptionPendingCancellation, subscriptionPeriodEnd } = data;
   // Remove query params because they are handled on the server and any relevant state should be passed as a prop
   window.history.replaceState({}, document.title, window.location.toString().replace(window.location.search, ''));
+
+  //@ts-ignore
+  window.debugBlendUser = async () => {
+    const idToken = await $user?.getIdToken();
+    const { customToken } = await (await fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken })})).json()
+    console.log(
+      `
+        uid: ${$user?.uid},
+        id_token: ${idToken},
+        custom_token: ${customToken}
+      `
+    )
+  }
 </script>
 
 <h1>Manage Account</h1>

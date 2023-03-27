@@ -28,7 +28,6 @@ export const setWillAttempLogin = (willAttempt: boolean) => localStorage.setItem
 export const willAttemptLogin = () => localStorage.getItem('willAttemptLogin') === 'yes';
 
 export const user = readable(auth.currentUser, (set) => {
-    console.log(`Initial user: ${auth.currentUser}`);
     set(auth.currentUser);
     auth.onAuthStateChanged(user => {
       setWillAttempLogin(!!user);
