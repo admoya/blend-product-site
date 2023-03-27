@@ -1,6 +1,9 @@
 <script lang="ts">
     import "../app.css";
+    import AppBar from "$lib/components/AppBar.svelte";
 </script>
 
-
-<slot />
+<AppBar />
+<main>
+    <slot />
+</main>

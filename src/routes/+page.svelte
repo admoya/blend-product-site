@@ -30,7 +30,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 0 1rem;
+        padding: 1rem;
         height: 100%;
     }
     .coming-soon h1 {
