@@ -50,5 +50,5 @@ export const DELETE = (async (event) => {
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
-    return new Response(null, { headers: [[ 'Access-Control-Allow-Origin', "*" ], [ 'Access-Control-Allow-Headers', '*' ]]});
+    return new Response(null, { headers: [[ 'Access-Control-Allow-Origin', "*" ], [ 'Access-Control-Allow-Headers', '*' ], ['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE']]});
 }) satisfies RequestHandler;
