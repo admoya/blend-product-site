@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Blend Pricing</title>
+</svelte:head>
+
 <h1>Pricing</h1>
 
 <div class="content">

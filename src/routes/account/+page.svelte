@@ -7,3 +7,7 @@ $: {
         window.location.replace(`/account/${$user.uid}`);
 }
 </script>
+
+<svelte:head>
+  <title>My Blend Account</title>
+</svelte:head>

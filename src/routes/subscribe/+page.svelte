@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Subscribe to Blend</title>
+</svelte:head>
+
 <form method="post" action="https://communications.blendreading.com/subscription/form" class="listmonk-form">
     <div>
         <h2>Join our mailing list to be notified when we launch! &#127881;</h2>

@@ -60,6 +60,10 @@
     });
 </script>
 
+<svelte:head>
+  <title>Login</title>
+</svelte:head>
+
 <h1>Log in or Create Account</h1>
 
 <h2>Please choose one of the following options:</h2>

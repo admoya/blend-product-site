@@ -52,11 +52,6 @@
     gap: 1rem;
   }
 
-  .nav-links a {
-    color: black;
-    text-decoration: none;
-  }
-
   a#app:hover {
     color: #f1b4fb;
   }
