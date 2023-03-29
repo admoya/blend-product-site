@@ -2,7 +2,6 @@
     import cards from '$lib/assets/cards.png';
     import play from '$lib/assets/home/play.png';
     import edit from '$lib/assets/home/edit.png';
-    import blendProHome from '$lib/assets/home/blend_pro_home.png';
 </script>
 
 <svelte:head>
