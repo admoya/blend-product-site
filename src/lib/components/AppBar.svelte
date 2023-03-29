@@ -5,7 +5,7 @@
     </a>
     <ul class="nav-links">
       <li>
-        <a id="app" href="https://app.blendreading.com">app</a>
+        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer">app</a>
       </li>
       <li>
         <a id="pricing" href="/pricing">pricing</a>

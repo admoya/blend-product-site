@@ -1,35 +1,66 @@
 <script lang="ts">
-  import logo from '$lib/assets/logo.svg';
+  import logo from "$lib/assets/blend_logo.svg";
+  import facebook from "$lib/assets/footer/facebook.png";
+  import instagram from "$lib/assets/footer/instagram.png";
+  import newsletter from '$lib/assets/footer/email_newsletter.svg'
 </script>
 
 <footer>
   <div class="footer-content">
     <div class="footer-logo">
-      <img src={logo} alt="Blend Logo"/>
+      <img src={logo} alt="Blend Logo" />
     </div>
     <div class="footer-section">
       <h2>BLEND READING</h2>
-      <p>Blend Reading was created by CSMA Technology in partnership with Sage Literacy.</p>
-      <p>__</p>
+      <p>
+        Blend Reading was created by CSMA Technology in partnership with Sage
+        Literacy.
+      </p>
+    </div>
+    <div class="footer=section">
       <h2>USEFUL LINKS</h2>
       <ul>
         <li><a href="/account">Your Account</a></li>
-        <li><a href="mailto:blend-support@csma.technology">Contact Support</a></li>
+        <li>
+          <a href="mailto:blend-support@csma.technology">Contact Support</a>
+        </li>
       </ul>
     </div>
-    <div class="footer=section">
-      
+    <div class="footer-section">
+      <h2>STAY IN TOUCH</h2>
+      <div class="social-media">
+        <a
+          href="https://www.facebook.com/blendreading"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img src={facebook} alt="facebook logo" /></a
+        >
+        <a
+          href="https://www.instagram.com/blendreading/"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img src={instagram} alt="instagram logo" /></a
+        >
+        <a href="/subscribe"><img src={newsletter} alt="email newsletter icon"/></a>
+      </div>
     </div>
     <div class="footer-section">
-      <h2>REACH OUT TO US</h2>
+      <h2>ABOUT US</h2>
       <ul>
-        <p>Stay in touch with us on social media</p>
-        <li><a href="https://www.facebook.com/blendreading">Blend on Facebook</a></li>
-        <li><a href="https://www.instagram.com/blendreading/">Blend on Instagram</a></li>
-        <li>__</li>
-        <p>Learn about our creators</p>
-        <li><a href="https://csma.technology">CSMA Technology</a></li>
-        <li><a href="https://sageliteracy.org">Sage Literacy</a></li>
+        <li>
+          <a
+            href="https://csma.technology"
+            target="_blank"
+            rel="noopener noreferrer">CSMA Technology</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://sageliteracy.org"
+            target="_blank"
+            rel="noopener noreferrer">Sage Literacy</a
+          >
+        </li>
       </ul>
     </div>
   </div>
@@ -37,11 +68,6 @@
 
 <style>
   footer {
-    flex-grow: 1;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
     background-color: white;
   }
 
@@ -50,13 +76,22 @@
   }
 
   .footer-section {
-    flex-basis: 25rem;
+    flex-basis: 18rem;
     display: flex;
     flex-direction: column;
   }
 
-  .footer-section h2 {
-    margin: 0px;
+  .social-media {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-media img {
+    height: 2rem;
+  }
+  
+  p {
+    margin: 0;
   }
 
   .footer-content {
