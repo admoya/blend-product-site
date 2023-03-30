@@ -1,5 +1,5 @@
 <script lang="ts">
-  import logo from "$lib/assets/blend_logo.svg";
+  import logo from "$lib/assets/blend_logo.png";
   import facebook from "$lib/assets/footer/facebook.png";
   import instagram from "$lib/assets/footer/instagram.png";
   import newsletter from '$lib/assets/footer/email_newsletter.svg'
@@ -17,7 +17,7 @@
         Literacy.
       </p>
     </div>
-    <div class="footer=section">
+    <div class="footer-section">
       <h2>USEFUL LINKS</h2>
       <ul>
         <li><a href="/account">Your Account</a></li>
@@ -71,8 +71,8 @@
     background-color: white;
   }
 
-  .footer-logo {
-    flex-basis: 5rem;
+  .footer-logo img {
+    height: 7rem;
   }
 
   .footer-section {
@@ -89,7 +89,7 @@
   .social-media img {
     height: 2rem;
   }
-  
+
   p {
     margin: 0;
   }

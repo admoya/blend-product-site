@@ -1,59 +1,125 @@
+<script lang="ts">
+    const check = '\u2713';
+</script>
+
 <svelte:head>
-  <title>Blend Pricing</title>
+    <title>Blend Pricing</title>
 </svelte:head>
 
-<h1>Pricing</h1>
-
 <div class="content">
+    <h1>Blend Pricing</h1>
     <table class="pricing-table">
-        <caption>Blend features available in free and pro tiers</caption>
+        <caption>Get <u>one month free</u> when you subscribe to Blend PRO!</caption>
         <colgroup>
-            <col class="feature-names">
-            <col span="2" class="check-marks">
+            <col class="feature-names" />
+            <col span="2" class="check-marks" />
         </colgroup>
-        <th scope="col" class="column-header">Features</th>
-        <th scope="col" class="column-header">Free</th>
-        <th scope="col" class="column-header">Pro</th>
-        <tr>
-            <th scope="row">Virtual Blending Board</th>
-            <td>Yes</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
-            <th scope="row">Preloaded Standard Decks</th>
-            <td>Yes</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
-            <th scope="row">One Custom Deck</th>
-            <td>Yes</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
-            <th scope="row">Unlimited Custom Decks</th>
-            <td>No</td>
-            <td>Yes</td>
-        </tr>
-        <tr>
-            <th scope="row">Sync Across Devices</th>
-            <td>No</td>
-            <td>Yes</td>
-        </tr>
+        <thead>
+            <tr>
+                <th scope="col" class="column-header">Features</th>
+                <th scope="col" class="column-header">Basic<h6>free</h6></th>
+                <th scope="col" class="column-header">PRO<h6>$3/month</h6></th
+                >
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Virtual Blending Board</th>
+                <td>{check}</td>
+                <td>{check}</td>
+            </tr>
+            <tr>
+                <th scope="row">Preloaded Standard Decks</th>
+                <td>{check}</td>
+                <td>{check}</td>
+            </tr>
+            <tr>
+                <th scope="row">Sync Across Devices</th>
+                <td>{check}</td>
+                <td>{check}</td>
+            </tr>
+            <tr>
+                <th scope="row">One Custom Deck</th>
+                <td>{check}</td>
+                <td>{check}</td>
+            </tr>
+            <tr>
+                <th scope="row">Unlimited Custom Decks</th>
+                <td class="empty"></td>
+                <td>{check}</td>
+            </tr>
+            <tr>
+                <th scope="row">Additional Features (Coming Soon!)</th>
+                <td class="empty"></td>
+                <td>{check}</td>
+            </tr>
+        </tbody>
     </table>
+    <a class="btn" href="/login"><h2>sign up</h2></a>
+
+    <h1>
+        Subscribe to our newsletter for updates on new Blend PRO features!
+    </h1>
+    <a class="btn" href="/subscribe"><h2>subscribe</h2></a>
 </div>
 
 <style>
+    h1 {
+        margin: 1rem;
+    }
     .content {
-        max-width: 75rem;
-        padding-bottom: 30rem;
+        max-width: 90rem;
+        padding-bottom: 5%;
         margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
     .pricing-table {
         margin: auto;
-        border-spacing: 2rem 0;
+        border-spacing: 1.5rem;
+        table-layout: fixed;
+        width: 70%;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
     }
+
     .column-header {
-        font-family: 'Contrail One';
+        font-family: "Contrail One";
         font-size: 2rem;
     }
+
+    caption {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    thead th:nth-child(1) {
+        width: 50%;
+    }
+
+    thead th {
+        vertical-align: top;
+    }
+
+    tbody th {
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 8px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    td {
+        border: 2px solid white;
+        color: white;
+        border-radius: 8px;
+        font-size: 2rem;
+        font-weight: 900;
+    }
+
+    .empty {
+        border: none;
+    }
+
 </style>
