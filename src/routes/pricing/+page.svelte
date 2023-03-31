@@ -1,6 +1,4 @@
 <script lang="ts">
-    import trial from '$lib/assets/pricing/trial_badge.png';
-
     const check = '\u2713';
 </script>
 
