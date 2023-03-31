@@ -64,6 +64,7 @@
 </div>
 
 <style>
+
     .btn {
         margin: 1.8rem;
         font-size: 2rem;
@@ -80,15 +81,7 @@
     h1 {
         margin: 1.2rem;
     }
-    .content {
-        max-width: 90rem;
-        padding-bottom: 5%;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+
     .pricing-table {
         margin: auto;
         border-spacing: 1.5rem;

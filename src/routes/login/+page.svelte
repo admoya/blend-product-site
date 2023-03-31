@@ -64,13 +64,14 @@
   <title>Login</title>
 </svelte:head>
 
-<h1>Log in or Create Account</h1>
-
-<h2>Please choose one of the following options:</h2>
-<div id="firebaseui-auth-container"/>
+<div class="content">
+    <h1>Log in or Create Account</h1>
+    <h2>Please choose one of the following options:</h2>
+    <div id="firebaseui-auth-container"/>
+</div>
 
 <style>
-    button {
-        max-width: 100px;
+    .content {
+        padding: 10%;
     }
 </style>

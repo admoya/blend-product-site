@@ -1,16 +1,13 @@
 body {
   background: radial-gradient(185.24% 213.48% at 50% 50%, #7E89EC 0%, #16D4E6 55.21%, #006D74 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   height: 100vh;
+  width: 100vw;
   font-family: "Heebo";
   margin: 0;
   font-size: 100%;
   display: flex;
   flex-direction: column;
   font-size: 1.2rem;
-}
-
-b {
-  letter-spacing: 0.1rem;
 }
 
 h1 {
@@ -69,4 +66,14 @@ a:hover {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+
+.content {
+  max-width: 90rem;
+  padding-bottom: 5%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
