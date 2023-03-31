@@ -49,19 +49,23 @@
         <div class="side-by-side">
             <div class="description">
                 <p>
-                    With Blend, you have total control of the graphemes in your deck. 
+                    With <b>Blend</b>, you have total control of the graphemes in your deck. 
                     You now have the freedom to save a customized deck that aligns and adjusts perfectly with your class's scope and sequence, 
                     or to create multiple individualized decks for small groups or one-on-one intervention students.
                 </p>
                 <h2>Key Features</h2>
                 <ul>
-                    <li>Completely customizable deck creation</li>
-                    <li>Movable cards and columns for graphemes</li>
-                    <li>Interface built for organization and planning</li>
-                    <li>Ability to copy decks reducing lesson planning time</li>
-                    <li>Color-coding for visual cues</li>
-                    <li>Something about deck sync saying that it allows teachers to lesson plan at home and execute in the classroom from different devices</li>
+                    <li><b>Get started right away</b> with two premade boards available in your library to use and build on</li>
+                    <li><b>Create unlimited custom decks</b> to align with any level or lesson that you're teaching*</li>
+                    <li><b>Easily differentiate</b> by targeting the specific skills and needs of every group of students with each deck</li>
+                    <li>Quickly edit as you go with our <b>flexible drag-and-drop interface</b></li>
+                    <li><b>Organize your decks your way</b> with your custom card groupings, color-coding, and up to five card columns</li>
+                    <li>Copy and refine existing decks to <b>effortlessly create new boards</b> with similar grapheme sets</li>
+                    <li>Conveniently access decks from any device with <b>account syncing</b></li>
                 </ul>
+                <p class="footnote">
+                    *Basic users can create up to one custom deck. PRO users can create unlimited custom decks. For Blend PRO pricing, see below.
+                </p>
             </div>
             <img src={edit} alt="blend edit screen" />
         </div>
@@ -77,6 +81,9 @@
 </section>
 
 <style>
+    .footnote {
+        font-size: 1rem;
+    }
     .cards img {
         max-width: 100%;
     }
@@ -119,13 +126,6 @@
         flex-basis: 40rem;
         object-fit: cover;
         border-radius: 10px;
-    }
-
-    .side-by-side {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
     }
 
     .epilogue {

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import trial from '$lib/assets/pricing/trial_badge.png';
+
     const check = '\u2713';
 </script>
 
@@ -9,7 +11,7 @@
 <div class="content">
     <h1>Blend Pricing</h1>
     <table class="pricing-table">
-        <caption>Get <u>one month free</u> when you subscribe to Blend PRO!</caption>
+        <caption>Get your <u>first month free</u> when you subscribe to Blend PRO!</caption>
         <colgroup>
             <col class="feature-names" />
             <col span="2" class="check-marks" />
@@ -18,8 +20,7 @@
             <tr>
                 <th scope="col" class="column-header">Features</th>
                 <th scope="col" class="column-header">Basic<h6>free</h6></th>
-                <th scope="col" class="column-header">PRO<h6>$3/month</h6></th
-                >
+                <th scope="col" class="column-header">PRO<h6>$3/month</h6></th>
             </tr>
         </thead>
         <tbody>
@@ -55,17 +56,31 @@
             </tr>
         </tbody>
     </table>
-    <a class="btn" href="/login"><h2>sign up</h2></a>
-
-    <h1>
-        Subscribe to our newsletter for updates on new Blend PRO features!
-    </h1>
-    <a class="btn" href="/subscribe"><h2>subscribe</h2></a>
+    <a class="btn" href="/login">sign up</a>
+    <div class="epilogue">
+        <h1>
+            Subscribe to our newsletter for updates on new Blend PRO features!
+        </h1>
+        <a class="btn" href="/subscribe">subscribe</a>
+    </div>
 </div>
 
 <style>
+    .btn {
+        margin: 1.8rem;
+        font-size: 2rem;
+        width: 20%;
+        padding: 0.2rem;
+    }
+
+    .epilogue {
+        margin: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     h1 {
-        margin: 1rem;
+        margin: 1.2rem;
     }
     .content {
         max-width: 90rem;
@@ -91,8 +106,14 @@
     }
 
     caption {
+        color: #595d69;
+        padding: 0.5rem;
         font-size: 1.5rem;
         font-weight: bold;
+        margin-bottom: 1rem;
+        background: linear-gradient(52.71deg, #FFFAA0 -7.68%, #F4BA9E 41.11%, #EEA7FA 91.67%);
+        border: solid 2px white;
+        border-radius: 10px;
     }
 
     thead th:nth-child(1) {
