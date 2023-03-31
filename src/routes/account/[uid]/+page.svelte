@@ -48,7 +48,8 @@
     </div>
   </section>
   <section class="info">
-    <div>
+    <h2>Subscription Information</h2>
+    <div class="detail">
       <h3>Your Blend Plan</h3>
       {#if isSubscribedToBlendPro}
         <p>Blend PRO</p>
@@ -61,10 +62,10 @@
             ).toDateString()}. You will not be charged again.
           </p>
           <p>
-            If you wish to reactivate your subscription, click the button below
+            If you wish to reactivate your subscription, click the button below.
           </p>
           <form action="?/reactivateSubscription" method="POST">
-            <button id="checkout-and-portal-button" type="submit"
+            <button id="checkout-and-portal-button" type="submit" class="btn"
               >Reactivate</button
             >
           </form>
@@ -75,8 +76,8 @@
             ).toDateString()}
           </p>
           <form action="?/cancelSubscription" method="POST">
-            <button id="checkout-and-portal-button" type="submit"
-              >Unsubscribe</button
+            <button id="checkout-and-portal-button" type="submit" class="btn"
+              >Cancel</button
             >
           </form>
         {/if}
@@ -86,7 +87,7 @@
         <form action="?/createSubscriptionOrder" method="POST">
           <input type="hidden" name="email" value={$user?.email} />
           <input type="hidden" name="name" value={$user?.displayName} />
-          <button id="checkout-and-portal-button" type="submit">Subscribe</button>
+          <button id="checkout-and-portal-button" type="submit" class="btn">Upgrade</button>
         </form>
       {/if}
     </div>
@@ -94,6 +95,11 @@
 </div>
 
 <style>
+  .btn {
+        font-family: "Heebo"; 
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
   p, h3 {
     margin: 0;
   }
@@ -102,6 +108,9 @@
     padding: 1rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .detail {
     display: flex;
