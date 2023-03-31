@@ -69,6 +69,11 @@
 <style>
   footer {
     background-color: white;
+    width: 100%;
+  }
+
+  .footer-logo {
+    flex-basis: 8rem;
   }
 
   .footer-logo img {
