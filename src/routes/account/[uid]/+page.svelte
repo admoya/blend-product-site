@@ -36,55 +36,80 @@
 
 <div class="content">
   <h1>Manage Account</h1>
-  <h2>Profile Info</h2>
-  <div>
-    <h3>Name</h3>
-    <p>{$user?.displayName}</p>
-  </div>
-  <div>
-    <h3>Email</h3>
-    <p>{$user?.email}</p>
-  </div>
-  <!-- <div>
-  <button on:click={() => console.log($user)}>Debug</button>
-</div> -->
-  <div>
-    <h3>Subscription Status</h3>
-    {#if isSubscribedToBlendPro}
-      <p>You are subscribed to Blend Pro.</p>
-      {#if subscriptionPendingCancellation}
-        <p>
-          Your subscription has been cancelled and will expire at {new Date(
-            subscriptionPeriodEnd * 1000
-          ).toDateString()}. You will not be charged again.
-        </p>
-        <p>
-          If you wish to reactivate your subscription, click the button below
-        </p>
-        <form action="?/reactivateSubscription" method="POST">
-          <button id="checkout-and-portal-button" type="submit"
-            >Reactivate</button
-          >
-        </form>
+  <section class="info">
+    <h2>Profile Info</h2>
+    <div class="detail">
+      <h3>Name</h3>
+      <p>{$user?.displayName}</p>
+    </div>
+    <div class="detail">
+      <h3>Email</h3>
+      <p>{$user?.email}</p>
+    </div>
+  </section>
+  <section class="info">
+    <div>
+      <h3>Your Blend Plan</h3>
+      {#if isSubscribedToBlendPro}
+        <p>Blend PRO</p>
+        <div class="detail">
+          <h3>Billing</h3>
+          {#if subscriptionPendingCancellation}
+          <p>
+            Your subscription has been cancelled and will expire at {new Date(
+              subscriptionPeriodEnd * 1000
+            ).toDateString()}. You will not be charged again.
+          </p>
+          <p>
+            If you wish to reactivate your subscription, click the button below
+          </p>
+          <form action="?/reactivateSubscription" method="POST">
+            <button id="checkout-and-portal-button" type="submit"
+              >Reactivate</button
+            >
+          </form>
+        {:else}
+          <p>
+            Your next billing period starts on {new Date(
+              subscriptionPeriodEnd * 1000
+            ).toDateString()}
+          </p>
+          <form action="?/cancelSubscription" method="POST">
+            <button id="checkout-and-portal-button" type="submit"
+              >Unsubscribe</button
+            >
+          </form>
+        {/if}
+        </div>
       {:else}
-        <p>
-          Your next billing period will start on {new Date(
-            subscriptionPeriodEnd * 1000
-          ).toDateString()}
-        </p>
-        <form action="?/cancelSubscription" method="POST">
-          <button id="checkout-and-portal-button" type="submit"
-            >Unsubscribe</button
-          >
+        <p>Blend Basic</p>
+        <form action="?/createSubscriptionOrder" method="POST">
+          <input type="hidden" name="email" value={$user?.email} />
+          <input type="hidden" name="name" value={$user?.displayName} />
+          <button id="checkout-and-portal-button" type="submit">Subscribe</button>
         </form>
       {/if}
-    {:else}
-      <p>Not Subscribed</p>
-      <form action="?/createSubscriptionOrder" method="POST">
-        <input type="hidden" name="email" value={$user?.email} />
-        <input type="hidden" name="name" value={$user?.displayName} />
-        <button id="checkout-and-portal-button" type="submit">Subscribe</button>
-      </form>
-    {/if}
-  </div>
+    </div>
+  </section>
 </div>
+
+<style>
+  p, h3 {
+    margin: 0;
+  }
+  .info {
+    width: 50%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+  }
+  .detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+  }
+  .content {
+    row-gap: 2rem;
+  }
+</style>
