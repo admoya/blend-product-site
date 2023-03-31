@@ -124,8 +124,7 @@
     .inner-content img {
         width: 50%;
         flex-basis: 40rem;
-        object-fit: cover;
-        border-radius: 10px;
+        object-fit: contain;
     }
 
     .epilogue {
