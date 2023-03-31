@@ -132,6 +132,7 @@
         flex-direction: column;
         align-items: center;
         padding: 5%;
+        text-align: center;
     }
 
     .epilogue h1 {

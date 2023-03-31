@@ -64,6 +64,20 @@
 </div>
 
 <style>
+    @media (max-width: 480px) {
+        .pricing-table {
+            font-size: 80%;
+            width: 90% !important;
+        }
+
+        .btn {
+            font-size: 1rem;
+            width: 50% !important;
+        }
+        .column-header {
+            font-size: 1.5rem !important;
+        }
+    }
 
     .btn {
         margin: 1.8rem;

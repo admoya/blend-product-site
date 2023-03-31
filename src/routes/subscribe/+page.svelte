@@ -17,6 +17,14 @@
 </form>
 
 <style>
+    @media (max-width: 480px) {
+        .listmonk-form {
+            font-size: 70% !important;
+        }
+        h2 {
+            font-size: 1.5rem !important;
+        }
+    }
     .listmonk-form {
         display: flex;
         flex-direction: column;
