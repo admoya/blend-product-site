@@ -14,7 +14,6 @@
         <img src={cards} alt="cards spelling BLEND"/>
     </div>
     <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
-    <p class="footnote">*Available for web on desktop. Mobile not currently supported.</p>
 </section>
 
 <section class="feature" style="background: #3b2e86;">
@@ -79,6 +78,7 @@
         <a class="btn" href="/pricing"><h2>pricing plans</h2></a>
         <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>try the app</h2></a>
     </div>
+    <p class="footnote">*Blend is optimized for web on desktop. Not recommended for small screen sizes.</p>
 </section>
 
 <style>
