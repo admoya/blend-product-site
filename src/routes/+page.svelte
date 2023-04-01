@@ -14,6 +14,7 @@
         <img src={cards} alt="cards spelling BLEND"/>
     </div>
     <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
+    <p class="footnote">*Available for web on desktop. Mobile not currently supported.</p>
 </section>
 
 <section class="feature" style="background: #3b2e86;">
@@ -82,6 +83,8 @@
 
 <style>
     .footnote {
+        margin: 0;
+        color: white;
         font-size: 1rem;
     }
     .cards img {
