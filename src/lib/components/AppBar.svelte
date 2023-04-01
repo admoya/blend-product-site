@@ -5,10 +5,10 @@
     </a>
     <ul class="nav-links">
       <li>
-        <a id="home" href="/">home</a>
+        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer">app</a>
       </li>
       <li>
-        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer">app</a>
+        <a id="home" href="/">home</a>
       </li>
       <li>
         <a id="pricing" href="/pricing">pricing</a>
@@ -21,6 +21,13 @@
 </div>
 
 <style>
+  @media (max-width: 480px) {
+    a#app {
+      border: none !important;
+      padding: 0 !important;
+    }
+  }
+
   .app-bar {
     height: 66px;
     width: 100%;
@@ -55,7 +62,13 @@
     gap: 1rem;
   }
 
-  a#app:hover {
+  a#app {
+    padding: 0.2rem 1.2rem;
+    border: solid 2px #7f71d2;
+    border-radius: 5px;
+  }
+
+  a#home:hover {
     color: #f1b4fb;
   }
 

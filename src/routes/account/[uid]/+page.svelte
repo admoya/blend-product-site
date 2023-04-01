@@ -87,7 +87,7 @@
         <form action="?/createSubscriptionOrder" method="POST">
           <input type="hidden" name="email" value={$user?.email} />
           <input type="hidden" name="name" value={$user?.displayName} />
-          <button id="checkout-and-portal-button" type="submit" class="btn">Upgrade</button>
+          <button id="checkout-and-portal-button" type="submit" class="btn">Subscribe</button>
         </form>
       {/if}
     </div>
@@ -95,6 +95,12 @@
 </div>
 
 <style>
+  @media (max-width: 480px) {
+    .info {
+      width: 80% !important;
+    }
+  }
+
   .btn {
         font-family: "Heebo"; 
         font-weight: bold;
