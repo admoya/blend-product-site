@@ -97,7 +97,7 @@
 <style>
   @media (max-width: 480px) {
     .info {
-      width: auto !important;
+      width: 80% !important;
     }
   }
 
