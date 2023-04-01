@@ -95,6 +95,12 @@
 </div>
 
 <style>
+  @media (max-width: 480px) {
+    .info {
+      width: auto !important;
+    }
+  }
+
   .btn {
         font-family: "Heebo"; 
         font-weight: bold;
