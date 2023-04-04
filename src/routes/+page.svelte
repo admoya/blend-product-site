@@ -78,15 +78,25 @@
         <a class="btn" href="/pricing"><h2>pricing plans</h2></a>
         <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>try the app</h2></a>
     </div>
-    <p class="footnote">*Blend is optimized for web on desktop. Not recommended for small screen sizes.</p>
+   <div class="footnote">
+    <h6>System Requirements</h6>
+    <p>Blend is is optimized for web browsers on desktops or laptops. All browsers are supported.</p>
+    <p>Recommended screen size is 1024x768 or larger.</p>
+    <p>Blend is currently not recommended for mobile devices.</p>
+   </div>
 </section>
 
 <style>
     .footnote {
-        margin: 0;
+        margin: 1.5rem;
         color: white;
         font-size: 1rem;
     }
+
+    .footnote p, h6 {
+        margin: 0;
+    }
+
     .cards img {
         max-width: 100%;
     }
@@ -134,7 +144,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 5%;
+        padding: 2rem;
         text-align: center;
     }
 
