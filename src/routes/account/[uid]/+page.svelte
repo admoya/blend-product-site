@@ -34,6 +34,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>My Account</title>
+</svelte:head>
+
 <div class="content">
   <h1>Manage Account</h1>
   <section class="info">

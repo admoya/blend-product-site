@@ -9,5 +9,5 @@ $: {
 </script>
 
 <svelte:head>
-  <title>My Blend Account</title>
+  <title>My Account</title>
 </svelte:head>
