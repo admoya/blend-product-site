@@ -2,7 +2,8 @@
   import logo from "$lib/assets/blend_logo.png";
   import facebook from "$lib/assets/footer/facebook.png";
   import instagram from "$lib/assets/footer/instagram.png";
-  import newsletter from '$lib/assets/footer/email_newsletter.svg'
+  import newsletter from '$lib/assets/footer/email_newsletter.svg';
+  import youtube from '$lib/assets/footer/youtube.png';
 </script>
 
 <footer>
@@ -24,6 +25,7 @@
         <li>
           <a href="mailto:blend-support@csma.technology">Contact Support</a>
         </li>
+        <li><a href="/info/privacy-policy">Privacy Policy</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -40,6 +42,12 @@
           target="_blank"
           rel="noopener noreferrer"
           ><img src={instagram} alt="instagram logo" /></a
+        >
+        <a
+          href="https://www.youtube.com/@blendreading"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img src={youtube} alt="youtube icon" /></a
         >
         <a href="/subscribe"><img src={newsletter} alt="email newsletter icon"/></a>
       </div>

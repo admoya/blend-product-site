@@ -84,6 +84,10 @@
               >Cancel</button
             >
           </form>
+          <p>
+            If you wish to update your payment information, please contact us at
+          </p>
+          <p><a href="mailto:blend-support@csma.technology">blend-support@csma.technology</a>.</p>
         {/if}
         </div>
       {:else}
