@@ -18,6 +18,12 @@
 </div>
 
 <style>
+  @media (max-width: 480px) {
+        form {
+            width: 100% !important;
+        }
+    }
+
   p {
     margin: 0;
   }
