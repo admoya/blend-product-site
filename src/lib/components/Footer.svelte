@@ -22,9 +22,7 @@
       <h2>USEFUL LINKS</h2>
       <ul>
         <li><a href="/account">Your Account</a></li>
-        <li>
-          <a href="mailto:blend-support@csma.technology">Contact Support</a>
-        </li>
+        <li><a href="/help/report-an-issue">Report an Issue</a></li>
         <li><a href="/info/privacy-policy">Privacy Policy</a></li>
       </ul>
     </div>
@@ -55,6 +53,9 @@
     <div class="footer-section">
       <h2>ABOUT US</h2>
       <ul>
+        <li>
+          <a href="mailto:blend-support@csma.technology">Contact the Blend Team</a>
+        </li>
         <li>
           <a
             href="https://csma.technology"
