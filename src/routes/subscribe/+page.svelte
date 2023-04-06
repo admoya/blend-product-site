@@ -39,11 +39,9 @@
         font-size: 1.5em;
     }
     .btn {
-        width: 40%;
         font-family: "Heebo";
         font-weight: bold;
         font-size: 1.5em;
-        margin: 0;
     }
     p {
         text-align: center;
