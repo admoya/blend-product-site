@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import { isEmbeddedBrowser } from "$lib/utils";
-  import Tooltip from "$lib/components/Tooltip.svelte";
+  import Alert from "$lib/components/Alert.svelte";
 
   const ui = firebaseui.auth.AuthUI.getInstance() ?? new firebaseui.auth.AuthUI(auth);
   
@@ -88,7 +88,7 @@
   <h2>Please choose one of the following options:</h2>
   <div id="firebaseui-auth-container"/>
   {#if isEmbeddedBrowser()}
-    <Tooltip message="You're using an in-app browser, which may cause sign-in issues. For better results, switch to a regular browser like Safari or Chrome."/>
+    <Alert message="You're using an in-app browser, which may cause sign-in issues. For better results, switch to a regular browser like Safari or Chrome."/>
   {/if}
 </div>
 

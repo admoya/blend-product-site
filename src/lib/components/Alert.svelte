@@ -1,11 +1,10 @@
-<!-- ToolTip.svelte -->
 <script>
   export let message = '';
   export let isError = false;
 </script>
 
 <style>
-  .tooltip {
+  .alert {
     display: inline-flex;
     align-items: center;
     background-color: white;
@@ -35,7 +34,7 @@
   }
 </style>
 
-<div class="tooltip">
+<div class="alert">
   {#if isError}
     <span class="icon icon-error">!</span>
   {:else}
