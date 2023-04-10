@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
+  import { user } from "$lib/firebase";
   var isMenuopen = false;
+  $: isLoggedIn = browser && $user;
   const toggleMenu = () => {
     isMenuopen = false;
   };
@@ -24,9 +27,15 @@
       <li>
         <a id="pricing" href="/pricing">pricing</a>
       </li>
-      <li>
-        <a id="login" href="/login">login</a>
-      </li>
+      {#if !isLoggedIn}
+        <li>
+          <a id="login" href="/login">login</a>
+        </li>
+        {:else}
+        <li>
+          <a id="account" href="/account">account</a>
+        </li>
+      {/if}
     </ul>
     <button
       on:click={() => {

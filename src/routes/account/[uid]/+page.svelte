@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { user } from "$lib/firebase";
+  import { goto } from "$app/navigation";
+  import { user, signOut } from "$lib/firebase";
   import type { PageData } from "./$types";
 
   export let data: PageData;
@@ -32,6 +33,13 @@
       `
     );
   };
+
+  let disableSignOut = false;
+  const onSignOutCLicked = async () => {
+    disableSignOut = true;
+    await signOut();
+    goto('/login');
+  }
 </script>
 
 <svelte:head>
@@ -49,6 +57,9 @@
     <div class="detail">
       <h3>Email</h3>
       <p>{$user?.email}</p>
+    </div>
+    <div class="detail">
+      <button disabled={disableSignOut} on:click={onSignOutCLicked} class="btn">Sign Out</button>
     </div>
   </section>
   <section class="info">
@@ -81,7 +92,7 @@
           </p>
           <form action="?/cancelSubscription" method="POST">
             <button id="checkout-and-portal-button" type="submit" class="btn"
-              >Cancel</button
+              >Cancel Subscription</button
             >
           </form>
           <p>

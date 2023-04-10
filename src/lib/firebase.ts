@@ -1,10 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth, type User } from 'firebase/auth';
 import { getDatabase, ref, get, set, child } from 'firebase/database';
 import { signOut as firebaseSignOut } from "firebase/auth";
 import { readable } from "svelte/store";
+import { browser } from "$app/environment";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC0SkY_uSkrB-oIaFxeC0wOVc_jgF3NMVo",
@@ -17,15 +18,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+// export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const database = getDatabase(app);
 
 export const getUserData = async (path?: string) => auth.currentUser && (await get(child(ref(database), `users/${auth.currentUser.uid}/${path}`))).val();
 export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
-export const setWillAttempLogin = (willAttempt: boolean) => localStorage.setItem('willAttemptLogin', willAttempt ? 'yes' : 'no'); 
-export const willAttemptLogin = () => localStorage.getItem('willAttemptLogin') === 'yes';
+export const setWillAttempLogin = browser ? (willAttempt: boolean) => localStorage.setItem('willAttemptLogin', willAttempt ? 'yes' : 'no') : () => {}; 
+export const willAttemptLogin = browser ? () => localStorage.getItem('willAttemptLogin') === 'yes' : () => {};
 
 export const user = readable(auth.currentUser, (set) => {
     set(auth.currentUser);
