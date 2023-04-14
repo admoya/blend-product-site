@@ -27,6 +27,9 @@
       <li>
         <a id="pricing" href="/pricing">pricing</a>
       </li>
+      <li>
+        <a id="tutorials" href="/tutorials">tutorials</a>
+      </li>
       {#if !isLoggedIn}
         <li>
           <a id="login" href="/login">login</a>
@@ -107,6 +110,10 @@
     color: #84e3de;
   }
 
+  a#tutorials:hover {
+    color: #fa9a9a;
+  }
+
   a#login:hover {
     color: #ffc076;
   }
@@ -135,7 +142,7 @@
     .nav-links {
       flex-direction: column;
       z-index: 100;
-      background-color: #f9f7f3;
+      background-color: white;
       margin-top: 66px;
       width: 100%;
       position: absolute;

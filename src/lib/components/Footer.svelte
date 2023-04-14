@@ -21,9 +21,9 @@
     <div class="footer-section">
       <h2>USEFUL LINKS</h2>
       <ul>
-        <li><a href="/account">Your Account</a></li>
         <li><a href="/help/report-an-issue">Report an Issue</a></li>
         <li><a href="/info/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/info/data-deletion">Data Deletion Request</a></li>
       </ul>
     </div>
     <div class="footer-section">
