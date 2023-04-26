@@ -72,27 +72,27 @@
           <h3>Billing</h3>
           {#if subscriptionPendingCancellation}
           <p>
-            Your subscription has been cancelled and will expire at {new Date(
+            Your subscription has been cancelled and will expire {new Date(
               subscriptionPeriodEnd * 1000
-            ).toDateString()}. You will not be charged again.
+            ).toLocaleDateString()}. You will not be charged again.
           </p>
           <p>
             If you wish to reactivate your subscription, click the button below.
           </p>
-          <form action="?/reactivateSubscription" method="POST">
+          <form action="?/redirectToCustomerPortal" method="POST">
             <button id="checkout-and-portal-button" type="submit" class="btn"
-              >Reactivate</button
+              >Manage Subscription</button
             >
           </form>
         {:else}
           <p>
             Your next billing period starts on {new Date(
               subscriptionPeriodEnd * 1000
-            ).toDateString()}
+            ).toLocaleDateString()}
           </p>
-          <form action="?/cancelSubscription" method="POST">
+          <form action="?/redirectToCustomerPortal" method="POST">
             <button id="checkout-and-portal-button" type="submit" class="btn"
-              >Cancel Subscription</button
+              >Manage Subscription</button
             >
           </form>
           <p>

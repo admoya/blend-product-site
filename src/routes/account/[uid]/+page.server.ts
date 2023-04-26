@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from "@sveltejs/kit";
-import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, PRICE_CODE } from "$lib/server/subscriptionUtils";
+import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, PRICE_CODE, getCustomerPortalSession } from "$lib/server/subscriptionUtils";
 
 export const load = (async ({ params: { uid } }) => {
     const customer = await getStripeCustomerWithSubscriptions(uid);
@@ -63,32 +63,14 @@ export const actions = {
         console.log(`Stripe session created: ${session.id}`);
         throw redirect(303, session.url!);
     },
-    cancelSubscription: async ({ params: { uid }}) => {
-        console.log(`Canceling subscription for user ${uid}`);
+    redirectToCustomerPortal: async ({url, params: {uid}}) => {
+        console.log(`Redirecting to customer billing portal for user ${uid}`);
         const customer = await getStripeCustomerWithSubscriptions(uid);
         if (!customer || customer.deleted) {
             console.error(`Stripe customer for ${uid} does not exist or is deleted. Aborting.`);
             throw error(400, `Stripe customer for ${uid} does not exist`);
         }
-        const subscription = getBlendProSubscription(customer);
-        if (!subscription) {
-            console.error(`No active Blend Pro subscriptions for user ${uid}, aborting.`);
-            throw error(400, `No active Blend Pro subscriptions for user ${uid}`);
-        }
-        await stripeClient.subscriptions.update(subscription.id, { cancel_at_period_end: true })
-    },
-    reactivateSubscription: async ({ params: { uid }}) => {
-        console.log(`Reactivating subscription for user ${uid}`);
-        const customer = await getStripeCustomerWithSubscriptions(uid);
-        if (!customer || customer.deleted) {
-            console.error(`Stripe customer for ${uid} does not exist or is deleted. Aborting.`);
-            throw error(400, `Stripe customer for ${uid} does not exist`);
-        }
-        const subscription = getBlendProSubscription(customer);
-        if (!subscription) {
-            console.error(`No active Blend Pro subscriptions for user ${uid}, aborting.`);
-            throw error(400, `No active Blend Pro subscriptions for user ${uid}`);
-        }
-        await stripeClient.subscriptions.update(subscription.id, { cancel_at_period_end: false })
+        const session = await getCustomerPortalSession(customer, url.href.replace(url.search, ''))
+        throw redirect(303, session.url);
     }
 } satisfies Actions;
