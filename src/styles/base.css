@@ -42,7 +42,7 @@ h6 {
   border: 1px solid #FFFFFF;
   border-radius: 8px;
   height: 2.7rem;
-  width: 13rem;
+  min-width: 13rem;
   display: flex;
   align-items: center;
   justify-content: center;

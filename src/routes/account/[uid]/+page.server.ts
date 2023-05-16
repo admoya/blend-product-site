@@ -1,9 +1,10 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from "@sveltejs/kit";
-import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, PRICE_CODE, getCustomerPortalSession } from "$lib/server/subscriptionUtils";
+import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, getAllCustomerSubscriptions, hasCustomerSubscribedBefore, getCustomerPortalSession, PRICE_CODE, PRODUCT_CODE } from "$lib/server/subscriptionUtils";
 
 export const load = (async ({ params: { uid } }) => {
     const customer = await getStripeCustomerWithSubscriptions(uid);
+
     if (!customer || customer.deleted) {
         return {
             isSubscribedToBlendPro: false,
@@ -24,7 +25,13 @@ export const actions = {
         const data = await request.formData();
         console.log(`Fetching Stripe customer ID for user ${uid}`);
         const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
-        let customer = await getStripeCustomerWithSubscriptions(uid);
+        
+        let [customer, allSubscriptions] = await Promise.all([
+            getStripeCustomerWithSubscriptions(uid),
+            getAllCustomerSubscriptions(uid),
+        ]);
+
+        let subscriptionData = {};
         if (!customer || customer.deleted) {
             console.log(`No Stripe customer exists for user ${uid}, creating one`);
             customer = await stripeClient.customers.create({
@@ -39,8 +46,13 @@ export const actions = {
                 console.error(`User ${uid} is already subscribed to Blend Pro, aborting`);
                 throw error(400, "Customer is already subscribed to Blend Pro!");
             }
+            if (!hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE)) {
+              subscriptionData = {trial_period_days: 30};
+            }
+            console.log(`Customer is ${subscriptionData.trial_period_days ? '' : 'not '}eligible for a free trial.`)
         }
         console.log("Creating Stripe session");
+        
         const session = await stripeClient.checkout.sessions.create({
             customer: customer.id,
             billing_address_collection: 'auto',
@@ -50,9 +62,7 @@ export const actions = {
                     quantity: 1,
                 },
             ],
-            subscription_data: {
-                trial_period_days: 30,
-            },
+            subscription_data: subscriptionData,
             mode: 'subscription',
             success_url: `${origin}/account/${uid}?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/account/${uid}?subscription_checkout_status=cancel`,

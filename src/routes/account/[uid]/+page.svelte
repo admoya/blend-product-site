@@ -106,7 +106,7 @@
         <form action="?/createSubscriptionOrder" method="POST">
           <input type="hidden" name="email" value={$user?.email} />
           <input type="hidden" name="name" value={$user?.displayName} />
-          <button id="checkout-and-portal-button" type="submit" class="btn">Subscribe</button>
+          <button id="checkout-and-portal-button" type="submit" class="btn">Upgrade to Blend Pro</button>
         </form>
       {/if}
     </div>
