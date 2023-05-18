@@ -102,6 +102,11 @@
     border-radius: 5px;
   }
 
+  a#app:hover {
+    background-color: #7f71d2;
+    color: white;
+  }
+
   a#home:hover {
     color: #f1b4fb;
   }
