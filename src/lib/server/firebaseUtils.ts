@@ -24,12 +24,21 @@ export const authenticate = async (event: RequestEvent) => {
     }
 }
 
+export const weaklyAuthenticate = async (event: RequestEvent) => {
+    try {
+        const result = await authenticate(event);
+        return result;
+    } catch {
+        return null;
+    }
+}
+
 export const getUserData = (uid: string) => auth.getUser(uid);
 
-export const readPath = async (path: string) => {
+export const readPath = async (path: string, defaultValue: any = null) => {
     const ref = db.ref(path);
     const data = await ref.get();
-    return data.val();
+    return data.val() ?? defaultValue;
 }
 
 export const writePath = async (path: string, data: any) => db.ref(path).set(data);
