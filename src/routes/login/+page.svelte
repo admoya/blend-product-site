@@ -21,6 +21,7 @@
   let isAppRedirect = false;
   switch (redirectParam) {
     case 'account':
+    case '/':
       redirectBuilder = (user: User) => `/account/${user.uid}`;
       break;
     case 'app':
@@ -31,11 +32,8 @@
       isAppRedirect = true;
       redirectBuilder = (user, token) => `${PREVIEW_APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${token ? `&context=${encodeURIComponent(JSON.stringify({token}))}` : ''}`;
       break;
-    case '/':
-      redirectBuilder = (user: User) => `/account/${user.uid}`;
-      break;
     default:
-      redirectBuilder = () => redirectParam;
+      redirectBuilder = () => decodeURIComponent(redirectParam);
   }
   onMount(() => {
     ui.start('#firebaseui-auth-container', {

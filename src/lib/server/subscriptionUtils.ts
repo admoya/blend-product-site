@@ -42,6 +42,8 @@ export const getAllCustomerSubscriptions = async (uid: string) => {
 
 export const getBlendProSubscription = (customer: Stripe.Customer) => customer.subscriptions?.data.find((subscription) => subscription.items.data.find(({plan: { product, active }}) => active && product === STRIPE_BLEND_PRO_PRODUCT_CODE));
 
+export const isSubscribedToBlendPro = (customer: Stripe.Customer | Stripe.DeletedCustomer | null) => !!(customer && !customer.deleted && getBlendProSubscription(customer));
+
 export const getCustomerPortalSession = (customer: Stripe.Customer, returnUrl: string) => stripe.billingPortal.sessions.create({
     customer: customer.id,
     return_url: returnUrl

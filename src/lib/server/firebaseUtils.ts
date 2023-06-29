@@ -35,6 +35,8 @@ export const weaklyAuthenticate = async (event: RequestEvent) => {
 
 export const getUserData = (uid: string) => auth.getUser(uid);
 
+export const getUserFromEmail = (email: string) => auth.getUserByEmail(email);
+
 export const readPath = async (path: string, defaultValue: any = null) => {
     const ref = db.ref(path);
     const data = await ref.get();
@@ -42,5 +44,7 @@ export const readPath = async (path: string, defaultValue: any = null) => {
 }
 
 export const writePath = async (path: string, data: any) => db.ref(path).set(data);
+
+export const pushPath = async(path: string, data: any) => db.ref(path).push(data)
 
 export const deletePath = async (path: string) => db.ref(path).remove();

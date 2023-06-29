@@ -1,11 +1,12 @@
 <script lang="ts">
-import { user, willAttemptLogin } from "$lib/firebase";
-$: {
-    if (!$user && !willAttemptLogin()) 
-        window.location.replace('/login?successRedirect=account');
-    else if ($user)
-        window.location.replace(`/account/${$user.uid}`);
-}
+  import { goto } from "$app/navigation";
+  import { user, willAttemptLogin } from "$lib/firebase";
+  $: {
+      if (!$user && !willAttemptLogin()) 
+          goto('/login?successRedirect=account');
+      else if ($user)
+          goto(`/account/${$user.uid}`);
+  }
 </script>
 
 <svelte:head>

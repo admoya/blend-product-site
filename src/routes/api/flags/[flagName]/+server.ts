@@ -13,8 +13,6 @@ import type { RequestHandler } from './$types';
 export const POST = (async (event) => {
   const { flagName } = event.params;
   const { uid } = await authenticate(event);
-  console.log("Here")
-  console.log(event.request.body);
   const value = await event.request.json();
   if (typeof value != "boolean") {
     const errorMessage = `Flag value must be a boolean, instead got ${typeof value}`;

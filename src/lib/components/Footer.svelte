@@ -79,6 +79,7 @@
   footer {
     background-color: white;
     width: 100%;
+    margin-top: auto;
   }
 
   .footer-logo {

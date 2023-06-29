@@ -26,7 +26,7 @@ export const getUserData = async (path?: string) => auth.currentUser && (await g
 export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
 export const setWillAttempLogin = browser ? (willAttempt: boolean) => localStorage.setItem('willAttemptLogin', willAttempt ? 'yes' : 'no') : () => {}; 
-export const willAttemptLogin = browser ? () => localStorage.getItem('willAttemptLogin') === 'yes' : () => {};
+export const willAttemptLogin = browser ? () => localStorage.getItem('willAttemptLogin') === 'yes' : () => false;
 
 export const user = readable(auth.currentUser, (set) => {
     set(auth.currentUser);
