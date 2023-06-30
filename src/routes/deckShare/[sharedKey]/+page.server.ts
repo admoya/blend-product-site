@@ -1,10 +1,10 @@
 import { deletePath, getUserData, readPath, writePath } from '$lib/server/firebaseUtils';
-import { error, json, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load = (async ({ params: { sharedKey } }) => {
   const { sourceUid, deck } = (await readPath(`/decks/shared/${sharedKey}`)) ?? {};
-  if (!sourceUid || !deck) 
+  if (!sourceUid || !deck)
     throw error(404, "This link is expired or invalid.");
   const { displayName } = await getUserData(sourceUid);
   return {
@@ -15,7 +15,7 @@ export const load = (async ({ params: { sharedKey } }) => {
 
 export const actions: Actions = {
   accept: async (event) => {
-    const { params: {sharedKey}, request } = event;
+    const { params: { sharedKey }, request } = event;
     const uid = (await request.formData()).get('uid');
     const deck = await readPath(`/decks/shared/${sharedKey}/deck`);
 
@@ -29,11 +29,11 @@ export const actions: Actions = {
     deck.refId = newRefId
 
     await writePath(`/decks/user/${uid}/${deck.refId}`, deck);
-    // deletePath(`/decks/shared/${sharedKey}`);
+    deletePath(`/decks/shared/${sharedKey}`);
     throw redirect(303, '/deckShare/accepted');
   },
   decline: async (event) => {
-    const { params: {sharedKey} } = event;
+    const { params: { sharedKey } } = event;
     deletePath(`/decks/shared/${sharedKey}`);
     throw redirect(303, '/deckShare/declined');
   }
