@@ -9,14 +9,16 @@ export const GET = (async (event) => {
     if (!playlist) {
         throw error(404, `No playlist exists with refId ${playlistId}`);
     }
-    return json(playlist, { headers: [ ['Access-Control-Allow-Origin', "*"] ]});
+    const modifiedPlaylist = { ...playlist, words: playlist.words.map(word => word.map(letters => (letters === false ? null : letters)))}
+    return json(modifiedPlaylist, { headers: [ ['Access-Control-Allow-Origin', "*"] ]});
 }) satisfies RequestHandler;
 
 export const POST = (async (event) => {
     const { playlistId } = event.params;
     const { uid } = await authenticate(event);
     const playlistData = await event.request.json();
-    await writePath(`/playlists/user/${uid}/${playlistId}`, playlistData);
+    const modifiedData = { ...playlistData, words: playlistData.words.map(word => word.map(letter => (letter ?? false)))};
+    await writePath(`/playlists/user/${uid}/${playlistId}`, modifiedData);
     return json(playlistData, { status: 201, headers: [ ['Access-Control-Allow-Origin', "*"] ] });
 }) satisfies RequestHandler;
 
@@ -29,9 +31,11 @@ export const PUT = (async (event) => {
     if (!existingPlaylist) {
         throw error(404, `No playlist exists with refId ${playlistId}`);
     }
+    const modifiedExistingPlaylist = { ...existingPlaylist, words: existingPlaylist.words.map(word => word.map(letter => (letter ?? false)))};
+    const modifiedPlaylistData = { ...playlistData, words: playlistData.words.map(word => word.map(letter => (letter ?? false)))};
     const newPlaylist = {
-        ...existingPlaylist,
-        ...playlistData
+        ...modifiedExistingPlaylist,
+        ...modifiedPlaylistData
     }
     await writePath(path, newPlaylist);
     return json(newPlaylist, { headers: [ ['Access-Control-Allow-Origin', "*"] ]})
