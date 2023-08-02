@@ -9,7 +9,7 @@
   import share from "$lib/assets/features/share.png";
 
   import PricingTable from "$lib/components/PricingTable.svelte";
-  import FeatureCard from "$lib/components/features/FeatureCard.svelte";
+  import FeatureCard from "$lib/components/FeatureCard.svelte";
 </script>
 
 <svelte:head>

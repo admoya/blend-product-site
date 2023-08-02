@@ -1,13 +1,17 @@
 <script lang="ts">
+    import ProBadgeWrapper from "./ProBadgeWrapper.svelte";
+
   const check = "\u2713";
 </script>
 
 <section class="pricing" id="pricing">
   <div class="content">
     <h1>Pricing</h1>
-  <!-- <div class="banner">
-    Get your first month free when you subscribe to Blend Pro!
-  </div> -->
+  <ProBadgeWrapper>
+    <div class="banner">
+      <div>Get your first month free when you subscribe to Blend Pro!</div>
+    </div>
+  </ProBadgeWrapper>
   <div class="side-by-side">
     <table class="pricing-table">
       <colgroup>
@@ -82,7 +86,7 @@
       <div class="feature">Custom Setup</div>
       <div class="feature">Dedicated Support</div>
       <p>
-        Save money by purchasing a group license for organization with large number of
+        Save money by purchasing a group license for organizations with large number of
         users. We'll work with you on a plan that makes sense for your organization. 
       </p>
       <h4>
@@ -166,17 +170,12 @@
   }
 
   .banner {
-    color: #595d69;
-    padding: 0.5rem;
+    color: white;
+    padding: 1.5rem;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    background: linear-gradient(
-      52.71deg,
-      #fffaa0 -7.68%,
-      #f4ba9e 41.11%,
-      #eea7fa 91.67%
-    );
+    background: rgba(255, 255, 255, 0.15);
     border: solid 2px white;
     border-radius: 10px;
   }
@@ -234,6 +233,9 @@
     }
     .column-header h6 {
       font-size: 70%;
+    }
+    .banner {
+      font-size: 90%;
     }
   }
 </style>

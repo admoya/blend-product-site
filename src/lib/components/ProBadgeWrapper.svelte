@@ -21,7 +21,7 @@
   }
   .badge {
     position: absolute;
-    right: 0px;
-    margin-top: -10px;
+    right: -0.5rem;
+    margin-top: -0.5rem;
   }
 </style>
