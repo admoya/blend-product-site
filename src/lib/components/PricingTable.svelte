@@ -119,7 +119,7 @@
   }
 
   .pricing-table {
-    margin: 1rem;
+    margin: 1rem 0;
     border-spacing: 1.5rem;
     table-layout: fixed;
     width: 60%;
@@ -215,7 +215,7 @@
   @media (max-width: 480px) {
     .pricing-table {
       font-size: 80%;
-      width: 90%;
+      width: 100%;
     }
     td {
       font-size: 1.5rem;
