@@ -92,3 +92,8 @@ a:hover {
   align-items: center;
   text-align: center;
 }
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}

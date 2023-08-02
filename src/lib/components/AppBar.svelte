@@ -13,6 +13,7 @@
     <a class="branding" href="/">
       <h1>BLEND</h1>
     </a>
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <ul
       class={`nav-links ${isMenuopen ? "" : "hide-menu"}`}
       on:click={toggleMenu}
@@ -25,7 +26,10 @@
         <a id="home" href="/">home</a>
       </li>
       <li>
-        <a id="pricing" href="/pricing">pricing</a>
+        <a id="features" href="/features">features</a>
+      </li>
+      <li>
+        <a id="library" href="/library">library</a>
       </li>
       <li>
         <a id="tutorials" href="/tutorials">tutorials</a>
@@ -111,7 +115,7 @@
     color: #f1b4fb;
   }
 
-  a#pricing:hover {
+  a#features:hover {
     color: #84e3de;
   }
 
@@ -121,6 +125,10 @@
 
   a#login:hover {
     color: #ffc076;
+  }
+
+  a#library:hover {
+    color: #8EC9FF;
   }
 
   .hamburger-button {
