@@ -101,3 +101,12 @@ a:hover {
   pointer-events: none;
   cursor: default;
 }
+
+.paper {
+  background-color: rgba(250, 243, 233, 0.85);
+  border-radius: 10px;
+  max-width: 70rem;
+  padding: 1rem 2rem;
+  margin: 2rem auto;
+  text-align: justify;
+}

@@ -32,7 +32,7 @@
         <a id="library" href="/library">library</a>
       </li>
       <li>
-        <a id="tutorials" href="/tutorials">tutorials</a>
+        <a id="blog" href="/blog">blog</a>
       </li>
       {#if !isLoggedIn}
         <li>
@@ -119,7 +119,7 @@
     color: #84e3de;
   }
 
-  a#tutorials:hover {
+  a#blog:hover {
     color: #fa9a9a;
   }
 
