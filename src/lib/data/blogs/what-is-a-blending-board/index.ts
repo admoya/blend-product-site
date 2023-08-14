@@ -24,8 +24,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: "text",
-      content: `A typical blending board consists of a deck of cards containing different phonemes, and a (usually wooden) stand for arranging and displaying the cards during blending drills. Blending boards are a key component of a <a href="https://www.understood.org/en/articles/what-is-structured-literacy" target="_blank">structured literacy</a> curriculum and the <a href="https://en.wikipedia.org/wiki/Orton-Gillingham" target="_blank">Orton-Gillingham approach</a>
-      `
+      content: `A typical blending board consists of a deck of cards containing different phonemes, and a (usually wooden) stand for arranging and displaying the cards during blending drills. Blending boards are a key component of a <a href="https://www.understood.org/en/articles/what-is-structured-literacy" target="_blank">structured literacy</a> curriculum and the <a href="https://en.wikipedia.org/wiki/Orton-Gillingham" target="_blank">Orton-Gillingham approach</a>.`
     },
     {
       type: "text",
