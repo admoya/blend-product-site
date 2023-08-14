@@ -3,7 +3,7 @@ import { readPath, writePath } from "$lib/server/firebaseUtils";
 import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 
-export const load = (async ({params: { marketplaceDeckId } }) => {
+export const load = (async ({ params: { marketplaceDeckId } }) => {
   const deckMetadata = marketplaceDecks.find((deck) => deck.id === marketplaceDeckId);
   if (!deckMetadata)
     throw error(404);
@@ -31,6 +31,6 @@ export const actions: Actions = {
     throw redirect(303, '/deckShare/accepted')
   },
   decline: async () => {
-    throw redirect(303, '/marketplace');
+    throw redirect(303, '/library');
   }
 }
