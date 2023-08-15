@@ -1,5 +1,14 @@
-import { FIREBASE_SERVICE_PRIVATE_KEY, FIREBASE_SERVICE_PRIVATE_KEY_ID } from '$env/static/private';
-console.log(`Firebase key: ${FIREBASE_SERVICE_PRIVATE_KEY.length}`);
+import { FIREBASE_SERVICE_PRIVATE_KEY, FIREBASE_SERVICE_PRIVATE_KEY_ID, FIREBASE_AUTH_EMULATOR_HOST, FIREBASE_DATABASE_EMULATOR_HOST } from '$env/static/private';
+import { dev } from '$app/environment';
+if (dev) {
+    if (FIREBASE_AUTH_EMULATOR_HOST && FIREBASE_DATABASE_EMULATOR_HOST) {
+        console.log("Starting Firebase Admin SDK in emulator mode");
+        process.env.FIREBASE_AUTH_EMULATOR_HOST = FIREBASE_AUTH_EMULATOR_HOST;
+        process.env.FIREBASE_DATABASE_EMULATOR_HOST = FIREBASE_DATABASE_EMULATOR_HOST;
+    } else {
+        console.warn(`Dev environment detected, but at least one of FIREBASE_AUTH_EMULATOR_HOST and FIREBASE_DATABASE_EMULATOR_HOST is not set. Firebase Admin SDK will connect to production.`);
+    }
+}
 export default {
     type: "service_account",
     projectId: "csma-blend",

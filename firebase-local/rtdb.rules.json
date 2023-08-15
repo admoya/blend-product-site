@@ -1,0 +1,30 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "decks": {
+      "preloaded": {
+        ".read": true,
+        ".write": false
+      },
+      "user": {
+        "$uid": {
+          ".read": "$uid === auth.uid",
+        	".write": "$uid === auth.uid"
+        }
+      }
+    },
+    "playlists": {
+      "user": {
+        "$uid": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      }
+    }
+  }
+}
