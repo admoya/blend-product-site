@@ -1,10 +1,10 @@
 import firebaseAdmin from 'firebase-admin';
-import firebaseAdminCredential from "$lib/server/firebaseAdminCredential";
+import firebaseAdminCredential, { databaseURL } from "$lib/server/firebaseAdminCredential";
 import { error, type RequestEvent } from '@sveltejs/kit';
 if (!firebaseAdmin.apps.length) {
     firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
-        databaseURL: 'https://csma-blend-default-rtdb.firebaseio.com'
+        databaseURL
     });
 }
 
