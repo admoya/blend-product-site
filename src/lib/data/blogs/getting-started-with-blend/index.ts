@@ -1,11 +1,11 @@
-import blendLogo from '$lib/assets/blend_logo.png';
+import thumbnail from './images/blend-tutorial-thumbnail.jpg';
 const post: Blog.BlogPost = {
   slug: "getting-started-with-blend",
   summary: "Learn the basics of using the Blend app and jump start your phonics instruction!",
   title: "Tutorial: Getting Started with Blend",
   previewImg: {
     type: 'image',
-    src: blendLogo,
+    src: thumbnail,
     altText: "The Blend Logo"
   },
   blocks: [

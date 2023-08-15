@@ -57,7 +57,6 @@
   }
   .post-subtitle {
     text-align: justify;
-    hyphens: auto;
     min-width: 100%;
     width: 0;
     font-size: .95rem;

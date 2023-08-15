@@ -3,7 +3,7 @@ import physicalBlendingBoard from './images/physicalBlendingBoard.png';
 const post: Blog.BlogPost = {
   title: "What is a Blending Board?",
   slug: "what-is-a-blending-board",
-  summary: "A quick overview of the history, applications, and modern tooling for blending boards",
+  summary: "Read more for the history, applications, and modern tooling for blending boards.",
   previewImg: {
     type: 'image',
     src: physicalBlendingBoard,
