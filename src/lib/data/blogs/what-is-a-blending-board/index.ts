@@ -89,6 +89,24 @@ const post: Blog.BlogPost = {
       type: "text",
       content: `If you're ready to take your phonics instruction to the next level, you can try a free trial of Blend Pro for 30 days, with absolutely no commitment. Just sign up from the <a href="https://blendreading.com/account" target="_blank">account</a> page. If you work for a school or instructional group, please reach out to us for site licensing!`
     },
+    {
+      type: "text",
+      content: 
+      `<h2>Resources in this article</h2>
+      <ul style="text-align: left">
+        <li><a href="https://www.understood.org/en/articles/what-is-structured-literacy" target="_blank">Understood.org: What is structured literacy?</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Orton-Gillingham" target="_blank">Wikipedia: The Orton-Gillingham Approach</a></li>
+        <li><a href="https://www.nytimes.com/2023/04/16/us/science-of-reading-literacy-parents.html" target="_blank">NYT: 'Kids Can't Read': The Revolt That Is Taking On the Education Establishment</a></li>
+        <li><a href="https://blendreading.com/features" target="_blank">Blend Reading: Blend Features</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Samuel_Orton" target="_blank">Wikipedia: About Samuel Orton</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Anna_Gillingham" target="_blank">Wikipedia: About Anna Gillingham</a></li>
+        <li><a href="https://www.amazon.com/Remedial-Training-Children-Disability-Penmanship/dp/B001P6AW60" target="_blank">Amazon: Remedial Training for Children with Specific Disability in Reading, Spelling and Penmanship</a></li>
+        <li><a href="https://www.nytimes.com/2022/10/06/education/learning/schools-teaching-reading-phonics.html" target="_blank">NYT: Sounding Out a Better Way to Teach Reading</a></li>
+        <li><a href="https://features.apmreports.org/sold-a-story/" target="_blank">APM Reports Podcast: Sold a Story: How Teaching Kids to Read Went So Wrong</a></li>
+        <li><a href="https://www.dyslexiclogic.com/blending" target="_blank">Dyslexic Logic: Free Blending Word Chains</a></li>
+        <li><a href="https://blendreading.com/account" target="_blank">Blend Reading: Create a Blend Account</a></li>
+      </ul>`
+    },
   ]
 }
 
