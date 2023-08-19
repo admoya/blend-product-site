@@ -2,7 +2,7 @@
   <title>Subscribe to Blend</title>
 </svelte:head>
 
-<form method="post" action="https://communications.blendreading.com/subscription/form" class="listmonk-form">
+<form method="post" action="https://communications.blendreading.com/subscription/form" class="listmonk-form" on:submit={ () => gtag('event', 'subscribe_newsletter') }>
     <div>
         <h2>Join our mailing list to be notified of updates and Blend News! &#127881;</h2>
         <input type="hidden" name="nonce" />

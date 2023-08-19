@@ -20,7 +20,7 @@
       on:keypress={toggleMenu}
     >
       <li>
-        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer">app</a>
+        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={ () => gtag('event', 'open_app') }>app</a>
       </li>
       <li>
         <a id="home" href="/">home</a>

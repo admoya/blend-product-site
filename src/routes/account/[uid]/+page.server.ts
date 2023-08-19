@@ -22,11 +22,11 @@ export const load = (async ({ params: { uid } }) => {
 }) satisfies PageServerLoad
 
 export const actions = {
-    createSubscriptionOrder: async ( { request, params: { uid }, url: { origin } }, ) => {
+    createSubscriptionOrder: async ({ request, params: { uid }, url: { origin } },) => {
         const data = await request.formData();
         console.log(`Fetching Stripe customer ID for user ${uid}`);
         const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
-        
+
         let [customer, allSubscriptions] = await Promise.all([
             getStripeCustomerWithSubscriptions(uid),
             getAllCustomerSubscriptions(uid),
@@ -39,7 +39,7 @@ export const actions = {
                 email: data.get('email')! as string,
                 name: data.get('name')! as string,
                 metadata: { uid }
-                });
+            });
             await stripeCustomerIdRef.set(customer.id);
         } else {
             console.log(`Customer already exists for user ${uid}`);
@@ -50,12 +50,12 @@ export const actions = {
         }
 
         if (!hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE)) {
-          subscriptionData = {trial_period_days: 30};
+            subscriptionData = { trial_period_days: 30 };
         }
 
         console.log(`Customer is ${subscriptionData.trial_period_days ? '' : 'not '}eligible for a free trial.`)
         console.log("Creating Stripe session");
-        
+
         const session = await stripeClient.checkout.sessions.create({
             customer: customer.id,
             billing_address_collection: 'auto',
@@ -67,7 +67,7 @@ export const actions = {
             ],
             subscription_data: subscriptionData,
             mode: 'subscription',
-            success_url: `${origin}/account/${uid}?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/account/${uid}?subscription_checkout_status=cancel`,
             // Enable the below if we need to collect sales tax in the future
             // automatic_tax: { enabled: true },
@@ -76,7 +76,7 @@ export const actions = {
         console.log(`Stripe session created: ${session.id}`);
         throw redirect(303, session.url!);
     },
-    redirectToCustomerPortal: async ({url, params: {uid}}) => {
+    redirectToCustomerPortal: async ({ url, params: { uid } }) => {
         console.log(`Redirecting to customer billing portal for user ${uid}`);
         const customer = await getStripeCustomerWithSubscriptions(uid);
         if (!customer || customer.deleted) {

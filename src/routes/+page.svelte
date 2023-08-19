@@ -76,7 +76,7 @@
     <p>See our pricing plans and try Blend now!</p>
     <div class="side-by-side">
         <a class="btn" href="/features#pricing"><h2>pricing plans</h2></a>
-        <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>try the app</h2></a>
+        <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={ () => gtag('event', 'open_app') }><h2>try the app</h2></a>
     </div>
    <div class="footnote">
     <h6>System Requirements</h6>
@@ -87,7 +87,7 @@
    <div class="subscribe">
     <h1>Stay connected!</h1>
     <p>Subscribe to our newsletter for updates on new Blend Pro features.</p>
-    <a class="btn" href="/subscribe"><h2>subscribe</h2></a>
+    <a class="btn" href="/newsletter"><h2>subscribe</h2></a>
   </div>
 </section>
 

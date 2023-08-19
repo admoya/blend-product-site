@@ -47,7 +47,7 @@
           rel="noopener noreferrer"
           ><img src={youtube} alt="youtube icon" /></a
         >
-        <a href="/subscribe"><img src={newsletter} alt="email newsletter icon"/></a>
+        <a href="/newsletter"><img src={newsletter} alt="email newsletter icon"/></a>
       </div>
     </div>
     <div class="footer-section">
