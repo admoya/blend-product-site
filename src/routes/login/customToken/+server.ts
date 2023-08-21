@@ -1,18 +1,9 @@
 import type { RequestHandler } from './$types';
-
-import firebaseAdmin from 'firebase-admin';
-import firebaseAdminCredential from "$lib/server/firebaseAdminCredential";
 import { error } from '@sveltejs/kit';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
-if (!firebaseAdmin.apps.length) {
-    firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
-        databaseURL: 'https://csma-blend-default-rtdb.firebaseio.com'
-    });
-}
-const auth = firebaseAdmin.auth();
- 
-export const POST = ( async ({request}) => {
+import { auth } from '$lib/server/firebaseUtils';
+
+export const POST = (async ({ request }) => {
   const { idToken } = await request.json();
   let decodedIdToken: DecodedIdToken;
   try {

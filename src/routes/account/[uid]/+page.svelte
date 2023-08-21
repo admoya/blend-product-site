@@ -8,6 +8,7 @@
     isSubscribedToBlendPro,
     subscriptionPendingCancellation,
     subscriptionPeriodEnd,
+    organizations
   } = data;
   // Remove query params because they are handled on the server and any relevant state should be passed as a prop
   window.history.replaceState(
@@ -15,6 +16,8 @@
     document.title,
     window.location.toString().replace(window.location.search, "")
   );
+
+  const orgDetails: {id: string, name: string, role: string | null}[] = JSON.parse(organizations);
 
   //@ts-ignore
   window.debugBlendUser = async () => {
@@ -58,9 +61,27 @@
       <h3>Email</h3>
       <p>{$user?.email}</p>
     </div>
-    <div class="detail">
-      <button disabled={disableSignOut} on:click={onSignOutCLicked} class="btn">Sign Out</button>
-    </div>
+    {#if orgDetails.length}
+      <div class="detail">
+        <h3>Organizations</h3>
+        <ul style="list-style: none;">
+          {#each orgDetails as {id, name, role}}
+            <li>
+              <span>
+                {name}
+                <button class="btn btn-small btn-red" style="margin-right: 0;">Leave</button>
+                {#if role === 'admin'}
+                  <a href={`/organization/${id}`} class="btn btn-small" style="margin-left: 0">Manage</a>
+                {/if}
+              </span>
+            </li>
+          {/each}
+        </ul>
+      </div>
+      {/if}
+      <div class="detail">
+        <button disabled={disableSignOut} on:click={onSignOutCLicked} class="btn">Sign Out</button>
+      </div>
   </section>
   <section class="info">
     <h2>Subscription Information</h2>

@@ -14,7 +14,7 @@
       "user": {
         "$uid": {
           ".read": "$uid === auth.uid",
-        	".write": "$uid === auth.uid"
+          ".write": "$uid === auth.uid"
         }
       }
     },
@@ -23,6 +23,20 @@
         "$uid": {
           ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid"
+        }
+      }
+    },
+    "organizations": {
+      ".read": "data.child('0000').child('private').child('members').child(auth.uid).exists()",
+      ".write": "data.child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
+      "$orgId": {
+        ".read": "data.child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
+        "private": {
+          ".write": "data.child('members').child(auth.uid).child('role').val() == 'admin'"
+        },
+        "public": {
+          ".read": "data.parent().child('members').child(auth.uid).exists()",
+          ".write": "data.parent().child('members').child(auth.uid).child('role').val() == 'admin'"
         }
       }
     }

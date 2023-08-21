@@ -29,7 +29,13 @@ const prodConfig = {
     clientX509CertUrl: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-rchzc%40csma-blend.iam.gserviceaccount.com"
 }
 
-const testConfig = {
+const testConfig = dev ? {
+    ...commonConfig,
+    projectId: "csma-blend",
+    clientEmail: "firebase-adminsdk-3fr3p@blend-test-96c76.iam.gserviceaccount.com",
+    clientId: "108712155394638013128",
+    clientX509CertUrl: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3fr3p%40blend-test-96c76.iam.gserviceaccount.com",
+} : {
     ...commonConfig,
     project_id: "blend-test-96c76",
     clientEmail: "firebase-adminsdk-3fr3p@blend-test-96c76.iam.gserviceaccount.com",
@@ -37,8 +43,10 @@ const testConfig = {
     clientX509CertUrl: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3fr3p%40blend-test-96c76.iam.gserviceaccount.com",
 }
 
+const testDbUrl = dev ? 'http://127.0.0.1:9000/?ns=csma-blend-default-rtdb' : 'https://blend-test-96c76-default-rtdb.firebaseio.com';
+
 const config = PUBLIC_DEPLOY_CONTEXT === 'production' ? prodConfig : testConfig;
 
-export const databaseURL = PUBLIC_DEPLOY_CONTEXT === 'production' ? 'https://csma-blend-default-rtdb.firebaseio.com' : 'https://blend-test-96c76-default-rtdb.firebaseio.com';
+export const databaseURL = PUBLIC_DEPLOY_CONTEXT === 'production' ? 'https://csma-blend-default-rtdb.firebaseio.com' : testDbUrl;
 
 export default config;

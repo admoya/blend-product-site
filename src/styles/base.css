@@ -53,6 +53,22 @@ h6 {
   cursor: pointer;
 }
 
+.btn:disabled {
+  pointer-events: none;
+  filter: saturate(0.3);
+}
+
+.btn-small {
+  height: auto;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+  display: inline-flex;
+  padding: 0.3rem 0.5rem;
+  min-width: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .btn:hover {
   background: rgba(255, 255, 255, 0.30);
 }
@@ -63,6 +79,15 @@ h6 {
 
 .btn-green:hover {
   background: #03aa2dbb;
+  filter: brightness(1.1);
+}
+
+.btn-red {
+  background: #aa2a03bb;
+}
+
+.btn-red:hover {
+  background: #8d2303bb;
   filter: brightness(1.1);
 }
 

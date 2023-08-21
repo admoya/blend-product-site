@@ -1,16 +1,11 @@
 <script lang="ts">
-  import { user, willAttemptLogin } from "$lib/firebase";
+  import { user } from "$lib/firebase";
   import { enhance } from "$app/forms";
   import type { PageData } from "./$types";
   import { onMount } from "svelte";
   import ProBadgeWrapper from "$lib/components/ProBadgeWrapper.svelte";
-  import { goto } from "$app/navigation";
+    import AuthCheck from "$lib/components/AuthCheck.svelte";
   export let data: PageData;
-
-  $: {
-    if (!$user && !willAttemptLogin())
-      goto(`/login?successRedirect=${encodeURIComponent(location.pathname)}`);
-  }
 
   let isPro = false;
   let isLoading = true;
@@ -29,6 +24,7 @@
   <title>Import Deck</title>
 </svelte:head>
 
+<AuthCheck />
 <main>
   <div class="content">
     {#if isLoading}

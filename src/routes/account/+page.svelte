@@ -1,14 +1,9 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import { user, willAttemptLogin } from "$lib/firebase";
-  $: {
-      if (!$user && !willAttemptLogin()) 
-          goto('/login?successRedirect=account');
-      else if ($user)
-          goto(`/account/${$user.uid}`);
-  }
+  import AuthCheck from "$lib/components/AuthCheck.svelte";
 </script>
 
 <svelte:head>
   <title>My Account</title>
 </svelte:head>
+
+<AuthCheck loginRedirect='account' defaultRedirect={(user) => `/account/${user.uid}`} />

@@ -2,22 +2,37 @@ import type { Actions, PageServerLoad } from "./$types";
 import { error, redirect } from "@sveltejs/kit";
 import { stripeClient, firebaseDb, getStripeCustomerWithSubscriptions, getBlendProSubscription, getAllCustomerSubscriptions, hasCustomerSubscribedBefore, getCustomerPortalSession, PRICE_CODE, PRODUCT_CODE } from "$lib/server/subscriptionUtils";
 import type Stripe from "stripe";
+import { checkSessionAuth, readPath } from "$lib/server/firebaseUtils";
 
-export const load = (async ({ params: { uid } }) => {
+export const load = (async ({ params: { uid }, cookies }) => {
+    await checkSessionAuth(cookies, { loginRedirect: 'account', authFunction: ({ uid: tokenUid }) => tokenUid === uid });
+    const organizationPromise = (readPath(`/users/${uid}/protected/organizations`))
+        .then((orgIds) => Promise.all(
+            (orgIds || []).map(async (orgId: string) => {
+                const organization: Database.Organization = await readPath(`/organizations/${orgId}`);
+                return {
+                    id: orgId,
+                    name: organization.public.name,
+                    role: organization.private?.members[uid]?.role
+                }
+            })
+        ));
     const customer = await getStripeCustomerWithSubscriptions(uid);
 
     if (!customer || customer.deleted) {
         return {
             isSubscribedToBlendPro: false,
             subscriptionPeriodEnd: 0,
-            subscriptionPendingCancellation: false
+            subscriptionPendingCancellation: false,
+            organizations: JSON.stringify(await organizationPromise)
         }
     }
     const subscription = getBlendProSubscription(customer);
     return {
         isSubscribedToBlendPro: !!subscription,
         subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
-        subscriptionPendingCancellation: subscription?.cancel_at_period_end
+        subscriptionPendingCancellation: subscription?.cancel_at_period_end,
+        organizations: JSON.stringify(await organizationPromise)
     }
 }) satisfies PageServerLoad
 

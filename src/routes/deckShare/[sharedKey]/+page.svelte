@@ -1,14 +1,12 @@
 <script lang="ts">
-  import { user, willAttemptLogin } from "$lib/firebase";
+  import { user } from "$lib/firebase";
   import type { PageData } from "./$types";
   import { enhance } from '$app/forms'
-    import { goto } from "$app/navigation";
+  import AuthCheck from "$lib/components/AuthCheck.svelte";
   export let data: PageData;
-
-  if (!$user && !willAttemptLogin()) 
-      goto(`/login?successRedirect=${encodeURIComponent(location.pathname)}`)
 </script>
 
+<AuthCheck />
 <div class="content">
   <h1>Deck Share</h1>
   <form method="post" use:enhance>

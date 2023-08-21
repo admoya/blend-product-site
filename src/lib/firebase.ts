@@ -2,11 +2,12 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics, isSupported } from "firebase/analytics";
 import { connectAuthEmulator, getAuth, type User } from 'firebase/auth';
-import { getDatabase, ref, get, set, child, connectDatabaseEmulator } from 'firebase/database';
+import { getDatabase, ref, get, set as fbSet, child, connectDatabaseEmulator, onValue } from 'firebase/database';
 import { signOut as firebaseSignOut } from "firebase/auth";
-import { readable } from "svelte/store";
+import { readable, writable } from "svelte/store";
 import { browser, dev } from "$app/environment";
 import { PUBLIC_DEPLOY_CONTEXT } from '$env/static/public';
+
 
 const testConfig = {
   apiKey: "AIzaSyChSr3zgWHFi5tV9Fu2tOJrY-7QuHmcnGg",
@@ -38,10 +39,30 @@ if (dev) {
 }
 
 export const getUserData = async (path?: string) => auth.currentUser && (await get(child(ref(database), `users/${auth.currentUser.uid}/${path}`))).val();
-export const setUserData = async (path: string, value: any) => auth.currentUser && (await set(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
+export const setUserData = async (path: string, value: any) => auth.currentUser && (await fbSet(child(ref(database), `users/${auth.currentUser.uid}/${path}`), value))
 
 export const setWillAttempLogin = browser ? (willAttempt: boolean) => localStorage.setItem('willAttemptLogin', willAttempt ? 'yes' : 'no') : () => { };
 export const willAttemptLogin = browser ? () => localStorage.getItem('willAttemptLogin') === 'yes' : () => false;
+
+export const createReadOnlyStore = <T>(path: string) => readable<null | T>(null, (set) => {
+  onValue(ref(database, path), (snapshot) => {
+    set(snapshot.val());
+  });
+});
+
+export const createWritableStore = <T>(path: string) => writable<null | T>(null, (set, update) => {
+  let initialValueLoaded = false; // Prevents `update` from writing to firebase before we got the first real value
+  onValue(ref(database, path), (snapshot) => {
+    initialValueLoaded = true;
+    set(snapshot.val());
+  });
+  update((newValue) => {
+    if (initialValueLoaded) {
+      fbSet(ref(database, path), newValue);
+    }
+    return newValue;
+  });
+})
 
 export const user = readable(auth.currentUser, (set) => {
   set(auth.currentUser);
@@ -52,6 +73,16 @@ export const user = readable(auth.currentUser, (set) => {
 });
 
 export const signOut = async () => {
+  await fetch('/login/sessionCookie', { method: 'DELETE' });
   setWillAttempLogin(false);
   await firebaseSignOut(auth);
 };
+
+auth.onIdTokenChanged(async (user) => {
+  if (user) {
+    const decodedToken = await user.getIdTokenResult();
+    if (decodedToken.authTime !== decodedToken.issuedAtTime) {
+      fetch('/login/sessionCookie', { method: 'POST', body: JSON.stringify({ idToken: await user.getIdToken() }) });
+    }
+  }
+});

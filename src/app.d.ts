@@ -32,6 +32,44 @@ declare global {
 
 		interface BlogPost { title: string, slug: string, previewImg?: ImageBlock, blocks: BlogBlock[], summary: string }
 	}
+
+	namespace Database {
+		namespace Organization {
+			interface Public {
+				name: string,
+				contactEmail: string,
+			}
+			interface Private {
+				members: {
+					[uid: string]: { role: 'admin' | '' }
+				}
+			}
+			interface Locked {
+				active: boolean,
+				seats: number,
+				termEnd: number,
+				termStart: number
+			}
+		}
+		interface Organization {
+			public: Organization.Public,
+			private?: Organization.Private,
+			locked: Organization.Locked,
+		}
+
+		namespace User {
+			interface Protected {
+				organizations?: string[],
+			}
+			interface Private {
+				stripeCustomerId?: string,
+			}
+		}
+		interface User {
+			protected: User.Protected,
+			private: User.Private,
+		}
+	}
 }
 
 export { };
