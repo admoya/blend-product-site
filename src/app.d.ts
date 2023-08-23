@@ -1,6 +1,10 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
+  interface Window {
+    dataLayer: Record<string, any>[];
+    'ga-disable-G-LLGRDWVVEV': boolean;
+  }
   namespace Blog {
     interface HeadingBlock {
       type: 'heading';
