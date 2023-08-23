@@ -6,7 +6,7 @@ const post: Blog.BlogPost = {
   previewImg: {
     type: 'image',
     src: thumbnail,
-    altText: 'The Blend Logo',
+    altText: 'Blend 2.0 Tutorial Thumbnail',
   },
   blocks: [
     {
