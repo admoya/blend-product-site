@@ -1,11 +1,11 @@
-<svelte:head>
-  <title>Blend Blog</title>
-</svelte:head>
-
 <script lang="ts">
   import blogPosts from '$lib/data/blogs';
   import blendLogo from '$lib/assets/blend_logo.png';
 </script>
+
+<svelte:head>
+  <title>Blend Blog</title>
+</svelte:head>
 
 <div class="content">
   <h1 id="title">Blend Blog</h1>
@@ -19,7 +19,7 @@
               <p class="post-title">{blogPost.title}</p>
               <p class="post-subtitle">{blogPost.summary}</p>
             </div>
-            <img class="post-preview-image" src={blogPost.previewImg?.src || blendLogo} alt={blogPost.previewImg?.altText}>
+            <img class="post-preview-image" src={blogPost.previewImg?.src || blendLogo} alt={blogPost.previewImg?.altText} />
           </div>
         </a>
       </li>
@@ -32,10 +32,10 @@
     margin-bottom: 0;
   }
   #subtitle {
-    margin-top: .2rem;
+    margin-top: 0.2rem;
   }
   .post-preview {
-    display: inline-flex; 
+    display: inline-flex;
     gap: 2rem;
     align-items: center;
     justify-content: space-between;
@@ -59,8 +59,8 @@
     text-align: justify;
     min-width: 100%;
     width: 0;
-    font-size: .95rem;
-    font-weight: lighter; 
+    font-size: 0.95rem;
+    font-weight: lighter;
     margin: 0 auto;
   }
   .post-preview-image {
@@ -79,7 +79,7 @@
       font-size: large;
     }
     .post-subtitle {
-      font-size: .9rem;
+      font-size: 0.9rem;
     }
     .post-preview {
       gap: 1rem;

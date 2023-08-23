@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { user } from "$lib/firebase";
-  import type { PageData } from "./$types";
-  import { enhance } from '$app/forms'
-  import AuthCheck from "$lib/components/AuthCheck.svelte";
+  import { user } from '$lib/firebase';
+  import type { PageData } from './$types';
+  import { enhance } from '$app/forms';
+  import AuthCheck from '$lib/components/AuthCheck.svelte';
   export let data: PageData;
 </script>
 
@@ -14,7 +14,7 @@
     <p style="font-weight: bold;">{data.deckName}</p>
     <p>Would you like to add it to your deck library?</p>
     <fieldset>
-      <input type="hidden" name="uid" value={$user?.uid}/>
+      <input type="hidden" name="uid" value={$user?.uid} />
       <button formaction="?/decline" class="btn">No</button>
       <button formaction="?/accept" type="submit" class="btn btn-green">Yes</button>
     </fieldset>
@@ -36,7 +36,7 @@
     border: none;
     padding: 0;
     display: flex;
-    flex-wrap:wrap-reverse;
-    justify-content:center;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
   }
 </style>

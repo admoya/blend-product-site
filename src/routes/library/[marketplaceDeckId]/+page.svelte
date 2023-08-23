@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { user } from "$lib/firebase";
-  import { enhance } from "$app/forms";
-  import type { PageData } from "./$types";
-  import { onMount } from "svelte";
-  import ProBadgeWrapper from "$lib/components/ProBadgeWrapper.svelte";
-    import AuthCheck from "$lib/components/AuthCheck.svelte";
+  import { user } from '$lib/firebase';
+  import { enhance } from '$app/forms';
+  import type { PageData } from './$types';
+  import { onMount } from 'svelte';
+  import ProBadgeWrapper from '$lib/components/ProBadgeWrapper.svelte';
+  import AuthCheck from '$lib/components/AuthCheck.svelte';
   export let data: PageData;
 
   let isPro = false;
@@ -12,7 +12,7 @@
 
   onMount(async () => {
     const idToken = await $user?.getIdToken();
-    const userData = await fetch("/api/user", {
+    const userData = await fetch('/api/user', {
       headers: { Authorization: `Bearer ${idToken}` },
     });
     isPro = (await userData.json()).isSubscribedToBlendPro;
@@ -38,25 +38,21 @@
         </div>
         <img src={data.deckMetadata.image} alt="deck letters" />
         {#if isPro}
-        <form method="POST" use:enhance>
-          <fieldset>
-            <input type="hidden" name="uid" value={$user?.uid} />
-            <button formaction="?/accept" type="submit" class="btn btn-green"
-              >Import</button
-            >
-          </fieldset>
-        </form>
-      {:else}
-        <ProBadgeWrapper>
-          <a href="/" class="btn disabled">Import</a>
-        </ProBadgeWrapper>
-        <p class="subtitle">
-          Importing from our Deck Library is available to Blend Pro users. You
-          can upgrade to Blend Pro or sign up for a free trial on the <a href="/account"
-            >Account Management</a
-          > page.
-        </p>
-      {/if}
+          <form method="POST" use:enhance>
+            <fieldset>
+              <input type="hidden" name="uid" value={$user?.uid} />
+              <button formaction="?/accept" type="submit" class="btn btn-green">Import</button>
+            </fieldset>
+          </form>
+        {:else}
+          <ProBadgeWrapper>
+            <a href="/" class="btn disabled">Import</a>
+          </ProBadgeWrapper>
+          <p class="subtitle">
+            Importing from our Deck Library is available to Blend Pro users. You can upgrade to Blend Pro or sign up for a free trial on the <a
+              href="/account">Account Management</a> page.
+          </p>
+        {/if}
       </div>
       <a href="/library">Back to Library</a>
     {/if}

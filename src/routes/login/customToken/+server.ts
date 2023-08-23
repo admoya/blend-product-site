@@ -7,10 +7,19 @@ export const POST = (async ({ request }) => {
   const { idToken } = await request.json();
   let decodedIdToken: DecodedIdToken;
   try {
-    decodedIdToken = await auth.verifyIdToken(idToken)
+    decodedIdToken = await auth.verifyIdToken(idToken);
   } catch {
     throw error(401, 'Invalid ID Token');
   }
   const customToken = await auth.createCustomToken(decodedIdToken.uid);
-  return new Response(JSON.stringify({ customToken }), { headers: { "Access-Control-Allow-Origin": "*" } });
+  return new Response(
+    JSON.stringify({
+      customToken,
+    }),
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
+  );
 }) satisfies RequestHandler;

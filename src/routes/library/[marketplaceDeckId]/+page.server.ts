@@ -1,20 +1,22 @@
 import marketplaceDecks from '$lib/data/marketplaceDecks';
-import { readPath, writePath } from "$lib/server/firebaseUtils";
-import { error, redirect } from "@sveltejs/kit";
-import type { PageServerLoad, Actions } from "./$types";
+import { readPath, writePath } from '$lib/server/firebaseUtils';
+import { error, redirect } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 
 export const load = (async ({ params: { marketplaceDeckId } }) => {
   const deckMetadata = marketplaceDecks.find((deck) => deck.id === marketplaceDeckId);
-  if (!deckMetadata)
-    throw error(404);
+  if (!deckMetadata) throw error(404);
   return {
-    deckMetadata
-  }
+    deckMetadata,
+  };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
   accept: async (event) => {
-    const { params: { marketplaceDeckId }, request } = event;
+    const {
+      params: { marketplaceDeckId },
+      request,
+    } = event;
     const uid = (await request.formData()).get('uid');
     const deck = await readPath(`/decks/marketplace/${marketplaceDeckId}/deck`);
 
@@ -28,9 +30,9 @@ export const actions: Actions = {
     deck.refId = newRefId;
 
     await writePath(`/decks/user/${uid}/${deck.refId}`, deck);
-    throw redirect(303, '/deckShare/accepted')
+    throw redirect(303, '/deckShare/accepted');
   },
   decline: async () => {
     throw redirect(303, '/library');
-  }
-}
+  },
+};

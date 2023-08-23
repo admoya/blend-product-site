@@ -1,102 +1,98 @@
 <script lang="ts">
-    import ProBadgeWrapper from "./ProBadgeWrapper.svelte";
+  import ProBadgeWrapper from './ProBadgeWrapper.svelte';
 
-  const check = "\u2713";
+  const check = '\u2713';
 </script>
 
 <section class="pricing" id="pricing">
   <div class="content">
     <h1>Pricing</h1>
-  <ProBadgeWrapper>
-    <div class="banner">
-      <div>Get your first month free when you subscribe to Blend Pro!</div>
+    <ProBadgeWrapper>
+      <div class="banner">
+        <div>Get your first month free when you subscribe to Blend Pro!</div>
+      </div>
+    </ProBadgeWrapper>
+    <div class="side-by-side">
+      <table class="pricing-table">
+        <colgroup>
+          <col class="feature-names" />
+          <col span="2" class="check-marks" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" class="column-header">Features</th>
+            <th scope="col" class="column-header"
+              >Basic
+              <h6>free</h6></th>
+            <th scope="col" class="column-header"
+              >Pro
+              <h6>$3/month</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Virtual Blending Board</th>
+            <td>{check}</td>
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Preloaded Standard Decks</th>
+            <td>{check}</td>
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Sync Across Devices</th>
+            <td>{check}</td>
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">One Custom Deck</th>
+            <td>{check}</td>
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Word History</th>
+            <td>{check}</td>
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Unlimited Custom Decks</th>
+            <td class="empty" />
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Deck Library</th>
+            <td class="empty" />
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Deck Playlists</th>
+            <td class="empty" />
+            <td>{check}</td>
+          </tr>
+          <tr>
+            <th scope="row">Remote Deck Sharing</th>
+            <td class="empty" />
+            <td>{check}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="site-licensing">
+        <div class="column-header">Group Licensing</div>
+        <a href="mailto:blend-support@csma.technology"><h6>Contact for Pricing</h6></a>
+        <div class="feature">All Blend Pro Features</div>
+        <div class="feature">Custom Setup</div>
+        <div class="feature">Dedicated Support</div>
+        <p>
+          Save money by purchasing a group license for organizations with large number of users. We'll work with you on a plan that makes sense for
+          your organization.
+        </p>
+        <h4>
+          Email us at <a id="email" href="mailto:blend-support@csma.technology">blend-support@csma.technology</a> to get started.
+        </h4>
+      </div>
     </div>
-  </ProBadgeWrapper>
-  <div class="side-by-side">
-    <table class="pricing-table">
-      <colgroup>
-        <col class="feature-names" />
-        <col span="2" class="check-marks" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th scope="col" class="column-header">Features</th>
-          <th scope="col" class="column-header"
-            >Basic
-            <h6>free</h6></th
-          >
-          <th scope="col" class="column-header"
-            >Pro
-            <h6>$3/month</h6></th
-          >
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Virtual Blending Board</th>
-          <td>{check}</td>
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Preloaded Standard Decks</th>
-          <td>{check}</td>
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Sync Across Devices</th>
-          <td>{check}</td>
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">One Custom Deck</th>
-          <td>{check}</td>
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Word History</th>
-          <td>{check}</td>
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Unlimited Custom Decks</th>
-          <td class="empty" />
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Deck Library</th>
-          <td class="empty" />
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Deck Playlists</th>
-          <td class="empty" />
-          <td>{check}</td>
-        </tr>
-        <tr>
-          <th scope="row">Remote Deck Sharing</th>
-          <td class="empty" />
-          <td>{check}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="site-licensing">
-      <div class="column-header">Group Licensing</div>
-      <a href="mailto:blend-support@csma.technology"><h6>Contact for Pricing</h6></a>
-      <div class="feature">All Blend Pro Features</div>
-      <div class="feature">Custom Setup</div>
-      <div class="feature">Dedicated Support</div>
-      <p>
-        Save money by purchasing a group license for organizations with large number of
-        users. We'll work with you on a plan that makes sense for your organization. 
-      </p>
-      <h4>
-        Email us at <a id="email" href="mailto:blend-support@csma.technology"
-          >blend-support@csma.technology</a
-        > to get started.
-      </h4>
-    </div>
-  </div>
-  <a class="btn" href="/login">sign up</a>
+    <a class="btn" href="/login">sign up</a>
   </div>
 </section>
 
@@ -165,7 +161,7 @@
   }
 
   .column-header {
-    font-family: "Contrail One";
+    font-family: 'Contrail One';
     font-size: 1.8rem;
   }
 

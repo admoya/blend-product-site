@@ -1,8 +1,8 @@
 <script lang="ts">
-  import "../app.css";
-  import AppBar from "$lib/components/AppBar.svelte";
-  import Footer from "$lib/components/Footer.svelte";
-  import { browser } from "$app/environment";
+  import '../app.css';
+  import AppBar from '$lib/components/AppBar.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import { browser } from '$app/environment';
 
   // Google Analytics
   if (browser) {

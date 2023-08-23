@@ -11,7 +11,7 @@
     <form name="issue-report" action="/help/report-an-issue/success" method="POST" netlify-honeypot="bot-field" data-netlify="true">
       <input type="hidden" name="form-name" value="issue-report" />
       <input type="hidden" name="subject" value="Issue Report from blendreading.com" />
-      <p><label class="form-label">Email<input type="email" name="email" required/></label></p>
+      <p><label class="form-label">Email<input type="email" name="email" required /></label></p>
       <p><label class="form-label">Message<textarea name="message" required></textarea></label></p>
       <p><button class="btn" type="submit">Submit</button></p>
     </form>
@@ -20,10 +20,10 @@
 
 <style>
   @media (max-width: 480px) {
-        form {
-            width: 100% !important;
-        }
+    form {
+      width: 100% !important;
     }
+  }
 
   p {
     margin: 0;
@@ -44,7 +44,7 @@
     margin: 1rem;
     width: 50%;
   }
-  input[type="email"],
+  input[type='email'],
   textarea {
     display: block;
     margin-bottom: 1rem;

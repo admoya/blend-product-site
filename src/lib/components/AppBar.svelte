@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import { user } from "$lib/firebase";
+  import { browser } from '$app/environment';
+  import { user } from '$lib/firebase';
   var isMenuopen = false;
   $: isLoggedIn = browser && $user;
   const toggleMenu = () => {
@@ -14,13 +14,9 @@
       <h1>BLEND</h1>
     </a>
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <ul
-      class={`nav-links ${isMenuopen ? "" : "hide-menu"}`}
-      on:click={toggleMenu}
-      on:keypress={toggleMenu}
-    >
+    <ul class={`nav-links ${isMenuopen ? '' : 'hide-menu'}`} on:click={toggleMenu} on:keypress={toggleMenu}>
       <li>
-        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={ () => gtag('event', 'open_app') }>app</a>
+        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => gtag('event', 'open_app')}>app</a>
       </li>
       <li>
         <a id="home" href="/">home</a>
@@ -38,7 +34,7 @@
         <li>
           <a id="login" href="/login">login</a>
         </li>
-        {:else}
+      {:else}
         <li>
           <a id="account" href="/account">account</a>
         </li>
@@ -128,7 +124,7 @@
   }
 
   a#library:hover {
-    color: #8EC9FF;
+    color: #8ec9ff;
   }
 
   .hamburger-button {
@@ -163,8 +159,9 @@
       text-align: right;
       padding-top: 1rem;
       padding-bottom: 1rem;
-      transition: opacity 600ms, visibility 600ms;
+      transition:
+        opacity 600ms,
+        visibility 600ms;
     }
   }
-
 </style>

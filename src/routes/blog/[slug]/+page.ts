@@ -5,7 +5,9 @@ import type { PageLoad } from './$types.js';
 export const load = (({ params }) => {
   const postData = blogPosts.find((post) => post.slug === params.slug);
   if (postData) {
-    return { postData };
+    return {
+      postData,
+    };
   }
 
   throw error(404, 'Not found');

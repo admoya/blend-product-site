@@ -1,8 +1,9 @@
 body {
-  background: radial-gradient(185.24% 213.48% at 50% 50%, #7E89EC 0%, #16D4E6 55.21%, #006D74 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  background: radial-gradient(185.24% 213.48% at 50% 50%, #7e89ec 0%, #16d4e6 55.21%, #006d74 100%)
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   height: 100vh;
   width: 100vw;
-  font-family: "Heebo";
+  font-family: 'Heebo';
   margin: 0;
   font-size: 100%;
   display: flex;
@@ -16,13 +17,13 @@ html {
 }
 
 h1 {
-  font-family: "Contrail One";
+  font-family: 'Contrail One';
   font-size: 3rem;
   font-weight: normal;
 }
 
 h2 {
-  font-family: "Heebo";
+  font-family: 'Heebo';
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
@@ -33,7 +34,7 @@ h3 {
 }
 
 h6 {
-  font-family: "Heebo";
+  font-family: 'Heebo';
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0;
@@ -43,7 +44,7 @@ h6 {
   margin: 1rem;
   background: rgba(255, 255, 255, 0.15);
   color: white;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   border-radius: 8px;
   height: 2.7rem;
   min-width: 13rem;
@@ -70,25 +71,21 @@ h6 {
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.30);
+  background: rgba(255, 255, 255, 0.3);
+  filter: brightness(1.1);
 }
 
 .btn-green {
-  background: #03aa2dbb;
+  background: #03aa2dbb !important;
 }
 
-.btn-green:hover {
-  background: #03aa2dbb;
-  filter: brightness(1.1);
+.btn-gray {
+  background: lightgray !important;
+  color: black;
 }
 
 .btn-red {
-  background: #aa2a03bb;
-}
-
-.btn-red:hover {
-  background: #8d2303bb;
-  filter: brightness(1.1);
+  background: #aa2a03bb !important;
 }
 
 a:hover.btn {
@@ -134,4 +131,18 @@ a:hover {
   padding: 1rem 2rem;
   margin: 2rem auto;
   text-align: justify;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.flex-around {
+  justify-content: space-around;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }

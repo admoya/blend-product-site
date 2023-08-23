@@ -8,4 +8,4 @@ export default `
 <span>Unit 106</span><br>
 <span>Miami, FL 33129</span><br>
 <span>United States</span></p></div>
-`
+`;

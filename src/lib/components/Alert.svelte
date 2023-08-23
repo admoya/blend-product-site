@@ -3,6 +3,15 @@
   export let isError = false;
 </script>
 
+<div class="alert">
+  {#if isError}
+    <span class="icon icon-error">!</span>
+  {:else}
+    <span class="icon icon-warning">⚠️</span>
+  {/if}
+  <span class="message-text">{message}</span>
+</div>
+
 <style>
   .alert {
     display: inline-flex;
@@ -26,19 +35,10 @@
   }
 
   .icon-warning {
-    color: #FFD700;
+    color: #ffd700;
   }
 
   .message-text {
     font-size: 1rem;
   }
 </style>
-
-<div class="alert">
-  {#if isError}
-    <span class="icon icon-error">!</span>
-  {:else}
-    <span class="icon icon-warning">⚠️</span>
-  {/if}
-  <span class="message-text">{message}</span>
-</div>

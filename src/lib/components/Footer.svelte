@@ -1,7 +1,7 @@
 <script lang="ts">
-  import logo from "$lib/assets/blend_logo.png";
-  import facebook from "$lib/assets/footer/facebook.png";
-  import instagram from "$lib/assets/footer/instagram.png";
+  import logo from '$lib/assets/blend_logo.png';
+  import facebook from '$lib/assets/footer/facebook.png';
+  import instagram from '$lib/assets/footer/instagram.png';
   import newsletter from '$lib/assets/footer/email_newsletter.svg';
   import youtube from '$lib/assets/footer/youtube.png';
 </script>
@@ -13,10 +13,7 @@
     </div>
     <div class="footer-section">
       <h2>BLEND READING</h2>
-      <p>
-        Blend Reading was created by CSMA Technology in partnership with Sage
-        Literacy.
-      </p>
+      <p>Blend Reading was created by CSMA Technology in partnership with Sage Literacy.</p>
     </div>
     <div class="footer-section">
       <h2>USEFUL LINKS</h2>
@@ -29,25 +26,10 @@
     <div class="footer-section">
       <h2>STAY IN TOUCH</h2>
       <div class="social-media">
-        <a
-          href="https://www.facebook.com/blendreading"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><img src={facebook} alt="facebook logo" /></a
-        >
-        <a
-          href="https://www.instagram.com/blendreading/"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><img src={instagram} alt="instagram logo" /></a
-        >
-        <a
-          href="https://www.youtube.com/@blendreading"
-          target="_blank"
-          rel="noopener noreferrer"
-          ><img src={youtube} alt="youtube icon" /></a
-        >
-        <a href="/newsletter"><img src={newsletter} alt="email newsletter icon"/></a>
+        <a href="https://www.facebook.com/blendreading" target="_blank" rel="noopener noreferrer"><img src={facebook} alt="facebook logo" /></a>
+        <a href="https://www.instagram.com/blendreading/" target="_blank" rel="noopener noreferrer"><img src={instagram} alt="instagram logo" /></a>
+        <a href="https://www.youtube.com/@blendreading" target="_blank" rel="noopener noreferrer"><img src={youtube} alt="youtube icon" /></a>
+        <a href="/newsletter"><img src={newsletter} alt="email newsletter icon" /></a>
       </div>
     </div>
     <div class="footer-section">
@@ -57,18 +39,10 @@
           <a href="mailto:blend-support@csma.technology">Contact the Blend Team</a>
         </li>
         <li>
-          <a
-            href="https://csma.technology"
-            target="_blank"
-            rel="noopener noreferrer">CSMA Technology</a
-          >
+          <a href="https://csma.technology" target="_blank" rel="noopener noreferrer">CSMA Technology</a>
         </li>
         <li>
-          <a
-            href="https://sageliteracy.org"
-            target="_blank"
-            rel="noopener noreferrer">Sage Literacy</a
-          >
+          <a href="https://sageliteracy.org" target="_blank" rel="noopener noreferrer">Sage Literacy</a>
         </li>
       </ul>
     </div>

@@ -19,7 +19,8 @@
       {/if}
     {:else if block.type === 'youtube'}
       <div class="youtube-block">
-        <iframe class="youtube-video"
+        <iframe
+          class="youtube-video"
           width={block.size?.width || 560}
           height={block.size?.height || 315}
           src={block.source}
@@ -27,18 +28,11 @@
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
-          style="max-width: 100%;"
-        />
+          style="max-width: 100%;" />
       </div>
     {:else if block.type === 'image'}
       <div class="image-block" style={block.align ? `padding: 0 1rem; padding-${block.align}: 0; float: ${block.align}` : 'text-align: center'}>
-        <img
-          src={block.src}
-          alt={block.altText}
-          width={block.size?.width || 'auto'}
-          height={block.size?.height || 'auto'}
-          style="max-width: 100%"
-        />
+        <img src={block.src} alt={block.altText} width={block.size?.width || 'auto'} height={block.size?.height || 'auto'} style="max-width: 100%" />
         {#if block.caption}
           <p style={`margin-top: 0; font-size: 0.9rem; text-align: center; text-wrap: wrap; min-width: 100%; width: 0`}>{block.caption}</p>
         {/if}
@@ -52,7 +46,7 @@
 <style>
   h2 {
     text-align: center;
-    font-family: "Contrail One";
+    font-family: 'Contrail One';
     font-size: xx-large;
   }
   .blog-post {

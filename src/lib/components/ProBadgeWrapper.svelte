@@ -1,11 +1,11 @@
 <script lang="ts">
-  import ProBadge from "./ProBadge.svelte";
+  import ProBadge from './ProBadge.svelte';
 </script>
 
 <div class="btn-pro">
   <!-- TODO: this should point to the new Blend Pro feature page -->
   <a href="/features#pricing">
-    <div class="badge"><ProBadge/></div>
+    <div class="badge"><ProBadge /></div>
   </a>
   <slot />
 </div>
@@ -16,7 +16,7 @@
   }
   .btn-pro {
     position: relative;
-    display: inline-block;  
+    display: inline-block;
     margin-top: 1rem;
   }
   .badge {
