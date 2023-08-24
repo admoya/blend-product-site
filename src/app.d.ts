@@ -50,31 +50,52 @@ declare global {
   }
 
   namespace Database {
+    namespace Invite {
+      interface Organization {
+        orgId: string;
+        inviteeeEmail: string;
+        inviteeUid?: string;
+        emailSentTs?: number;
+      }
+      interface InviteDetails extends Organization {
+        id: string;
+        displayName?: string;
+      }
+    }
+
     namespace Organization {
+      interface Member {
+        role: 'admin' | '';
+      }
+      interface MemberDetails extends Member {
+        displayName: string;
+        email: string;
+        uid: string;
+      }
+      interface NewMember {
+        email: string;
+        name?: string;
+        uid?: string;
+        status?: string;
+        error?: boolean;
+        validated?: boolean;
+      }
+
       interface Public {
         name: string;
         contactEmail: string;
       }
       interface Private {
         members: {
-          [uid: string]: {
-            role: 'admin' | '';
-          };
+          [uid: string]: Member;
         };
+        invites: string[];
       }
       interface Locked {
         active: boolean;
         seats: number;
         termEnd: number;
         termStart: number;
-      }
-
-      interface NewMember {
-        email: string;
-        name?: string;
-        status?: string;
-        error?: boolean;
-        validated?: boolean;
       }
     }
     interface Organization {
