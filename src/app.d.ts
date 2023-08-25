@@ -53,13 +53,21 @@ declare global {
     namespace Invite {
       interface Organization {
         orgId: string;
-        inviteeeEmail: string;
+        inviteeEmail: string;
         inviteeUid?: string;
         emailSentTs?: number;
       }
       interface InviteDetails extends Organization {
         id: string;
         displayName?: string;
+      }
+      interface Validation {
+        email: string;
+        name?: string;
+        uid?: string;
+        status?: string;
+        error?: boolean;
+        validated?: boolean;
       }
     }
 
@@ -71,14 +79,6 @@ declare global {
         displayName: string;
         email: string;
         uid: string;
-      }
-      interface NewMember {
-        email: string;
-        name?: string;
-        uid?: string;
-        status?: string;
-        error?: boolean;
-        validated?: boolean;
       }
 
       interface Public {
@@ -100,7 +100,7 @@ declare global {
     }
     interface Organization {
       public: Organization.Public;
-      private?: Organization.Private;
+      private: Organization.Private;
       locked: Organization.Locked;
     }
 

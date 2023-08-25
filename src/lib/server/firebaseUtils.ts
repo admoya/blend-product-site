@@ -45,6 +45,39 @@ export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAu
 
 export const getUsers = (uids: UserIdentifier[]) => auth.getUsers(uids);
 
+export const getOrganizationMemberDetails = async (organization: Database.Organization) => {
+  const { members = {} } = organization.private ?? {};
+  const memberUids = Object.keys(members).map((uid) => ({ uid }));
+  const { users } = await getUsers(memberUids); // TODO: check what happens if a user deletes their account but is still here
+  return users.map(({ displayName = '', email = '', uid }) => ({
+    displayName,
+    email,
+    uid,
+    role: members[uid].role,
+  })) as Database.Organization.MemberDetails[];
+};
+
+export const getOrganizationInviteDetails = async (organization: Database.Organization) => {
+  const { invites = [] } = organization.private ?? {};
+  return (
+    await Promise.all(
+      invites.map(async (inviteId) => {
+        const invite = await readPath<Database.Invite.Organization>(`invites/organization/${inviteId}`);
+        if (!invite) {
+          console.error(`Null invite found in org: ${organization.public.name}. Invite id: ${inviteId}`);
+          return null;
+        }
+        const details: Database.Invite.InviteDetails = {
+          ...invite,
+          id: inviteId,
+          displayName: invite.inviteeUid ? (await getUserData(invite.inviteeUid)).displayName : undefined,
+        };
+        return details;
+      }),
+    )
+  ).filter((inv): inv is Exclude<typeof inv, null> => inv !== null);
+};
+
 export const authenticate = async (event: RequestEvent) => {
   const authHeader = event.request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ') || !authHeader.replace('Bearer ', '')) {

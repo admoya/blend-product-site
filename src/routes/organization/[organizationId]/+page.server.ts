@@ -1,4 +1,4 @@
-import { checkSessionAuth, getUsers, readPath } from '$lib/server/firebaseUtils.js';
+import { checkSessionAuth, getOrganizationInviteDetails, getOrganizationMemberDetails, readPath } from '$lib/server/firebaseUtils.js';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types.js';
 
@@ -10,9 +10,8 @@ export const load = (async ({ cookies, params: { organizationId }, url }) => {
     loginRedirect: url.pathname,
     authFunction: async ({ uid }) => members[uid]?.role === 'admin',
   });
-
-  const memberUids = Object.keys(members).map((uid) => ({ uid }));
   return {
-    members: JSON.stringify((await getUsers(memberUids)).users),
+    memberDetails: JSON.stringify(await getOrganizationMemberDetails(organization)),
+    inviteDetails: JSON.stringify(await getOrganizationInviteDetails(organization)),
   };
 }) satisfies PageServerLoad;

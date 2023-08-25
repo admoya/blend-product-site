@@ -26,7 +26,7 @@ export const load = (async ({ params: { uid }, cookies }) => {
         return {
           id: orgId,
           name: organization?.public.name,
-          role: organization?.private?.members[uid]?.role,
+          role: organization?.private.members[uid]?.role,
         };
       }),
     ),
@@ -123,7 +123,7 @@ export const actions = {
     if (!organization) throw error(404);
     const user = await readPath<Database.User>(`/users/${uid}`);
     await writePath(`/users/${uid}/protected/organizations`, user?.protected.organizations?.filter((id) => id !== orgId));
-    const orgMembers = organization.private?.members || {};
+    const orgMembers = organization.private.members || {};
     await writePath(`/organizations/${orgId}/private/members`, {
       ...orgMembers,
       [uid]: null,

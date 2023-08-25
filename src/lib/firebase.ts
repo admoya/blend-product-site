@@ -47,25 +47,27 @@ export const willAttemptLogin = browser ? () => localStorage.getItem('willAttemp
 
 export const createReadOnlyStore = <T>(path: string) =>
   readable<null | T>(null, (set) => {
-    onValue(ref(database, path), (snapshot) => {
+    const unsubscribe = onValue(ref(database, path), (snapshot) => {
       set(snapshot.val());
     });
+    return unsubscribe;
   });
 
-export const createWritableStore = <T>(path: string) =>
-  writable<null | T>(null, (set, update) => {
-    let initialValueLoaded = false; // Prevents `update` from writing to firebase before we got the first real value
-    onValue(ref(database, path), (snapshot) => {
-      initialValueLoaded = true;
+export const createWritableStore = <T>(path: string) => {
+  const { subscribe, update } = writable<null | T>(null, (set) => {
+    const unsubscribe = onValue(ref(database, path), (snapshot) => {
       set(snapshot.val());
     });
-    update((newValue) => {
-      if (initialValueLoaded) {
-        fbSet(ref(database, path), newValue);
-      }
-      return newValue;
-    });
+    return unsubscribe;
   });
+  return {
+    subscribe,
+    update,
+    set: (newValue: T) => {
+      fbSet(ref(database, path), newValue);
+    },
+  };
+};
 
 export const user = readable(auth.currentUser, (set) => {
   set(auth.currentUser);
