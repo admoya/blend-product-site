@@ -78,6 +78,18 @@ export const getOrganizationInviteDetails = async (organization: Database.Organi
   ).filter((inv): inv is Exclude<typeof inv, null> => inv !== null);
 };
 
+export const deleteOrganizationInvites = async (inviteIds: string[], organizationId: string, organization: Database.Organization) => {
+  if (!inviteIds) throw error(400, 'Missing required array of invite IDs');
+
+  await Promise.all([
+    writePath(
+      `/organizations/${organizationId}/private/invites`,
+      organization.private.invites.filter((i) => !inviteIds.includes(i)),
+    ),
+    ...inviteIds.map((id) => deletePath(`/invites/organization/${id}`)),
+  ]);
+}
+
 export const authenticate = async (event: RequestEvent) => {
   const authHeader = event.request.headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ') || !authHeader.replace('Bearer ', '')) {

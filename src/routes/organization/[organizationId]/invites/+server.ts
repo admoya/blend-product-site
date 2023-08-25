@@ -1,4 +1,4 @@
-import { deletePath, pushPath, readPath, verifySessionCookie, writePath } from '$lib/server/firebaseUtils';
+import { deleteOrganizationInvites, pushPath, readPath, verifySessionCookie, writePath } from '$lib/server/firebaseUtils';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
@@ -37,13 +37,7 @@ export const DELETE: RequestHandler = async ({ cookies, params: { organizationId
   const inviteIds: string[] = await request.json();
   if (!inviteIds) throw error(400, 'Missing required array of invite IDs');
 
-  await Promise.all([
-    writePath(
-      `/organizations/${organizationId}/private/invites`,
-      organization.private.invites.filter((i) => !inviteIds.includes(i)),
-    ),
-    ...inviteIds.map((id) => deletePath(`/invites/organization/${id}`)),
-  ]);
+  await deleteOrganizationInvites(inviteIds, organizationId, organization);
 
   return new Response();
 };
