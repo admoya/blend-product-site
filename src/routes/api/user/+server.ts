@@ -1,5 +1,5 @@
 import { authenticate, getUserData } from '$lib/server/firebaseUtils';
-import { getBlendProSubscription, getStripeCustomerWithSubscriptions, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { getBlendProSubscription, getStripeCustomerWithSubscriptions, isOrganizationMember, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
 import type { RequestHandler } from './$types';
 
 export const GET = (async (event) => {
@@ -8,7 +8,7 @@ export const GET = (async (event) => {
   const subscriptionData = stripeCustomer && !stripeCustomer.deleted && getBlendProSubscription(stripeCustomer);
   const userData = {
     ...firebaseUserData,
-    isSubscribedToBlendPro: isSubscribedToBlendPro(stripeCustomer),
+    isSubscribedToBlendPro: (await isOrganizationMember(uid)) || isSubscribedToBlendPro(stripeCustomer),
     subscriptionPeriodEnd: subscriptionData ? subscriptionData.current_period_end : 0,
   };
   return new Response(JSON.stringify(userData, null, 2), {

@@ -45,6 +45,7 @@
     ui.start('#firebaseui-auth-container', {
       callbacks: {
         signInSuccessWithAuthResult(authResult, redirectUrl) {
+          awaitingRedirect = true;
           if (authResult.additionalUserInfo.isNewUser) gtag('event', 'new_account');
           setWillAttempLogin(true);
           fetch('/login/sessionCookie', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(() => {
@@ -85,6 +86,8 @@
     styleEl.textContent = disabledButtonClass;
     document.head.appendChild(styleEl);
   }
+
+  let awaitingRedirect = false;
 </script>
 
 <svelte:head>
@@ -92,8 +95,13 @@
 </svelte:head>
 
 <div class="content">
-  <h1>Log in or Create Account</h1>
-  <h2>Please choose one of the following options:</h2>
+  {#if !awaitingRedirect}
+    <h1>Log in or Create Account</h1>
+    <h2>Please choose one of the following options:</h2>
+  {:else}
+    <h1>Please wait</h1>
+    <h2>Logging you in...</h2>
+  {/if}
   <div id="firebaseui-auth-container" />
   {#if isEmbeddedBrowser()}
     <Alert

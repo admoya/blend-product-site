@@ -5,6 +5,7 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 });
 import firebaseAdmin from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
+import { readPath } from './firebaseUtils';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
@@ -42,6 +43,20 @@ export const getBlendProSubscription = (customer: Stripe.Customer) =>
   customer.subscriptions?.data.find((subscription) =>
     subscription.items.data.find(({ plan: { product, active } }) => active && product === STRIPE_BLEND_PRO_PRODUCT_CODE),
   );
+
+export const isOrganizationMember = async (uid: string) => {
+  const userOrgs = await readPath<Database.User.Protected["organizations"]>(`users/${uid}/protected/organizations`);
+  if (!userOrgs) return false;
+  try {
+    return await Promise.any(userOrgs.map(async (orgId) => {
+      const membership = await readPath(`organizations/${orgId}/private/members/${uid}`);
+      if (membership) return true;
+      throw false;
+    }));
+  } catch {
+    return false;
+  }
+}
 
 export const isSubscribedToBlendPro = (customer: Stripe.Customer | Stripe.DeletedCustomer | null) =>
   !!(customer && !customer.deleted && getBlendProSubscription(customer));
