@@ -35,6 +35,8 @@
           deck: {
             ...$userDecks![deckId],
             refId: newRefId,
+            is_editable: false,
+            position: -1,
           },
         },
       };
