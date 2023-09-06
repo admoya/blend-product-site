@@ -22,3 +22,13 @@ export const GET = (async (request) => {
     headers: [['Access-Control-Allow-Origin', '*']],
   });
 }) satisfies RequestHandler;
+
+export const OPTIONS = (() => {
+  return new Response(null, {
+    headers: [
+      ['Access-Control-Allow-Origin', '*'],
+      ['Access-Control-Allow-Headers', '*'],
+      ['Access-Control-Allow-Methods', 'GET'],
+    ],
+  });
+}) satisfies RequestHandler;
