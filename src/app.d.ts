@@ -50,6 +50,25 @@ declare global {
   }
 
   namespace Database {
+    interface Deck {
+      created_ts: string;
+      modified_ts: string;
+      is_editable: boolean;
+      name: string;
+      position: number;
+      refId: number;
+    }
+    namespace Decks {
+      interface Organization {
+        [deckId: string]: {
+          author?: string;
+          deck: Deck;
+        };
+      }
+      interface User {
+        [deckId: string]: Deck;
+      }
+    }
     namespace Invite {
       interface Organization {
         orgId: string;

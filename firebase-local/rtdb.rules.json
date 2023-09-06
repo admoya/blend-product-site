@@ -16,6 +16,12 @@
           ".read": "$uid === auth.uid",
           ".write": "$uid === auth.uid"
         }
+      },
+      "organization": {
+        "$orgId": {
+          ".read": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).exists()",
+          ".write": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).child('role').val() == 'admin'"
+        }
       }
     },
     "playlists": {

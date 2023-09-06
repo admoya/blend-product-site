@@ -143,6 +143,10 @@ a:hover {
   justify-content: space-around;
 }
 
+.flex-between {
+  justify-content: space-between;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
 }

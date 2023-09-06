@@ -45,6 +45,20 @@ export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAu
 
 export const getUsers = (uids: UserIdentifier[]) => auth.getUsers(uids);
 
+export const getUserOrganizations = async (uid: string) => {
+  const orgList = (await readPath<string[]>(`users/${uid}/protected/organizations`)) ?? [];
+  return (
+    await Promise.all(
+      orgList.map(async (orgID) => {
+        if (await readPath(`organizations/${orgID}/private/members/${uid}`)) return orgID;
+        return null;
+      }),
+    )
+  ).filter((id): id is Exclude<string, null> => !!id);
+};
+
+export const getOrganizationDecks = async (organizationId: string) => readPath<Database.Decks.Organization>(`decks/organization/${organizationId}`);
+
 export const getOrganizationMemberDetails = async (organization: Database.Organization) => {
   const { members = {} } = organization.private ?? {};
   const memberUids = Object.keys(members).map((uid) => ({ uid }));
@@ -88,7 +102,7 @@ export const deleteOrganizationInvites = async (inviteIds: string[], organizatio
     ),
     ...inviteIds.map((id) => deletePath(`/invites/organization/${id}`)),
   ]);
-}
+};
 
 export const authenticate = async (event: RequestEvent) => {
   const authHeader = event.request.headers.get('Authorization');
