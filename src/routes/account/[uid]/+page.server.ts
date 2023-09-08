@@ -10,6 +10,7 @@ import {
   getCustomerPortalSession,
   PRICE_CODE,
   PRODUCT_CODE,
+  isOrganizationMember,
 } from '$lib/server/subscriptionUtils';
 import type Stripe from 'stripe';
 import { checkSessionAuth, readPath, writePath } from '$lib/server/firebaseUtils';
@@ -32,10 +33,12 @@ export const load = (async ({ params: { uid }, cookies }) => {
     ),
   );
   const customer = await getStripeCustomerWithSubscriptions(uid);
+  const hasOrganizationMembership = await isOrganizationMember(uid);
 
   if (!customer || customer.deleted) {
     return {
       isSubscribedToBlendPro: false,
+      hasOrganizationMembership,
       subscriptionPeriodEnd: 0,
       subscriptionPendingCancellation: false,
       organizations: JSON.stringify(await organizationPromise),
@@ -44,6 +47,7 @@ export const load = (async ({ params: { uid }, cookies }) => {
   const subscription = getBlendProSubscription(customer);
   return {
     isSubscribedToBlendPro: !!subscription,
+    hasOrganizationMembership,
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
     subscriptionPendingCancellation: subscription?.cancel_at_period_end,
     organizations: JSON.stringify(await organizationPromise),

@@ -798,6 +798,6 @@
   },
   "users": {
     "Gcr9kCdvK617pSvK8Vn0uXWSjT0Z": { "private": { "stripeCustomerId": "cus_OSMO1QvLtZ2686" }, "protected": { "organizations": ["0000"] } },
-    "TpyNkRxiWfPwunyYEO9fIXlQ26bc": { "private": { "stripeCustomerId": "jnfsdkjnfsdjlk" }, "protected": { "organizations": ["0000"] } }
+    "TpyNkRxiWfPwunyYEO9fIXlQ26bc": { "protected": { "organizations": ["0000"] } }
   }
 }

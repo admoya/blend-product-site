@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Manage Organization</title>
+</svelte:head>
+
 <script lang="ts">
   import AuthCheck from '$lib/components/AuthCheck.svelte';
   import { page } from '$app/stores';
@@ -15,8 +19,11 @@
   const { organizationId } = $page.params;
   const organization = createWritableStore<Database.Organization>(`/organizations/${organizationId}`);
   $: organizationDecks = createWritableStore<Database.Decks.Organization>(`/decks/organization/${organizationId}`);
+  $: organizationPlaylists =  createWritableStore<Database.Playlists.Organization>(`/playlists/organization/${organizationId}`);
   $: userDecks = createWritableStore<Database.Decks.User>(`/decks/user/${$user?.uid}`);
+  $: userPlaylists = createWritableStore<Database.Playlists.User>(`/playlists/user/${$user?.uid}`);
   let decksToAdd: string[] = [];
+  let playlistsToAdd: string[] = [];
   const handleDeckCheck: ChangeEventHandler<HTMLInputElement> = (e) => {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
@@ -25,6 +32,18 @@
       decksToAdd = decksToAdd.filter((id) => id !== target.value);
     }
   };
+  const removeDeck = (deckId: string) => {
+    $organizationDecks = Object.keys($organizationDecks!)
+      .filter((id) => id !== deckId)
+      .reduce(
+        (acc, id) => ({
+          ...acc,
+          [id]: $organizationDecks![id],
+        }),
+        {},
+      );
+  };
+
   const handleDeckAdd = () => {
     const newDecks = decksToAdd.reduce((acc, deckId) => {
       const newRefId = Math.floor(Math.random() * 4294967295);
@@ -46,13 +65,41 @@
     showDeckAddModal = false;
   };
 
-  const removeDeck = (deckId: string) => {
-    $organizationDecks = Object.keys($organizationDecks!)
-      .filter((id) => id !== deckId)
+  const handlePlaylistCheck: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.checked) {
+      playlistsToAdd = [...playlistsToAdd, target.value];
+    } else {
+      playlistsToAdd = playlistsToAdd.filter((id) => id !== target.value);
+    }
+  };
+const handlePlaylistAdd = () => {
+    const newPlaylists = playlistsToAdd.reduce((acc, playlistId) => {
+      const newRefId = Math.floor(Math.random() * 4294967295);
+      return {
+        ...acc,
+        [newRefId]: {
+          author: $user?.uid,
+          playlist: {
+            ...$userPlaylists![playlistId],
+            refId: newRefId,
+            is_editable: false,
+            position: -1,
+          }
+        }
+      };
+    }, {});
+    $organizationPlaylists = { ...$organizationPlaylists, ...newPlaylists };
+    playlistsToAdd = [];
+    showPlaylistAddModal = false;
+  }
+  const removePlaylist = (playlistId: string) => {
+    $organizationPlaylists = Object.keys($organizationPlaylists!)
+      .filter((id) => id !== playlistId)
       .reduce(
         (acc, id) => ({
           ...acc,
-          [id]: $organizationDecks![id],
+          [id]: $organizationPlaylists![id],
         }),
         {},
       );
@@ -60,6 +107,7 @@
 
   let showMemberAddModal = false;
   let showDeckAddModal = false;
+  let showPlaylistAddModal = false;
 
   const cancelInvite = async (inviteId: string) => {
     await fetch(`${$page.url.href}/invites`, {
@@ -141,7 +189,7 @@
         </tr>
       </table>
     </div>
-    <div>
+    <div class="org-decks">
       <h2>Organization Decks</h2>
       <ul class="deck-list">
         {#each Object.entries($organizationDecks ?? {}) as [deckId, orgDeck]}
@@ -180,6 +228,48 @@
               showDeckAddModal = false;
             }}>Cancel</button>
           <button class="btn btn-green" on:click={handleDeckAdd} disabled={decksToAdd.length == 0}>Add to Organization</button>
+        </div>
+      </Modal>
+    </div>
+    <div class="org-playlists">
+      <h2>Organization Playlists</h2>
+      <ul class="deck-list">
+        {#each Object.entries($organizationPlaylists ?? {}) as [playlistId, orgPlaylist]}
+          <li class="row flex-between">
+            {orgPlaylist.playlist.name}
+            <button class="btn btn-red btn-small" on:click={() => removePlaylist(playlistId)}>Remove</button>
+          </li>
+        {/each}
+        <li>
+          <button
+            class="btn btn-green"
+            id="add-decks-button"
+            on:click={() => {
+              showPlaylistAddModal = true;
+            }}>Add</button>
+        </li>
+      </ul>
+      <Modal bind:showModal={showPlaylistAddModal}>
+        <h2 slot="header">Add a Playlist to {$organization.public.name}</h2>
+        <p style="margin-bottom: 0;">Choose from your personal playlists below.</p>
+        <p style="margin-top: 0;">A copy of the playlist you select will be added to the organization.</p>
+        <ul class="deck-list">
+          {#each Object.entries($userPlaylists ?? {}) as [playlistId, userPlaylist]}
+            <li>
+              <label>
+                <input type="checkbox" value={playlistId} on:change={handlePlaylistCheck} />
+                {userPlaylist.name}
+              </label>
+            </li>
+          {/each}
+        </ul>
+        <div slot="footer" class="row">
+          <button
+            class="btn btn-gray"
+            on:click={() => {
+              showPlaylistAddModal = false;
+            }}>Cancel</button>
+          <button class="btn btn-green" on:click={handlePlaylistAdd} disabled={playlistsToAdd.length == 0}>Add to Organization</button>
         </div>
       </Modal>
     </div>

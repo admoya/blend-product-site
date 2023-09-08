@@ -69,6 +69,26 @@ declare global {
         [deckId: string]: Deck;
       }
     }
+    interface Playlist {
+      created_ts: string;
+      modified_ts: string;
+      is_editable: boolean;
+      name: string;
+      position: number;
+      refId: number;
+      words: [][];
+    }
+    namespace Playlists {
+      interface Organization {
+        [playlistId: string]: {
+          author?: string;
+          playlist: Playlist;
+        };
+      }
+      interface User {
+        [playlistId: string]: Playlist;
+      }
+    }
     namespace Invite {
       interface Organization {
         orgId: string;
