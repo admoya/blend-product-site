@@ -82,6 +82,7 @@ declare global {
       interface Organization {
         [playlistId: string]: {
           author?: string;
+          originalRefId: number;
           playlist: Playlist;
         };
       }

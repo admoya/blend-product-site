@@ -1,7 +1,3 @@
-<svelte:head>
-  <title>Manage Organization</title>
-</svelte:head>
-
 <script lang="ts">
   import AuthCheck from '$lib/components/AuthCheck.svelte';
   import { page } from '$app/stores';
@@ -19,7 +15,7 @@
   const { organizationId } = $page.params;
   const organization = createWritableStore<Database.Organization>(`/organizations/${organizationId}`);
   $: organizationDecks = createWritableStore<Database.Decks.Organization>(`/decks/organization/${organizationId}`);
-  $: organizationPlaylists =  createWritableStore<Database.Playlists.Organization>(`/playlists/organization/${organizationId}`);
+  $: organizationPlaylists = createWritableStore<Database.Playlists.Organization>(`/playlists/organization/${organizationId}`);
   $: userDecks = createWritableStore<Database.Decks.User>(`/decks/user/${$user?.uid}`);
   $: userPlaylists = createWritableStore<Database.Playlists.User>(`/playlists/user/${$user?.uid}`);
   let decksToAdd: string[] = [];
@@ -32,9 +28,9 @@
       decksToAdd = decksToAdd.filter((id) => id !== target.value);
     }
   };
-  const removeDeck = (deckId: string) => {
+  const removeDeck = (deckId: string | number) => {
     $organizationDecks = Object.keys($organizationDecks!)
-      .filter((id) => id !== deckId)
+      .filter((id) => id !== String(deckId))
       .reduce(
         (acc, id) => ({
           ...acc,
@@ -73,29 +69,30 @@
       playlistsToAdd = playlistsToAdd.filter((id) => id !== target.value);
     }
   };
-const handlePlaylistAdd = () => {
+  const handlePlaylistAdd = () => {
     const newPlaylists = playlistsToAdd.reduce((acc, playlistId) => {
       const newRefId = Math.floor(Math.random() * 4294967295);
       return {
         ...acc,
         [newRefId]: {
           author: $user?.uid,
+          originalRefId: playlistId,
           playlist: {
             ...$userPlaylists![playlistId],
             refId: newRefId,
             is_editable: false,
             position: -1,
-          }
-        }
+          },
+        },
       };
     }, {});
     $organizationPlaylists = { ...$organizationPlaylists, ...newPlaylists };
     playlistsToAdd = [];
     showPlaylistAddModal = false;
-  }
-  const removePlaylist = (playlistId: string) => {
+  };
+  const removePlaylist = (playlistId: string | number) => {
     $organizationPlaylists = Object.keys($organizationPlaylists!)
-      .filter((id) => id !== playlistId)
+      .filter((id) => id !== String(playlistId))
       .reduce(
         (acc, id) => ({
           ...acc,
@@ -134,7 +131,22 @@ const handlePlaylistAdd = () => {
     $organization!.private.members[uid].role = '';
     invalidateAll();
   };
+
+  const compareCreatedTs = (item1: { created_ts: string }, item2: { created_ts: string }) => {
+    if (item1.created_ts === item2.created_ts) return 0;
+    if (item1.created_ts < item2.created_ts) return -1;
+    return 1;
+  };
+
+  $: sortedUserPlaylists = Object.values($userPlaylists ?? {}).sort(compareCreatedTs);
+  $: sortedUserDecks = Object.values($userDecks ?? {}).sort(compareCreatedTs);
+  $: sortedOrganizationPlaylists = Object.values($organizationPlaylists ?? {}).sort((p1, p2) => compareCreatedTs(p1.playlist, p2.playlist));
+  $: sortedOrganizationDecks = Object.values($organizationDecks ?? {}).sort((d1, d2) => compareCreatedTs(d1.deck, d2.deck));
 </script>
+
+<svelte:head>
+  <title>Manage Organization</title>
+</svelte:head>
 
 <AuthCheck />
 <div class="content" style="overflow-x: auto;">
@@ -192,10 +204,10 @@ const handlePlaylistAdd = () => {
     <div class="org-decks">
       <h2>Organization Decks</h2>
       <ul class="deck-list">
-        {#each Object.entries($organizationDecks ?? {}) as [deckId, orgDeck]}
+        {#each sortedOrganizationDecks as orgDeck (orgDeck.deck.refId)}
           <li class="row flex-between">
             {orgDeck.deck.name}
-            <button class="btn btn-red btn-small" on:click={() => removeDeck(deckId)}>Remove</button>
+            <button class="btn btn-red btn-small" on:click={() => removeDeck(orgDeck.deck.refId)}>Remove</button>
           </li>
         {/each}
         <li>
@@ -212,10 +224,10 @@ const handlePlaylistAdd = () => {
         <p style="margin-bottom: 0;">Choose from your personal decks below.</p>
         <p style="margin-top: 0;">A copy of the deck you select will be added to the organization.</p>
         <ul class="deck-list">
-          {#each Object.entries($userDecks ?? {}) as [deckId, userDeck]}
+          {#each sortedUserDecks as userDeck}
             <li>
               <label>
-                <input type="checkbox" value={deckId} on:change={handleDeckCheck} />
+                <input type="checkbox" value={userDeck.refId} on:change={handleDeckCheck} />
                 {userDeck.name}
               </label>
             </li>
@@ -234,10 +246,10 @@ const handlePlaylistAdd = () => {
     <div class="org-playlists">
       <h2>Organization Playlists</h2>
       <ul class="deck-list">
-        {#each Object.entries($organizationPlaylists ?? {}) as [playlistId, orgPlaylist]}
+        {#each sortedOrganizationPlaylists as orgPlaylist (orgPlaylist.playlist.refId)}
           <li class="row flex-between">
             {orgPlaylist.playlist.name}
-            <button class="btn btn-red btn-small" on:click={() => removePlaylist(playlistId)}>Remove</button>
+            <button class="btn btn-red btn-small" on:click={() => removePlaylist(orgPlaylist.playlist.refId)}>Remove</button>
           </li>
         {/each}
         <li>
@@ -254,10 +266,10 @@ const handlePlaylistAdd = () => {
         <p style="margin-bottom: 0;">Choose from your personal playlists below.</p>
         <p style="margin-top: 0;">A copy of the playlist you select will be added to the organization.</p>
         <ul class="deck-list">
-          {#each Object.entries($userPlaylists ?? {}) as [playlistId, userPlaylist]}
+          {#each sortedUserPlaylists as userPlaylist (userPlaylist.refId)}
             <li>
               <label>
-                <input type="checkbox" value={playlistId} on:change={handlePlaylistCheck} />
+                <input type="checkbox" value={userPlaylist.refId} on:change={handlePlaylistCheck} />
                 {userPlaylist.name}
               </label>
             </li>
