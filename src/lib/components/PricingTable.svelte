@@ -81,10 +81,12 @@
         <div class="column-header">Group Licensing</div>
         <a href="mailto:blend-support@csma.technology"><h6>Contact for Pricing</h6></a>
         <div class="feature">All Blend Pro Features</div>
-        <div class="feature">Custom Setup</div>
+        <div class="feature">Easy Organization Management</div>
+        <div class="feature">Organization-Wide Shared Decks & Playlists</div>
         <div class="feature">Dedicated Support</div>
+        <p>Want to learn more about these features? <br /> <a href="https://drive.google.com/file/d/1HQoOfhXIJPaVRFmd8GBM7DMjLgD_YfPx/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Click here</a> for more information.</p>
         <p>
-          Save money by purchasing a group license for organizations with large number of users. We'll work with you on a plan that makes sense for
+          Save money by purchasing a group license! We'll work with you on a plan that makes sense for
           your organization.
         </p>
         <h4>
