@@ -58,17 +58,6 @@ declare global {
       position: number;
       refId: number;
     }
-    namespace Decks {
-      interface Organization {
-        [deckId: string]: {
-          author?: string;
-          deck: Deck;
-        };
-      }
-      interface User {
-        [deckId: string]: Deck;
-      }
-    }
     interface Playlist {
       created_ts: string;
       modified_ts: string;
@@ -78,13 +67,27 @@ declare global {
       refId: number;
       words: [][];
     }
+    interface OrganizationPlaylist {
+      author?: string;
+      originalRefId?: string;
+      playlist: Playlist;
+    }
+    interface OrganizationDeck {
+      author?: string;
+      originalRefId?: string;
+      deck: Deck;
+    }
+    namespace Decks {
+      interface Organization {
+        [deckId: string]: OrganizationDeck;
+      }
+      interface User {
+        [deckId: string]: Deck;
+      }
+    }
     namespace Playlists {
       interface Organization {
-        [playlistId: string]: {
-          author?: string;
-          originalRefId: number;
-          playlist: Playlist;
-        };
+        [playlistId: string]: OrganizationPlaylist;
       }
       interface User {
         [playlistId: string]: Playlist;

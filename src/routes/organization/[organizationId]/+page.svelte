@@ -7,6 +7,7 @@
   import { invalidateAll } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
   import type { ChangeEventHandler } from 'svelte/elements';
+  import OrganizationItemTable from './OrganizationItemTable.svelte';
   export let data: PageData;
   let members: Database.Organization.MemberDetails[];
   let invites: Database.Invite.InviteDetails[];
@@ -20,14 +21,6 @@
   $: userPlaylists = createWritableStore<Database.Playlists.User>(`/playlists/user/${$user?.uid}`);
   let decksToAdd: string[] = [];
   let playlistsToAdd: string[] = [];
-  const handleDeckCheck: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const target = e.target as HTMLInputElement;
-    if (target.checked) {
-      decksToAdd = [...decksToAdd, target.value];
-    } else {
-      decksToAdd = decksToAdd.filter((id) => id !== target.value);
-    }
-  };
   const removeDeck = (deckId: string | number) => {
     $organizationDecks = Object.keys($organizationDecks!)
       .filter((id) => id !== String(deckId))
@@ -47,6 +40,7 @@
         ...acc,
         [newRefId]: {
           author: $user?.uid,
+          originalRefId: deckId,
           deck: {
             ...$userDecks![deckId],
             refId: newRefId,
@@ -59,15 +53,6 @@
     $organizationDecks = { ...$organizationDecks, ...newDecks };
     decksToAdd = [];
     showDeckAddModal = false;
-  };
-
-  const handlePlaylistCheck: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const target = e.target as HTMLInputElement;
-    if (target.checked) {
-      playlistsToAdd = [...playlistsToAdd, target.value];
-    } else {
-      playlistsToAdd = playlistsToAdd.filter((id) => id !== target.value);
-    }
   };
   const handlePlaylistAdd = () => {
     const newPlaylists = playlistsToAdd.reduce((acc, playlistId) => {
@@ -203,37 +188,27 @@
     </div>
     <div class="org-decks">
       <h2>Organization Decks</h2>
-      <ul class="deck-list">
-        {#each sortedOrganizationDecks as orgDeck (orgDeck.deck.refId)}
-          <li class="row flex-between">
-            {orgDeck.deck.name}
-            <button class="btn btn-red btn-small" on:click={() => removeDeck(orgDeck.deck.refId)}>Remove</button>
-          </li>
-        {/each}
-        <li>
-          <button
-            class="btn btn-green"
-            id="add-decks-button"
-            on:click={() => {
-              showDeckAddModal = true;
-            }}>Add</button>
-        </li>
-      </ul>
+      <OrganizationItemTable
+        items={sortedOrganizationDecks}
+        memberDetails={members}
+        itemActions={[{ name: 'Remove', class: 'btn btn-red btn-small', handler: ({ refId }) => removeDeck(refId) }]} />
+      <button
+        class="btn btn-green add-button"
+        id="add-decks-button"
+        on:click={() => {
+          showDeckAddModal = true;
+        }}>Add</button>
       <Modal bind:showModal={showDeckAddModal}>
         <h2 slot="header">Add a Deck to {$organization.public.name}</h2>
         <p style="margin-bottom: 0;">Choose from your personal decks below.</p>
         <p style="margin-top: 0;">A copy of the deck you select will be added to the organization.</p>
-        <ul class="deck-list">
-          {#each sortedUserDecks as userDeck}
-            <li>
-              <label>
-                <input type="checkbox" value={userDeck.refId} on:change={handleDeckCheck} />
-                {userDeck.name}
-              </label>
-            </li>
-          {/each}
-        </ul>
-        <div slot="footer" class="row">
+        <OrganizationItemTable
+          items={sortedUserDecks}
+          memberDetails={members}
+          existingItems={sortedOrganizationDecks}
+          selectable
+          bind:selectedItems={decksToAdd} />
+        <div slot="footer" class="row" style="justify-content: center">
           <button
             class="btn btn-gray"
             on:click={() => {
@@ -245,37 +220,25 @@
     </div>
     <div class="org-playlists">
       <h2>Organization Playlists</h2>
-      <ul class="deck-list">
-        {#each sortedOrganizationPlaylists as orgPlaylist (orgPlaylist.playlist.refId)}
-          <li class="row flex-between">
-            {orgPlaylist.playlist.name}
-            <button class="btn btn-red btn-small" on:click={() => removePlaylist(orgPlaylist.playlist.refId)}>Remove</button>
-          </li>
-        {/each}
-        <li>
-          <button
-            class="btn btn-green"
-            id="add-decks-button"
-            on:click={() => {
-              showPlaylistAddModal = true;
-            }}>Add</button>
-        </li>
-      </ul>
+      <OrganizationItemTable
+        items={sortedOrganizationPlaylists}
+        memberDetails={members}
+        itemActions={[{ name: 'Remove', class: 'btn btn-red btn-small', handler: ({ refId }) => removePlaylist(refId) }]} />
+      <button
+        class="btn btn-green add-button"
+        on:click={() => {
+          showPlaylistAddModal = true;
+        }}>Add</button>
       <Modal bind:showModal={showPlaylistAddModal}>
         <h2 slot="header">Add a Playlist to {$organization.public.name}</h2>
         <p style="margin-bottom: 0;">Choose from your personal playlists below.</p>
         <p style="margin-top: 0;">A copy of the playlist you select will be added to the organization.</p>
-        <ul class="deck-list">
-          {#each sortedUserPlaylists as userPlaylist (userPlaylist.refId)}
-            <li>
-              <label>
-                <input type="checkbox" value={userPlaylist.refId} on:change={handlePlaylistCheck} />
-                {userPlaylist.name}
-              </label>
-            </li>
-          {/each}
-        </ul>
-        <div slot="footer" class="row">
+        <OrganizationItemTable
+          bind:items={sortedUserPlaylists}
+          existingItems={sortedOrganizationPlaylists}
+          bind:selectedItems={playlistsToAdd}
+          selectable />
+        <div slot="footer" class="row" style="justify-content: center">
           <button
             class="btn btn-gray"
             on:click={() => {
@@ -300,22 +263,11 @@
   .bottom-border {
     border-bottom: 1px solid #000;
   }
-  .deck-list {
-    list-style: none;
-    padding-left: 0;
-    text-align: left;
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-  }
 
-  .deck-list li {
-    margin-bottom: 5px;
-  }
-
-  #add-decks-button {
+  .add-button {
     padding-top: 5px;
     padding-bottom: 5px;
     height: fit-content;
+    margin: 1rem auto 2rem;
   }
 </style>
