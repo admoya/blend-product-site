@@ -6,31 +6,41 @@
   import InviteModal from './InviteModal.svelte';
   import { invalidateAll } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
-  import type { ChangeEventHandler } from 'svelte/elements';
   import OrganizationItemTable from './OrganizationItemTable.svelte';
   export let data: PageData;
+  const { organizationId } = $page.params;
   let members: Database.Organization.MemberDetails[];
   let invites: Database.Invite.InviteDetails[];
   $: members = JSON.parse(data.memberDetails);
   $: invites = JSON.parse(data.inviteDetails);
-  const { organizationId } = $page.params;
-  const organization = createWritableStore<Database.Organization>(`/organizations/${organizationId}`);
   $: organizationDecks = createWritableStore<Database.Decks.Organization>(`/decks/organization/${organizationId}`);
   $: organizationPlaylists = createWritableStore<Database.Playlists.Organization>(`/playlists/organization/${organizationId}`);
   $: userDecks = createWritableStore<Database.Decks.User>(`/decks/user/${$user?.uid}`);
   $: userPlaylists = createWritableStore<Database.Playlists.User>(`/playlists/user/${$user?.uid}`);
+
+  $: sortedUserPlaylists = Object.values($userPlaylists ?? {}).sort(compareCreatedTs);
+  $: sortedUserDecks = Object.values($userDecks ?? {}).sort(compareCreatedTs);
+  $: sortedOrganizationPlaylists = Object.values($organizationPlaylists ?? {}).sort((p1, p2) => compareCreatedTs(p1.playlist, p2.playlist));
+  $: sortedOrganizationDecks = Object.values($organizationDecks ?? {}).sort((d1, d2) => compareCreatedTs(d1.deck, d2.deck));
+
+  const organization = createWritableStore<Database.Organization>(`/organizations/${organizationId}`);
   let decksToAdd: string[] = [];
   let playlistsToAdd: string[] = [];
+  let showMemberAddModal = false;
+  let showDeckAddModal = false;
+  let showPlaylistAddModal = false;
+
+  $: $organization && invalidateAll(); // Reload data when organization changes
+
   const removeDeck = (deckId: string | number) => {
     $organizationDecks = Object.keys($organizationDecks!)
       .filter((id) => id !== String(deckId))
-      .reduce(
-        (acc, id) => ({
-          ...acc,
-          [id]: $organizationDecks![id],
-        }),
-        {},
-      );
+      .reduce((acc, id) => ({ ...acc, [id]: $organizationDecks![id] }), {});
+  };
+  const removePlaylist = (playlistId: string | number) => {
+    $organizationPlaylists = Object.keys($organizationPlaylists!)
+      .filter((id) => id !== String(playlistId))
+      .reduce((acc, id) => ({ ...acc, [id]: $organizationPlaylists![id] }), {});
   };
 
   const handleDeckAdd = () => {
@@ -75,46 +85,25 @@
     playlistsToAdd = [];
     showPlaylistAddModal = false;
   };
-  const removePlaylist = (playlistId: string | number) => {
-    $organizationPlaylists = Object.keys($organizationPlaylists!)
-      .filter((id) => id !== String(playlistId))
-      .reduce(
-        (acc, id) => ({
-          ...acc,
-          [id]: $organizationPlaylists![id],
-        }),
-        {},
-      );
-  };
 
-  let showMemberAddModal = false;
-  let showDeckAddModal = false;
-  let showPlaylistAddModal = false;
-
-  const cancelInvite = async (inviteId: string) => {
-    await fetch(`${$page.url.href}/invites`, {
+  const cancelInvite = (inviteId: string) =>
+    fetch(`${$page.url.href}/invites`, {
       method: 'DELETE',
       body: JSON.stringify([inviteId]),
     });
-    invalidateAll();
-  };
 
-  const removeMember = async (uid: string) => {
-    await fetch(`${$page.url.href}/members`, {
+  const removeMember = (uid: string) =>
+    fetch(`${$page.url.href}/members`, {
       method: 'DELETE',
       body: JSON.stringify([uid]),
     });
-    invalidateAll();
-  };
 
   const promoteMember = (uid: string) => {
     $organization!.private.members[uid].role = 'admin';
-    invalidateAll();
   };
 
   const demoteMember = (uid: string) => {
     $organization!.private.members[uid].role = '';
-    invalidateAll();
   };
 
   const compareCreatedTs = (item1: { created_ts: string }, item2: { created_ts: string }) => {
@@ -122,11 +111,6 @@
     if (item1.created_ts < item2.created_ts) return -1;
     return 1;
   };
-
-  $: sortedUserPlaylists = Object.values($userPlaylists ?? {}).sort(compareCreatedTs);
-  $: sortedUserDecks = Object.values($userDecks ?? {}).sort(compareCreatedTs);
-  $: sortedOrganizationPlaylists = Object.values($organizationPlaylists ?? {}).sort((p1, p2) => compareCreatedTs(p1.playlist, p2.playlist));
-  $: sortedOrganizationDecks = Object.values($organizationDecks ?? {}).sort((d1, d2) => compareCreatedTs(d1.deck, d2.deck));
 </script>
 
 <svelte:head>
@@ -137,7 +121,7 @@
 <div class="content" style="overflow-x: auto;">
   {#if $organization}
     <h1>{$organization.public.name}</h1>
-    <div>
+    <section>
       <h2>Members</h2>
       <table class="member-table">
         <tr>
@@ -185,8 +169,10 @@
           </td>
         </tr>
       </table>
-    </div>
-    <div class="org-decks">
+      <InviteModal bind:showModal={showMemberAddModal} organization={$organization} orgId={$page.params.organizationId} />
+    </section>
+
+    <section>
       <h2>Organization Decks</h2>
       <OrganizationItemTable
         items={sortedOrganizationDecks}
@@ -217,8 +203,9 @@
           <button class="btn btn-green" on:click={handleDeckAdd} disabled={decksToAdd.length == 0}>Add to Organization</button>
         </div>
       </Modal>
-    </div>
-    <div class="org-playlists">
+    </section>
+
+    <section>
       <h2>Organization Playlists</h2>
       <OrganizationItemTable
         items={sortedOrganizationPlaylists}
@@ -247,9 +234,8 @@
           <button class="btn btn-green" on:click={handlePlaylistAdd} disabled={playlistsToAdd.length == 0}>Add to Organization</button>
         </div>
       </Modal>
-    </div>
+    </section>
   {/if}
-  <InviteModal bind:showModal={showMemberAddModal} organization={$organization} orgId={$page.params.organizationId} />
 </div>
 
 <style>
