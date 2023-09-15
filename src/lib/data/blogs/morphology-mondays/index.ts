@@ -23,10 +23,11 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text', 
-      content: `<h2>Morphology Freebies</h2>
+      content: `<h2>Resources</h2>
       <ul style="text-align: left">
         <li><a href="https://drive.google.com/file/d/1uwGWNwnJ0nVA9ONcKVjShNdtD2giV6lr/view" target="_blank">Blend Reading: Morphology Freebie - "Re"</a></li>
         <li><a href="https://drive.google.com/file/d/1zhMouB7A6LtPHa1ITmAFTbqcsuERgOEN/view" target="_blank">Blend Reading: Morphology Freebie - "Tract"</a></li>
+        <li><a href="https://drive.google.com/file/d/1YB9FRBGff6nhxJeVPFvmYDHzEBsMynoA/view" target="_blank">Blend Reading: Morphology Freebie - "Ex"</a></li>
       </ul>`
     }
   ],

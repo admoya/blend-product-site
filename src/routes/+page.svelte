@@ -2,6 +2,7 @@
   import cards from '$lib/assets/cards.png';
   import play from '$lib/assets/home/play.png';
   import edit from '$lib/assets/home/edit.png';
+  import playlists from '$lib/assets/home/playlists-side-by-side.png';
 </script>
 
 <svelte:head>
@@ -9,16 +10,19 @@
 </svelte:head>
 
 <section class="banner">
-  <h1>Personalize, plan, and transform your phonics instruction.</h1>
+  <h1>Personalize, plan, and transform your phonics instruction</h1>
   <div class="cards">
     <img src={cards} alt="cards spelling BLEND" />
   </div>
-  <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
+  <div class="side-by-side">
+    <a class="btn start-blending" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
+    <a class="btn" href="/login"><h2>sign up</h2></a>
+  </div>
 </section>
 
-<section class="feature" style="background: #3b2e86;">
+<section id="play" class="feature" style="background: #3b2e86;">
+  <div class="feature-title"><h1>Building fluency has never been easier</h1></div>
   <div class="inner-content">
-    <h1>Building fluency has never been easier.</h1>
     <div class="side-by-side">
       <img src={play} alt="blend play screen" />
       <div class="description">
@@ -44,8 +48,8 @@
   </div>
 </section>
 <section class="feature" style="background: #006d74;">
+  <div class="feature-title"><h1>Decks for any skill and style</h1></div>
   <div class="inner-content">
-    <h1>Decks for any skill and style.</h1>
     <div class="side-by-side">
       <div class="description">
         <p>
@@ -64,10 +68,39 @@
           <li>Conveniently access decks from any device with <b>account syncing</b></li>
         </ul>
         <p class="footnote">
-          *Basic users can create up to one custom deck. PRO users can create unlimited custom decks. For Blend PRO pricing, see below.
+          *Basic users can create up to one custom deck. Pro users can create unlimited custom decks. For Blend Pro pricing and features, see below.
         </p>
       </div>
       <img src={edit} alt="blend edit screen" />
+    </div>
+  </div>
+</section>
+<section id="playlists" class="feature" style="background: #012a51;">
+  <div class="feature-title"><h1>Revolutionize your lesson planning</h1></div>
+  <img src={playlists} alt="Blend Playlists screen showing the word 'quick' on the big cards" />
+  <div class="inner-content">
+    <div class="side-by-side">
+      <div class="description">
+        <p>
+          Save time with our <b>Playlists</b> feature by creating word chains ahead of your lessons and present them in our sleek interface designed to minimize distractions.
+        </p>
+        <p>
+          Craft playlists from scratch, integrate word lists from your school's structured literacy curriculum, or even export the history of a completed blending drill and seamlessly turn it into a playlist.
+          Then, when you're ready for your drill, flip through the words with the click of a button!
+        </p>
+        <p>
+          With Playlists, you can reduce the prep work and devote more time to your kids, ensuring that they're equipped with vital literacy skills. 
+        </p>
+      </div>
+      <div class="description">
+        <h2>Key Features</h2>
+        <ul>
+          <li><b>Create and save word chains ahead of time</b>, ensuring your structured literacy lessons run smoothly</li>
+          <li><b>Keep your lessons flowing just by clicking</b> forward - no more fumbling for the next grapheme card</li>
+          <li><b>Integrate word lists from your school's structured literacy curriculum</b> and save them to use year after year</li>
+          <li>Experience a visually uncluttered interface that minimizes distractions, so you can <b>focus on what matters most: empowering your students</b></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -93,6 +126,25 @@
 </section>
 
 <style>
+  .btn {
+    border-width: 2px;
+  }
+  .start-blending {
+    /* color: black; */
+    background: none;
+    border-color: #7f71d2;
+    border-width: 2px;
+  }
+
+  .start-blending:hover {
+    color: white;
+    background-color: #7f71d2 !important;
+  }
+
+  .feature-title h1 {
+    text-align: center;
+    margin-bottom: 0;
+  }
   .footnote {
     margin: 1.5rem;
     color: white;
@@ -108,7 +160,14 @@
     max-width: 100%;
   }
 
+  #playlists img {
+    padding-top: 2rem;
+    width: 65%;
+    min-width: 20rem;
+  }
+
   .banner {
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
