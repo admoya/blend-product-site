@@ -1,4 +1,4 @@
-import firebaseAdmin from 'firebase-admin';
+import firebaseAdmin, { database } from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
 import { error, type Cookies, type RequestEvent, redirect } from '@sveltejs/kit';
 import type { UserIdentifier } from 'firebase-admin/lib/auth/identifier';
@@ -45,7 +45,15 @@ export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAu
 
 export const getUsers = (uids: UserIdentifier[]) => auth.getUsers(uids);
 
+export const isUserGlobalAdmin = (uid: string) => {
+  return readPath(`organizations/0000/private/members/${uid}`);
+};
+
+export const isUserOrganizationAdmin = async (uid: string, organization: Database.Organization) =>
+  organization.private?.members?.[uid]?.role === 'admin' || (await isUserGlobalAdmin(uid));
+
 export const getUserOrganizations = async (uid: string) => {
+  if (await isUserGlobalAdmin(uid)) return Object.keys((await readPath('organizations')) ?? {});
   const orgList = (await readPath<string[]>(`users/${uid}/protected/organizations`)) ?? [];
   return (
     await Promise.all(
@@ -59,7 +67,8 @@ export const getUserOrganizations = async (uid: string) => {
 
 export const getOrganizationInfo = async (organizationId: string) => readPath<Database.Organization.Public>(`organizations/${organizationId}/public`);
 export const getOrganizationDecks = async (organizationId: string) => readPath<Database.Decks.Organization>(`decks/organization/${organizationId}`);
-export const getOrganizationPlaylists = async (organizationId: string) => readPath<Database.Playlists.Organization>(`playlists/organization/${organizationId}`);
+export const getOrganizationPlaylists = async (organizationId: string) =>
+  readPath<Database.Playlists.Organization>(`playlists/organization/${organizationId}`);
 
 export const getOrganizationMemberDetails = async (organization: Database.Organization) => {
   const { members = {} } = organization.private ?? {};
@@ -98,10 +107,7 @@ export const deleteOrganizationInvites = async (inviteIds: string[], organizatio
   if (!inviteIds) throw error(400, 'Missing required array of invite IDs');
 
   await Promise.all([
-    writePath(
-      `/organizations/${organizationId}/private/invites`,
-      organization.private.invites.filter((i) => !inviteIds.includes(i)),
-    ),
+    writePath(`/organizations/${organizationId}/private/invites`, organization.private?.invites?.filter((i) => !inviteIds.includes(i))),
     ...inviteIds.map((id) => deletePath(`/invites/organization/${id}`)),
   ]);
 };

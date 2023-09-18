@@ -1,4 +1,4 @@
-import { deletePath, readPath, verifySessionCookie, writePath } from '$lib/server/firebaseUtils';
+import { deletePath, isUserOrganizationAdmin, readPath, verifySessionCookie, writePath } from '$lib/server/firebaseUtils';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
@@ -6,7 +6,7 @@ export const DELETE: RequestHandler = async ({ cookies, params: { organizationId
   const { uid } = await verifySessionCookie(cookies.get('session') || '');
   const organization = await readPath<Database.Organization>(`/organizations/${organizationId}`);
   if (!organization) throw error(404);
-  if (organization.private.members[uid]?.role !== 'admin') throw error(401);
+  if (!(await isUserOrganizationAdmin(uid, organization))) throw error(401);
 
   const uids: string[] = await request.json();
   await Promise.all([

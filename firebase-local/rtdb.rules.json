@@ -18,6 +18,8 @@
         }
       },
       "organization": {
+        ".read": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).exists()",
+        ".write": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
         "$orgId": {
           ".read": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).exists()",
           ".write": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).child('role').val() == 'admin'"
@@ -25,6 +27,8 @@
       }
     },
     "playlists": {
+      ".read": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).exists()",
+      ".write": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
       "user": {
         "$uid": {
           ".read": "$uid === auth.uid",

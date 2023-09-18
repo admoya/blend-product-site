@@ -1,6 +1,5 @@
 <script lang="ts">
   import { goto, invalidate, invalidateAll } from '$app/navigation';
-  import { page } from '$app/stores';
   import Modal from '$lib/components/Modal.svelte';
   import { user, signOut } from '$lib/firebase';
   import type { PageData } from './$types';
@@ -144,8 +143,8 @@
         <p>You have Blend Pro access through your organization membership(s).</p>
         <br />
         <p>
-          For questions about your access, please reach out to your organization admin 
-          or email us at <a href="mailto:blend-support@csma.technology">blend-support@csma.technology.</a>
+          For questions about your access, please reach out to your organization admin or email us at <a href="mailto:blend-support@csma.technology"
+            >blend-support@csma.technology.</a>
         </p>
       {:else}
         <p>Blend Basic</p>

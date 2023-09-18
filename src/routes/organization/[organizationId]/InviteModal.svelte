@@ -6,7 +6,7 @@
   export let showModal: boolean;
   export let organization: Database.Organization | null;
   export let orgId: string;
-  $: numSeatsUsed = Object.keys({ ...organization?.private.members, ...organization?.private.invites }).length;
+  $: numSeatsUsed = Object.keys({ ...organization?.private?.members, ...organization?.private?.invites }).length;
   $: availableSeats = (organization?.locked.seats || 0) - numSeatsUsed;
 
   let newMembers: Database.Invite.Validation[] = [];

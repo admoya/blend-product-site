@@ -129,10 +129,10 @@ declare global {
         contactEmail: string;
       }
       interface Private {
-        members: {
+        members?: {
           [uid: string]: Member;
         };
-        invites: string[];
+        invites?: string[];
       }
       interface Locked {
         active: boolean;
@@ -143,7 +143,7 @@ declare global {
     }
     interface Organization {
       public: Organization.Public;
-      private: Organization.Private;
+      private?: Organization.Private;
       locked: Organization.Locked;
     }
 

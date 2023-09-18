@@ -10,47 +10,46 @@ import {
   getCustomerPortalSession,
   PRICE_CODE,
   PRODUCT_CODE,
-  isOrganizationMember,
 } from '$lib/server/subscriptionUtils';
 import type Stripe from 'stripe';
-import { checkSessionAuth, readPath, writePath } from '$lib/server/firebaseUtils';
+import { checkSessionAuth, getUserOrganizations, isUserGlobalAdmin, readPath, writePath } from '$lib/server/firebaseUtils';
 
 export const load = (async ({ params: { uid }, cookies }) => {
   await checkSessionAuth(cookies, {
     loginRedirect: 'account',
     authFunction: ({ uid: tokenUid }) => tokenUid === uid,
   });
-  const organizationPromise = readPath(`/users/${uid}/protected/organizations`).then((orgIds) =>
-    Promise.all(
+  const isGlobalAdmin = isUserGlobalAdmin(uid);
+  const organizations = getUserOrganizations(uid).then((orgIds) => {
+    return Promise.all(
       (orgIds || []).map(async (orgId: string) => {
         const organization = await readPath<Database.Organization>(`/organizations/${orgId}`);
         return {
           id: orgId,
           name: organization?.public.name,
-          role: organization?.private.members[uid]?.role,
+          role: (await isGlobalAdmin) ? 'admin' : organization?.private?.members?.[uid]?.role,
         };
       }),
-    ),
-  );
+    );
+  });
   const customer = await getStripeCustomerWithSubscriptions(uid);
-  const hasOrganizationMembership = await isOrganizationMember(uid);
 
   if (!customer || customer.deleted) {
     return {
       isSubscribedToBlendPro: false,
-      hasOrganizationMembership,
+      hasOrganizationMembership: (await organizations).length > 0,
       subscriptionPeriodEnd: 0,
       subscriptionPendingCancellation: false,
-      organizations: JSON.stringify(await organizationPromise),
+      organizations: JSON.stringify(await organizations),
     };
   }
   const subscription = getBlendProSubscription(customer);
   return {
     isSubscribedToBlendPro: !!subscription,
-    hasOrganizationMembership,
+    hasOrganizationMembership: (await organizations).length > 0,
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
     subscriptionPendingCancellation: subscription?.cancel_at_period_end,
-    organizations: JSON.stringify(await organizationPromise),
+    organizations: JSON.stringify(await organizations),
   };
 }) satisfies PageServerLoad;
 
@@ -127,7 +126,7 @@ export const actions = {
     if (!organization) throw error(404);
     const user = await readPath<Database.User>(`/users/${uid}`);
     await writePath(`/users/${uid}/protected/organizations`, user?.protected.organizations?.filter((id) => id !== orgId));
-    const orgMembers = organization.private.members || {};
+    const orgMembers = organization.private?.members || {};
     await writePath(`/organizations/${orgId}/private/members`, {
       ...orgMembers,
       [uid]: null,
