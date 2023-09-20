@@ -5,6 +5,7 @@
 
 <svelte:head>
   <title>Pro Decks</title>
+  <meta name="description" content="Browse expertly crafted Blend decks, and import them into your Blend Pro account." />
 </svelte:head>
 
 <main>

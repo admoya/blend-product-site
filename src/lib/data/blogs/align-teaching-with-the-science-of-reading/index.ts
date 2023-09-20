@@ -1,9 +1,11 @@
 import thumbnail from './images/sor-thumbnail.png';
 import pillars from './images/pillars-of-sor.png';
 import organizations from './images/organizations.png';
+import stephHeadshot from '$lib/assets/people/steph-headshot.png';
 const post: Blog.BlogPost = {
   slug: 'align-teaching-with-the-science-of-reading',
-  summary: 'Adapting your lessons to fit the science of reading methodology can be overwhelming. We are here to help with lots of tips and resources!',
+  summary:
+    'Adapting your lessons to fit the science of reading methodology can be overwhelming. We are here to help with lots of tips and resources!',
   title: 'How to Align Your Teaching with the Science of Reading',
   previewImg: {
     type: 'image',
@@ -11,6 +13,12 @@ const post: Blog.BlogPost = {
     altText: 'Science of Reading Thumbnail',
   },
   blocks: [
+    {
+      type: 'byline',
+      name: 'Stephanie Cruz',
+      imageSrc: stephHeadshot,
+      date: 'September 10th, 2023',
+    },
     {
       type: 'text',
       content: `The <a href="https://time.com/6205084/phonics-science-of-reading-teachers/" target="_blank" rel="noopener noreferrer">science of reading movement</a> has been sweeping across the nation for the last few years, and with it is coming <a href="https://www.edweek.org/teaching-learning/which-states-have-passed-science-of-reading-laws-whats-in-them/2022/07" target="_blank" rel="noopener noreferrer">new legislation in many states</a> to reform literacy instruction to align with evidence-based practices. Given that the science of reading encompasses many different components of teaching and learning to achieve the goal of literacy in children, it can be very overwhelming for teachers to get started in changing their lessons to use the techniques outlined in the methodology.`,
@@ -48,7 +56,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'heading',
-      size: 2, 
+      size: 2,
       content: `What does this mean for my teaching?`,
     },
     {
@@ -57,7 +65,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `<br/><h2>The Do's of SOR</h2>`,
+      content: `<br/><h2>Tips for Science of Reading in the classroom</h2>`,
     },
     {
       type: 'text',
@@ -69,7 +77,7 @@ const post: Blog.BlogPost = {
       type: 'text',
       content: `<b>Focus on building fluency at the word level</b> before expecting it at the sentence or passage level. 
       This is where a blending board can come in handy, allowing you to focus on phonemic awareness and morphology through which your students can 
-      learn how to sound out and infer meaning from the different parts in a word. <a href="/features">Our digital blending board</a> is a great place to start – and it’s free!`
+      learn how to sound out and infer meaning from the different parts in a word. <a href="/features">Our digital blending board</a> is a great place to start – and it’s free!`,
     },
     {
       type: 'text',
@@ -94,7 +102,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `<h2>The Don't's of SOR</h2>`,
+      content: `<h2>Things to watch out for</h2>`,
     },
     {
       type: 'text',

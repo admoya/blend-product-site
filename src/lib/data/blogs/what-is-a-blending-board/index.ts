@@ -1,5 +1,6 @@
 import blendExample from './images/blendExample.gif';
 import physicalBlendingBoard from './images/physicalBlendingBoard.png';
+import adrianHeadshot from '$lib/assets/people/adrian-headshot.png';
 const post: Blog.BlogPost = {
   title: 'What is a Blending Board?',
   slug: 'what-is-a-blending-board',
@@ -10,6 +11,12 @@ const post: Blog.BlogPost = {
     altText: 'A physical blending board displaying the word "back"',
   },
   blocks: [
+    {
+      type: 'byline',
+      name: 'Adrian Moya',
+      imageSrc: adrianHeadshot,
+      date: 'August 23rd, 2023',
+    },
     {
       type: 'text',
       content: `Learning to read is a complex process involving many different skills, one of which is blending. Blending is the process of combining individual sounds (phonemes) to form words, and it's critical for reading fluency. A blending board is a great tool to use to practice this skill with your students.`,

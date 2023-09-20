@@ -37,6 +37,17 @@
           <p style={`margin-top: 0; font-size: 0.9rem; text-align: center; text-wrap: wrap; min-width: 100%; width: 0`}>{block.caption}</p>
         {/if}
       </div>
+    {:else if block.type === 'byline'}
+      <div style="width: 100%; text-align: right'">
+        <span class="row byline">
+          <img style="width: 70px; border-radius: 100%; margin: 0;" src={block.imageSrc} alt={`A headshot of ${block.name}`} />
+          <div>
+            <p style="margin: 0;">By {block.name}</p>
+            <p style="margin: 0;">Blend Co-Founder</p>
+          </div>
+          <p class="timestamp">{block.date}</p>
+        </span>
+      </div>
     {:else}
       <p>{@html block.content}</p>
     {/if}
@@ -49,8 +60,17 @@
     font-family: 'Contrail One';
     font-size: xx-large;
   }
-  .blog-post {
-    /* Styles for the blog post container */
+  .byline {
+    font-style: italic;
+    font-size: 1rem;
+    text-align: center;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .timestamp {
+    flex-grow: 1;
+    text-align: right;
   }
 
   .youtube-block {
@@ -60,6 +80,15 @@
   @media (max-width: 480px) {
     .image-block {
       padding: 0 !important;
+    }
+    .byline > img {
+      margin-left: auto !important;
+    }
+    .byline > div {
+      margin-right: auto !important;
+    }
+    .timestamp {
+      text-align: center;
     }
   }
 </style>

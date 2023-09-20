@@ -5,6 +5,7 @@
 
 <svelte:head>
   <title>Blend Blog</title>
+  <meta name="description" content="Learn all about the Science of Reading movement, tips and tricks for using Blend, and more!" />
 </svelte:head>
 
 <div class="content">

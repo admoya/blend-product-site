@@ -38,7 +38,14 @@ declare global {
       };
     }
 
-    type BlogBlock = HeadingBlock | ImageBlock | TextBlock | YoutubeBlock;
+    interface BylineBlock {
+      type: 'byline';
+      name: string;
+      imageSrc: string;
+      date: string;
+    }
+
+    type BlogBlock = HeadingBlock | ImageBlock | TextBlock | YoutubeBlock | BylineBlock;
 
     interface BlogPost {
       title: string;

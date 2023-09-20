@@ -13,7 +13,8 @@
 </script>
 
 <svelte:head>
-  <title>Blend Pricing</title>
+  <title>Blend Features</title>
+  <meta name="description" content="Learn about the features and pricing options for the Blend app" />
 </svelte:head>
 
 <section class="features">
