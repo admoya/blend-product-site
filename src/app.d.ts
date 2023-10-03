@@ -133,7 +133,7 @@ declare global {
 
       interface Public {
         name: string;
-        contactEmail: string;
+        contactEmail?: string;
       }
       interface Private {
         members?: {
@@ -144,8 +144,8 @@ declare global {
       interface Locked {
         active: boolean;
         seats: number;
-        termEnd: number;
-        termStart: number;
+        termEnd?: number;
+        termStart?: number;
       }
     }
     interface Organization {

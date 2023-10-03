@@ -99,11 +99,11 @@
     });
 
   const promoteMember = (uid: string) => {
-    $organization!.private.members[uid].role = 'admin';
+    $organization!.private!.members![uid].role = 'admin';
   };
 
   const demoteMember = (uid: string) => {
-    $organization!.private.members[uid].role = '';
+    $organization!.private!.members![uid].role = '';
   };
 
   const compareCreatedTs = (item1: { created_ts: string }, item2: { created_ts: string }) => {

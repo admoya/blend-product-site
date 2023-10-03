@@ -1,7 +1,28 @@
 <script lang="ts">
   import AuthCheck from '$lib/components/AuthCheck.svelte';
-  import { createWritableStore } from '$lib/firebase';
+  import Modal from '$lib/components/Modal.svelte';
+  import { createWritableStore, generatePushID } from '$lib/firebase';
   const organizations = createWritableStore<{ [id: string]: Database.Organization }>('/organizations');
+  let showAddOrganizationModal = false;
+  let newOrgName = '';
+  let newOrgSeats = 0;
+  const createOrganization = () => {
+    if ($organizations) {
+      const id = generatePushID();
+      $organizations[id] = {
+        public: {
+          name: newOrgName,
+        },
+        locked: {
+          active: true,
+          seats: newOrgSeats,
+        },
+      };
+    }
+    newOrgName = '';
+    newOrgSeats = 0;
+    showAddOrganizationModal = false;
+  };
 </script>
 
 <AuthCheck />
@@ -24,9 +45,28 @@
           </td>
         </tr>
       {/each}
+      <tr>
+        <td colspan="2">
+          <button style="width: 100%; margin: 1rem 0 0 0" class="btn btn-green" on:click={() => (showAddOrganizationModal = true)}>Create</button>
+        </td>
+      </tr>
     </table>
   {/if}
 </div>
+<Modal bind:showModal={showAddOrganizationModal}>
+  <h2 slot="header">Create a new Organization</h2>
+  <form on:submit|preventDefault={createOrganization}>
+    <label>
+      Name
+      <input required type="text" bind:value={newOrgName} />
+    </label>
+    <label>
+      Number of Seats
+      <input required type="number" bind:value={newOrgSeats} />
+    </label>
+    <button type="submit" class="btn btn-green" style="margin: 2rem auto 0 auto" on:click={createOrganization}>Create</button>
+  </form>
+</Modal>
 
 <style>
   .org-table {

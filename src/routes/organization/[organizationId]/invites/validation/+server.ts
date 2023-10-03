@@ -15,7 +15,7 @@ export const POST: RequestHandler = async ({ request, params }) => {
       if (validated) return memberData;
       try {
         const { displayName, uid } = await auth.getUserByEmail(email);
-        const isAlreadyInOrganization = !!organization.private.members[uid] || !!inviteDetails.find(({ inviteeUid }) => inviteeUid === uid);
+        const isAlreadyInOrganization = !!organization.private?.members?.[uid] || !!inviteDetails.find(({ inviteeUid }) => inviteeUid === uid);
         return {
           ...memberData,
           name: displayName,
