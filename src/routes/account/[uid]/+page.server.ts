@@ -99,6 +99,7 @@ export const actions = {
         },
       ],
       subscription_data: subscriptionData,
+      allow_promotion_codes: true,
       mode: 'subscription',
       success_url: `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/account/${uid}?subscription_checkout_status=cancel`,
