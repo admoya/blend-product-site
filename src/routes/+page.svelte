@@ -130,8 +130,7 @@
     border-width: 2px;
   }
   .start-blending {
-    /* color: black; */
-    background: none;
+    background: rgba(127, 113, 210, 0.50);
     border-color: #7f71d2;
     border-width: 2px;
   }

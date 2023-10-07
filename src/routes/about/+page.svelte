@@ -1,0 +1,92 @@
+<script lang="ts">
+  import summer from '$lib/assets/people/summer-headshot.png';
+  import steph from '$lib/assets/people/steph-headshot.png';
+  import adrian from '$lib/assets/people/adrian-headshot.png';
+</script>
+
+<svelte:head>About</svelte:head>
+
+<div class="content">
+  <section class="paper">
+    <h1>Meet the Blend Team</h1>
+    <div class="people">
+      <div class="person">
+        <img src={summer} alt="Summer Kiesel headshot" style="border-color: #007b83;" />
+        <a href="mailto:summer@blendreading.com"><h3>Summer Kiesel</h3></a>
+        <p>Co-Founder</p>
+        <p>Reading Specialist</p>
+      </div>
+      <div class="person">
+        <img src={steph} alt="Stephanie Cruz headshot" style="border-color: #3b2e86;" />
+        <a href="mailto:stephanie@blendreading.com"><h3>Stephanie Cruz</h3></a>
+        <p>Co-Founder</p>
+        <p>Developer</p>
+      </div>
+      <div class="person">
+        <img src={adrian} alt="Adrian Moya headshot" style="border-color: #cf524e;" />
+        <a href="mailto:adrian@blendreading.com"><h3>Adrian Moya</h3></a>
+        <p>Co-Founder</p>
+        <p>Developer</p>
+      </div>
+    </div>
+    <div class="text">
+      <p>
+        It all started with two old friends catching up over lunch. Summer and Stephanie, who have been friends since 2004, 
+        were talking about friends, family, and work. Summer, working as a reading specialist at her own tutoring business, 
+        mentioned that she was frustrated with one of the tools she used in her phonics instruction. She explained the tool: a blending board. 
+        Physical boards didn't work very well for her online sessions, and the virtual options out there were clunky and missing basic features.
+      </p>
+      <p>
+        As luck would have it, Stephanie had just started a software company with Adrian, and felt inspired and excited to build a solution
+        that could help Summer teach kids to read. Stephanie and Adrian had always been interested in the intersection of education and technology,
+        so it was a perfect partnership. 
+      </p>
+      <h1>Our Mission</h1>
+      <p>
+        At Blend Reading, we believe in literacy for all children. We want to empower educators by providing innovative tools that make phonics instruction more engaging, 
+        effective, and accessible for both teachers and students.
+        That's why we built Blend, our virtual blending board app inspired by traditional tools and elevated to transform phonics instruction.
+      </p>
+      <p>We hope you love it!</p>
+    </div>
+  </section>
+</div>
+
+<style>
+  @media (max-width: 480px) {
+    .paper {
+      margin: 2rem 0;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+  }
+  .paper {
+    width: 70%;
+  }
+  h1 {
+    text-align: center;
+  }
+  .people {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+  .person {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .person>a>h3, .person>p{
+    margin: 0;
+    padding: 0;
+  }
+  .person img {
+    width: 150px;
+    border: 4px solid black;
+    border-radius: 100%;
+  }
+  .text {
+    padding: 1rem;
+  }
+</style>

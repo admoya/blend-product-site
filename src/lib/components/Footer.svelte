@@ -37,7 +37,10 @@
       <h2>ABOUT US</h2>
       <ul>
         <li>
-          <a href="mailto:blend-support@csma.technology">Contact the Blend Team</a>
+          <a href="/about">Meet the Team</a>
+        </li>
+        <li>
+          <a href="mailto:blend-support@csma.technology">Contact Us</a>
         </li>
         <li>
           <a href="https://csma.technology" target="_blank" rel="noopener noreferrer">CSMA Technology</a>
