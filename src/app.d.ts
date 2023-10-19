@@ -91,6 +91,9 @@ declare global {
       interface User {
         [deckId: string]: Deck;
       }
+      interface Preloaded {
+        [deckId: string]: Deck;
+      }
     }
     namespace Playlists {
       interface Organization {
@@ -123,7 +126,7 @@ declare global {
 
     namespace Organization {
       interface Member {
-        role: 'admin' | '';
+        role: 'admin' | 'member';
       }
       interface MemberDetails extends Member {
         displayName: string;
