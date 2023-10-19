@@ -1,6 +1,6 @@
 import blendExample from './images/blendExample.gif';
 import physicalBlendingBoard from './images/physicalBlendingBoard.png';
-import adrianHeadshot from '$lib/assets/people/adrian-headshot.png';
+import adrianHeadshot from '$lib/assets/people/adrian-headshot.jpg';
 const post: Blog.BlogPost = {
   title: 'What is a Blending Board?',
   slug: 'what-is-a-blending-board',

@@ -79,18 +79,18 @@
       </table>
       <div class="site-licensing">
         <div class="column-header">Group Licensing</div>
-        <a href="mailto:blend-support@csma.technology"><h6>Contact for Pricing</h6></a>
+        <a href="mailto:support@blendreading.com"><h6>Contact for Pricing</h6></a>
         <div class="feature">All Blend Pro Features</div>
         <div class="feature">Easy Organization Management</div>
         <div class="feature">Organization-Wide Shared Decks & Playlists</div>
         <div class="feature">Dedicated Support</div>
-        <p>Want to learn more about these features? <br /> <a href="https://drive.google.com/file/d/1HQoOfhXIJPaVRFmd8GBM7DMjLgD_YfPx/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Click here</a> for more information.</p>
+        <p>Want to learn more about these features? <br /> <a href="https://drive.google.com/file/d/1y5GQ-mdf9fGhjr2EWVDlxlAxTvSPvbbT/view?usp=share_link" target="_blank" rel="noopener noreferrer">Click here</a> for more information.</p>
         <p>
           Save money by purchasing a group license! We'll work with you on a plan that makes sense for
           your organization.
         </p>
         <h4>
-          Email us at <a id="email" href="mailto:blend-support@csma.technology">blend-support@csma.technology</a> to get started.
+          Email us at <a id="email" href="mailto:support@blendreading.com">support@blendreading.com</a> to get started.
         </h4>
       </div>
     </div>

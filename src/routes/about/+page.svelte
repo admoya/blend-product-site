@@ -1,14 +1,15 @@
 <script lang="ts">
-  import summer from '$lib/assets/people/summer-headshot.png';
-  import steph from '$lib/assets/people/steph-headshot.png';
-  import adrian from '$lib/assets/people/adrian-headshot.png';
+  import summer from '$lib/assets/people/summer-headshot.jpg';
+  import steph from '$lib/assets/people/stephanie-headshot.jpg';
+  import adrian from '$lib/assets/people/adrian-headshot.jpg';
+  import blendTeam from '$lib/assets/people/full-blend-team.jpg';
 </script>
 
 <svelte:head>About</svelte:head>
 
 <div class="content">
   <section class="paper">
-    <h1>Meet the Blend Team</h1>
+    <h1>Meet the Team</h1>
     <div class="people">
       <div class="person">
         <img src={summer} alt="Summer Kiesel headshot" style="border-color: #007b83;" />
@@ -47,7 +48,14 @@
         effective, and accessible for both teachers and students.
         That's why we built Blend, our virtual blending board app inspired by traditional tools and elevated to transform phonics instruction.
       </p>
-      <p>We hope you love it!</p>
+    </div>
+    <div class="epilogue">
+      <img src={blendTeam} alt="Stephanie, Adrian, and Summer - Founders of Blend Reading" />
+      <p>
+        We hope you love it!
+        <br />
+        <i>- The Blend Team</i>
+      </p>
     </div>
   </section>
 </div>
@@ -59,6 +67,19 @@
       padding: 0 !important;
       width: 100% !important;
     }
+    .epilogue img{
+      width: 100% !important;
+    }
+  }
+  .epilogue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .epilogue img {
+    width: 60%;
+    border-radius: 20px;
   }
   .paper {
     width: 70%;

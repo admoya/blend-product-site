@@ -1,7 +1,7 @@
 import thumbnail from './images/sor-thumbnail.png';
 import pillars from './images/pillars-of-sor.png';
 import organizations from './images/organizations.png';
-import stephHeadshot from '$lib/assets/people/steph-headshot.png';
+import stephHeadshot from '$lib/assets/people/stephanie-headshot.jpg';
 const post: Blog.BlogPost = {
   slug: 'align-teaching-with-the-science-of-reading',
   summary:

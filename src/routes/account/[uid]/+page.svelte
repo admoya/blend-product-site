@@ -143,8 +143,8 @@
         <p>You have Blend Pro access through your organization membership(s).</p>
         <br />
         <p>
-          For questions about your access, please reach out to your organization admin or email us at <a href="mailto:blend-support@csma.technology"
-            >blend-support@csma.technology.</a>
+          For questions about your access, please reach out to your organization admin or email us at <a href="mailto:support@blendreading.com"
+            >support@blendreading.com.</a>
         </p>
       {:else}
         <p>Blend Basic</p>

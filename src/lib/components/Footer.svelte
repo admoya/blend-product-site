@@ -40,7 +40,7 @@
           <a href="/about">Meet the Team</a>
         </li>
         <li>
-          <a href="mailto:blend-support@csma.technology">Contact Us</a>
+          <a href="mailto:support@blendreading.com">Contact Us</a>
         </li>
         <li>
           <a href="https://csma.technology" target="_blank" rel="noopener noreferrer">CSMA Technology</a>
