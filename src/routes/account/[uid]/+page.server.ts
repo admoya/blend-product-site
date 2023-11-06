@@ -82,7 +82,7 @@ export const actions = {
 
     if (!hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE)) {
       subscriptionData = {
-        trial_period_days: 30,
+        trial_period_days: 7,
       };
     }
 

@@ -9,7 +9,7 @@
     <h1>Pricing</h1>
     <ProBadgeWrapper>
       <div class="banner">
-        <div>Get your first month free when you subscribe to Blend Pro!</div>
+        <div>Get a 7-day free trial when you subscribe to Blend Pro!</div>
       </div>
     </ProBadgeWrapper>
     <div class="side-by-side">
@@ -84,11 +84,12 @@
         <div class="feature">Easy Organization Management</div>
         <div class="feature">Organization-Wide Shared Decks & Playlists</div>
         <div class="feature">Dedicated Support</div>
-        <p>Want to learn more about these features? <br /> <a href="https://drive.google.com/file/d/1y5GQ-mdf9fGhjr2EWVDlxlAxTvSPvbbT/view?usp=share_link" target="_blank" rel="noopener noreferrer">Click here</a> for more information.</p>
         <p>
-          Save money by purchasing a group license! We'll work with you on a plan that makes sense for
-          your organization.
+          Want to learn more about these features? <br />
+          <a href="https://drive.google.com/file/d/1y5GQ-mdf9fGhjr2EWVDlxlAxTvSPvbbT/view?usp=share_link" target="_blank" rel="noopener noreferrer"
+            >Click here</a> for more information.
         </p>
+        <p>Save money by purchasing a group license! We'll work with you on a plan that makes sense for your organization.</p>
         <h4>
           Email us at <a id="email" href="mailto:support@blendreading.com">support@blendreading.com</a> to get started.
         </h4>
