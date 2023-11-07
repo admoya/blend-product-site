@@ -72,7 +72,7 @@ declare global {
       name: string;
       position: number;
       refId: number;
-      words: [][];
+      words?: (string | false)[][];
     }
     interface OrganizationPlaylist {
       author?: string;

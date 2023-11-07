@@ -10,7 +10,7 @@ export const GET = (async (event) => {
   const organizationPlaylistsArray = (
     await Promise.all(
       organizationIds.map(async (orgId) => {
-        const orgPlaylists = (await getOrganizationPlaylists(orgId) ?? {});
+        const orgPlaylists = (await getOrganizationPlaylists(orgId)) ?? {};
         const orgInfo = await getOrganizationInfo(orgId);
         return Object.values(orgPlaylists).map((playlist) => ({
           ...playlist.playlist,
@@ -18,14 +18,14 @@ export const GET = (async (event) => {
             orgName: orgInfo?.name,
             orgId,
           },
-        }))
-      })
+        }));
+      }),
     )
   ).flat();
 
-  const modifiedPlaylists = ([...userPlaylistsArray, ...organizationPlaylistsArray]).map((playlist) => ({
+  const modifiedPlaylists = [...userPlaylistsArray, ...organizationPlaylistsArray].map((playlist) => ({
     ...playlist,
-    words: playlist.words.map((word) => word.map((letter) => (letter === false ? null : letter))),
+    words: playlist.words?.map((word) => word.map((letter) => (letter === false ? null : letter))) ?? [],
   }));
   return json(modifiedPlaylists, {
     headers: [['Access-Control-Allow-Origin', '*']],
