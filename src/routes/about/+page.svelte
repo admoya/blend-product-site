@@ -13,21 +13,24 @@
     <div class="people">
       <div class="person">
         <img src={summer} alt="Summer Kiesel headshot" style="border-color: #007b83;" />
-        <a href="mailto:summer@blendreading.com"><h3>Summer Kiesel</h3></a>
+        <h2>Summer Kiesel, C-SLDI</h2>
         <p>Co-Founder</p>
         <p>Reading Specialist</p>
+        <a href="mailto:summer@blendreading.com"><p class="subtitle">Contact Summer</p></a>
       </div>
       <div class="person">
         <img src={steph} alt="Stephanie Cruz headshot" style="border-color: #3b2e86;" />
-        <a href="mailto:stephanie@blendreading.com"><h3>Stephanie Cruz</h3></a>
+        <h2>Stephanie Cruz</h2>
         <p>Co-Founder</p>
         <p>Developer</p>
+        <a href="mailto:stephanie@blendreading.com"><p class="subtitle">Contact Stephanie</p></a>
       </div>
       <div class="person">
         <img src={adrian} alt="Adrian Moya headshot" style="border-color: #cf524e;" />
-        <a href="mailto:adrian@blendreading.com"><h3>Adrian Moya</h3></a>
+        <h2>Adrian Moya</h2>
         <p>Co-Founder</p>
         <p>Developer</p>
+        <a href="mailto:adrian@blendreading.com"><p class="subtitle">Contact Adrian</p></a>
       </div>
     </div>
     <div class="text">
@@ -61,6 +64,11 @@
 </div>
 
 <style>
+  .subtitle {
+    font-size: 1.1rem;
+    text-decoration: underline;
+    margin-bottom: 0;
+  }
   @media (max-width: 480px) {
     .paper {
       margin: 2rem 0;
@@ -108,6 +116,6 @@
     border-radius: 100%;
   }
   .text {
-    padding: 1rem;
+    padding: 0rem 1rem;
   }
 </style>
