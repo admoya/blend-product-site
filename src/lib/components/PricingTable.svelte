@@ -95,7 +95,10 @@
         </h4>
       </div>
     </div>
-    <a class="btn" href="/login">sign up</a>
+    <div class="side-by-side">
+      <a class="btn" href="/login">sign up</a>
+      <a class="btn" href="/account?action=upgrade">upgrade</a>
+    </div>
   </div>
 </section>
 

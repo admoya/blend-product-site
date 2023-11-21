@@ -49,8 +49,7 @@
             <a href="/" class="btn disabled">Import</a>
           </ProBadgeWrapper>
           <p class="subtitle">
-            Importing from our Deck Library is available to Blend Pro users. You can upgrade to Blend Pro or sign up for a free trial on the <a
-              href="/account">Account Management</a> page.
+            Importing from our Deck Library is available to Blend Pro users. <a href="/account?action=upgrade">Upgrade to Blend Pro</a> to get access to this deck!
           </p>
         {/if}
       </div>

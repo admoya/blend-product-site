@@ -14,7 +14,9 @@
   const APP_URL = 'https://app.blendreading.com';
   const PREVIEW_APP_URL = 'https://preview-app.blendreading.com';
 
-  const redirectParam = $page.url.searchParams.get('successRedirect') || '/';
+  const searchParams = new URLSearchParams(decodeURIComponent($page.url.search));
+  const redirectParam = searchParams.get('successRedirect') || '/';
+  const actionParam = searchParams.get('action') || '';
 
   type RedirectBuilderFunc = (user: User, token?: string) => string;
   let redirectBuilder: RedirectBuilderFunc;
@@ -22,21 +24,29 @@
   switch (redirectParam) {
     case 'account':
     case '/':
-      redirectBuilder = (user: User) => `/account/${user.uid}`;
+      redirectBuilder = () => (actionParam ? `/account?action=${actionParam}` : '/account');
       break;
     case 'app':
-      isAppRedirect = true;
-      redirectBuilder = (user, token) =>
-        `${APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
-          token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
-        }`;
+      if (actionParam) {
+        redirectBuilder = () => `/account?action=${actionParam}&successRedirect=app&jumpScene=${$page.url.searchParams.get('jumpScene') || 'none'}`;
+      } else {
+        isAppRedirect = true;
+        redirectBuilder = (user, token) =>
+          `${APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
+            token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+          }`;
+      }
       break;
     case 'previewApp':
-      isAppRedirect = true;
-      redirectBuilder = (user, token) =>
-        `${PREVIEW_APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
-          token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
-        }`;
+      if (actionParam) {
+        redirectBuilder = () => `/account?action=${actionParam}&successRedirect=previewApp&jumpScene=${$page.url.searchParams.get('jumpScene') || 'none'}`;
+      } else {
+        isAppRedirect = true;
+        redirectBuilder = (user, token) =>
+          `${PREVIEW_APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
+            token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+          }`;
+      }
       break;
     default:
       redirectBuilder = () => decodeURIComponent(redirectParam);
@@ -46,10 +56,12 @@
       callbacks: {
         signInSuccessWithAuthResult(authResult, redirectUrl) {
           awaitingRedirect = true;
-          if (authResult.additionalUserInfo.isNewUser) gtag('event', 'new_account');
           setWillAttempLogin(true);
           fetch('/login/sessionCookie', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(() => {
-            if (isAppRedirect) {
+            if (!actionParam && authResult.additionalUserInfo.isNewUser) {
+              gtag('event', 'new_account');
+              goto(`account${$page.url.search || '?'}&action=choosePlan`);
+            } else if (isAppRedirect) {
               fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(
                 async (response) => {
                   const token = (await response.json()).customToken;
