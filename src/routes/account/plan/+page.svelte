@@ -21,6 +21,7 @@
   };
 
   const selectPro = () => {
+    gtag('event', 'choose_pro');
     goto(`/account${$page.url.search || '?'}&action=upgrade`);
   };
 </script>
