@@ -16,9 +16,8 @@
     </div>
     <p>
       Pro Users have access to a library of premade decks crafted by a professional reading specialist experienced with blending drills. These boards
-      are thoughtfully designed to target certain phonics skills and bring more focus to your lessons.
+      are thoughtfully designed to target certain phonics skills and bring more focus to your lessons. Try them out by importing them into your own collection!
     </p>
-    <p>Check out the boards in our library, and try them out by importing them into your own collection!</p>
   </section>
 
   <section class="decks">

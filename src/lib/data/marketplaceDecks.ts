@@ -2,6 +2,7 @@ import combinedBlends from '$lib/assets/marketplace/combined-blends.png';
 import doublingPractice from '$lib/assets/marketplace/doubling-practice.png';
 import weldedSounds from '$lib/assets/marketplace/welded-sounds.png';
 import latin from '$lib/assets/marketplace/latin.png';
+import twosyllable from '$lib/assets/marketplace/2syllable.png';
 
 export type MarketplaceDeck = {
   name: string;
@@ -12,6 +13,14 @@ export type MarketplaceDeck = {
 };
 
 const marketplaceDecks: MarketplaceDeck[] = [
+  {
+    name: '2 Syllables (6 cards)',
+    description:
+      "This deck features six columns and is great for introducing 2 syllable words and syllable division patterns to your students. Create VC/CV words or collapse the 3rd column to change them to V/CV and VC/V.",
+    author: 'Summer Kiesel',
+    image: twosyllable,
+    id: '-Nl4-F3yj7JTYznUkUXL',
+  },
   {
     name: 'Combined Blends',
     description:
