@@ -1,7 +1,7 @@
 import { authenticate, getUserFromEmail, pushPath, readPath, getUserData } from '$lib/server/firebaseUtils';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getStripeCustomerWithSubscriptions, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { getStripeCustomerWithSubscriptions, isOrganizationMember, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
 import { sendDeckShareEmail } from '$lib/server/emailUtils';
 
 export const POST = (async (event) => {
@@ -11,7 +11,7 @@ export const POST = (async (event) => {
   const targetUserPromise = getUserFromEmail(targetUserEmail).then((userData) =>
     Promise.all([userData, getStripeCustomerWithSubscriptions(userData.uid)]),
   );
-  const [{ displayName: sourceUserName = 'A Blend user' }, [{ displayName: targetUserName }, targetCustomer], sourceCustomer, deck] =
+  const [{ displayName: sourceUserName = 'A Blend user' }, [{ displayName: targetUserName, uid: targetUid }, targetCustomer], sourceCustomer, deck] =
     await Promise.all([
       getUserData(sourceUid),
       targetUserPromise,
@@ -20,8 +20,8 @@ export const POST = (async (event) => {
     ]);
 
   if (!deck) throw error(404, `Deck ${deckId} does not exist for user ${sourceUid}`);
-  if (!isSubscribedToBlendPro(sourceCustomer)) throw error(401);
-  if (!isSubscribedToBlendPro(targetCustomer)) throw error(400, `The user ${targetUserEmail} is not a Blend Pro subscriber`);
+  if (!isSubscribedToBlendPro(sourceCustomer) && !isOrganizationMember(sourceUid)) throw error(401);
+  if (!isSubscribedToBlendPro(targetCustomer) && !isOrganizationMember(targetUid)) throw error(400, `The user ${targetUserEmail} is not a Blend Pro subscriber`);
 
   const sharedKey = (
     await pushPath('/decks/shared', {
