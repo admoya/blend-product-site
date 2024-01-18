@@ -144,8 +144,26 @@ export const readPath = async <T = any>(path: string, defaultValue: T | null = n
   return (data.val() as T | null) ?? defaultValue;
 };
 
-export const writePath = async (path: string, data: any) => db.ref(path).set(data);
+export const writePath = async (path: string, data: any) =>
+  new Promise<void>((resolve, reject) => {
+    db.ref(path).set(data, (error) => {
+      if (error) reject(error);
+      else resolve();
+    });
+  });
 
-export const pushPath = async (path: string, data: any) => db.ref(path).push(data);
+export const pushPath = async (path: string, data: any) =>
+  new Promise<void>((resolve, reject) => {
+    db.ref(path).push(data, (error) => {
+      if (error) reject(error);
+      else resolve();
+    });
+  });
 
-export const deletePath = async (path: string) => db.ref(path).remove();
+export const deletePath = async (path: string) =>
+  new Promise<void>((resolve, reject) => {
+    db.ref(path).remove((error) => {
+      if (error) reject(error);
+      else resolve();
+    });
+  });
