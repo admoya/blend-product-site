@@ -3,6 +3,7 @@ import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminC
 import { error, type Cookies, type RequestEvent, redirect } from '@sveltejs/kit';
 import type { UserIdentifier } from 'firebase-admin/lib/auth/identifier';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import type { ThenableReference } from '@firebase/database-types';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
@@ -153,10 +154,10 @@ export const writePath = async (path: string, data: any) =>
   });
 
 export const pushPath = async (path: string, data: any) =>
-  new Promise<void>((resolve, reject) => {
-    db.ref(path).push(data, (error) => {
+  new Promise<ThenableReference>((resolve, reject) => {
+    let reference = db.ref(path).push(data, (error) => {
       if (error) reject(error);
-      else resolve();
+      else resolve(reference);
     });
   });
 
