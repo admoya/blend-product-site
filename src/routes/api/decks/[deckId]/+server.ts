@@ -17,7 +17,7 @@ export const GET: RequestHandler = async (request) => {
   }
   if (!deck) throw error(404);
 
-  return json(deck);
+  return json(deck, { headers: [['Access-Control-Allow-Origin', '*']] });
 };
 
 export const OPTIONS: RequestHandler = () => {
