@@ -7,15 +7,15 @@ export const GET = (async (event) => {
   const { uid } = await authenticate(event);
   const decks = (await readPath<Database.Decks.User>(`/decks/user/${uid}`)) || {};
   const deckArray = Object.entries(decks).map(([key, val]) => val);
-  const positionOffset = Math.max(...deckArray.map(({ position }) => position)) + 2; // +2 because legacy position can be -1, and we want the new position to be strictly greater TODO: refactor this once we get rid of the legacy magic numbers in positioning
+  const positionOffset = Math.max(...deckArray.map(({ position }) => position), 0) + 2; // +2 because legacy position can be -1, and we want the new position to be strictly greater TODO: refactor this once we get rid of the legacy magic numbers in positioning
   const organizationIds = await getUserOrganizations(uid);
   organizationDeckArray = (
     await Promise.all(
       organizationIds.map(async (orgId) => {
         const decks = (await getOrganizationDecks(orgId)) ?? {};
         const orgInfo = await getOrganizationInfo(orgId);
-        return Object.values(decks).map(({ deck }) => ({ 
-          ...deck, 
+        return Object.values(decks).map(({ deck }) => ({
+          ...deck,
           position: deck.position + positionOffset,
           orgSource: {
             orgName: orgInfo?.name,
