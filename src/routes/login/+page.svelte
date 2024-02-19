@@ -39,7 +39,8 @@
       break;
     case 'previewApp':
       if (actionParam) {
-        redirectBuilder = () => `/account?action=${actionParam}&successRedirect=previewApp&jumpScene=${$page.url.searchParams.get('jumpScene') || 'none'}`;
+        redirectBuilder = () =>
+          `/account?action=${actionParam}&successRedirect=previewApp&jumpScene=${$page.url.searchParams.get('jumpScene') || 'none'}`;
       } else {
         isAppRedirect = true;
         redirectBuilder = (user, token) =>
@@ -60,7 +61,7 @@
           fetch('/login/sessionCookie', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(() => {
             if (!actionParam && authResult.additionalUserInfo.isNewUser) {
               gtag('event', 'new_account');
-              goto(`account${$page.url.search || '?'}&action=choosePlan`);
+              goto(`/account${$page.url.search || '?'}&action=choosePlan`);
             } else if (isAppRedirect) {
               fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(
                 async (response) => {
