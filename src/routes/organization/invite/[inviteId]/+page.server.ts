@@ -8,7 +8,7 @@ export const load = (async ({ cookies, params: { inviteId }, url }) => {
     loginRedirect: url.pathname,
   });
 
-  const invite = await readPath<Database.Invite>(`/invites/organization/${inviteId}`);
+  const invite = await readPath<Database.Invite.Organization>(`/invites/organization/${inviteId}`);
   if (!invite) throw error(404, 'This link is expired or invalid.');
 
   const publicOrgDetails = await readPath<Database.Organization.Public>(`/organizations/${invite.orgId}/public`);
@@ -19,33 +19,37 @@ export const load = (async ({ cookies, params: { inviteId }, url }) => {
 
 export const actions: Actions = {
   accept: async (event) => {
-    const { params: { inviteId }, request } = event;
-    const invite = await readPath<Database.Invite>(`/invites/organization/${inviteId}`);
+    const {
+      params: { inviteId },
+      request,
+    } = event;
+    const invite = await readPath<Database.Invite.Organization>(`/invites/organization/${inviteId}`);
     if (!invite) throw error(404);
     const organization = await readPath<Database.Organization>(`/organizations/${invite.orgId}`);
     if (!organization) throw error(404);
     const uid = (await request.formData()).get('uid');
 
     // Add the user as a member in the organization
-    await writePath(`/organizations/${invite.orgId}/private/members/${uid}/role`, "member");
+    await writePath(`/organizations/${invite.orgId}/private/members/${uid}/role`, 'member');
 
     // Update the user's entry with the organization
-    const existingOrgs = (await readPath<Database.User.Protected['organizations']>(`/users/${uid}/protected/organizations`) ?? []);
-    await writePath(`/users/${uid}/protected/organizations`, Array.from((new Set(existingOrgs)).add(invite.orgId)));
+    const existingOrgs = (await readPath<Database.User.Protected['organizations']>(`/users/${uid}/protected/organizations`)) ?? [];
+    await writePath(`/users/${uid}/protected/organizations`, Array.from(new Set(existingOrgs).add(invite.orgId)));
 
-    await deleteOrganizationInvites([ inviteId ], invite.orgId, organization);
+    await deleteOrganizationInvites([inviteId], invite.orgId, organization);
 
-
-    throw redirect(303, '/organization/invite/accepted')
+    throw redirect(303, '/organization/invite/accepted');
   },
   decline: async (event) => {
-    const { params: { inviteId } } = event;
-    const invite = await readPath<Database.Invite>(`/invites/organization/${inviteId}`);
+    const {
+      params: { inviteId },
+    } = event;
+    const invite = await readPath<Database.Invite.Organization>(`/invites/organization/${inviteId}`);
     if (!invite) throw error(404);
     const organization = await readPath<Database.Organization>(`/organizations/${invite.orgId}`);
     if (!organization) throw error(404);
-    await deleteOrganizationInvites([ inviteId ], invite.orgId, organization);
+    await deleteOrganizationInvites([inviteId], invite.orgId, organization);
 
     throw redirect(303, '/organization/invite/declined');
-  }
-}
+  },
+};

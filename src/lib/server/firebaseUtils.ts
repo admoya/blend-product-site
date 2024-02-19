@@ -11,7 +11,7 @@ if (!firebaseAdmin.apps.length) {
   });
 }
 
-const db = firebaseAdmin.database();
+export const db = firebaseAdmin.database();
 export const auth = firebaseAdmin.auth();
 
 export const verifySessionCookie = (cookie: string) => auth.verifySessionCookie(cookie);
@@ -108,7 +108,10 @@ export const deleteOrganizationInvites = async (inviteIds: string[], organizatio
   if (!inviteIds) throw error(400, 'Missing required array of invite IDs');
 
   await Promise.all([
-    writePath(`/organizations/${organizationId}/private/invites`, organization.private?.invites?.filter((i) => !inviteIds.includes(i))),
+    writePath(
+      `/organizations/${organizationId}/private/invites`,
+      organization.private?.invites?.filter((i) => !inviteIds.includes(i)),
+    ),
     ...inviteIds.map((id) => deletePath(`/invites/organization/${id}`)),
   ]);
 };
