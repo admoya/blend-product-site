@@ -5,7 +5,7 @@ import type { PageServerLoad, Actions } from './$types.js';
 export const load = (async ({ cookies, params: { inviteId }, url }) => {
   // If user is not logged in, redirect to login
   await checkSessionAuth(cookies, {
-    loginRedirect: url.pathname,
+    loginRedirect: `${url.pathname}&action=acceptInvite`, // This action is not handled right now, but its presence will prevent the plan selection page from being shown
   });
 
   const invite = await readPath<Database.Invite.Organization>(`/invites/organization/${inviteId}`);
