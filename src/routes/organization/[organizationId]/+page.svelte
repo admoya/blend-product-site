@@ -73,7 +73,7 @@
     showDeckAddModal = false;
   };
   const handlePlaylistAdd = () => {
-    let maxPosition = Math.max(...Object.values($organizationPlaylists!).map(({ playlist: { position } }) => position), -1);
+    let maxPosition = Math.max(...Object.values($organizationPlaylists ?? {}).map(({ playlist: { position } }) => position), -1);
     const newPlaylists = playlistsToAdd.reduce((acc, playlistId) => {
       const newRefId = Math.floor(Math.random() * 4294967295);
       return {
