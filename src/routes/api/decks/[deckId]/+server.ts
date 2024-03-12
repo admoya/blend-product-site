@@ -10,7 +10,7 @@ export const GET: RequestHandler = async (request) => {
       deck = await readPath<Database.Deck>(`/decks/user/${user.uid}/${deckId}`);
       if (!deck) {
         const organizationIds = await getUserOrganizations(user.uid);
-        const orgDecks = await Promise.all(organizationIds.map((orgId) => readPath<Database.Deck>(`/decks/organization/${orgId}/${deckId}`)));
+        const orgDecks = await Promise.all(organizationIds.map((orgId) => readPath<Database.Deck>(`/decks/organization/${orgId}/${deckId}/deck`)));
         deck = orgDecks.find((deck) => deck) ?? null;
       }
     }
