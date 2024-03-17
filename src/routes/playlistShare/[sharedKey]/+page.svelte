@@ -8,7 +8,7 @@
 
 <AuthCheck />
 <div class="content">
-  <h1>Deck Share</h1>
+  <h1>Playlist Share</h1>
   <form method="post" use:enhance>
     <p>{`${data.authorName ?? 'A Blend user'} shared a playlist with you:`}</p>
     <p style="font-weight: bold;">{data.playlistName}</p>
