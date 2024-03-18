@@ -66,6 +66,7 @@ declare global {
       refId: number;
     }
     interface Playlist {
+      linked_deck_id: number;
       created_ts: string;
       modified_ts: string;
       is_editable: boolean;

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import type { RequestHandler } from './$types';
 import { db, readPath, writePath } from '$lib/server/firebaseUtils';
 
@@ -7,7 +6,7 @@ const createDeckCopy = async (deckId: number, userId: string) => {
   const newRefId = Math.floor(Math.random() * 4294967295);
 
   // Fetch linked deck
-  const linkedDeck = await readPath<Database.Decks.Preloaded>(`/decks/preloaded/${deckId}`);
+  const linkedDeck = await readPath<Database.Deck>(`/decks/preloaded/${deckId}`);
   if (linkedDeck) {
     // Create a copy of the linked deck with updated fields
     const timestamp = new Date().toISOString().split('.')[0];
@@ -19,51 +18,54 @@ const createDeckCopy = async (deckId: number, userId: string) => {
     deckCopy.is_editable = true;
 
     // Save the copy to the user's decks
-    await writePath<Database.Decks.User>(`/decks/user/${userId}/${newRefId}`, deckCopy);
+    await writePath(`/decks/user/${userId}/${newRefId}`, deckCopy);
   }
+  return newRefId;
 };
 
 export const POST: RequestHandler = async (event) => {
   const playlists = (await db.ref('/playlists/user').get()).val();
 
-  const counts: { [userId: string]: { [id: string]: number } } = {};
+  const playlistsToChange: { [userId: string]: Database.Playlist[] } = {};
   const usersWithPlaylistsLinked = new Set();
 
   if (playlists) {
     Object.keys(playlists).forEach((userId) => {
-      counts[userId] = { '113822357': 0, '541852177': 0 }; // Initialize counts for each user
+      playlistsToChange[userId] = []; // Initialize counts for each user
       const userPlaylists = playlists[userId];
 
       Object.keys(userPlaylists).forEach((playlistId) => {
-        const playlist = userPlaylists[playlistId] as PlaylistData;
+        const playlist = userPlaylists[playlistId] as Database.Playlist;
         if (playlist.linked_deck_id === 113822357 || playlist.linked_deck_id === 541852177) {
-          counts[userId][playlist.linked_deck_id]++;
-          usersWithPlaylistsLinked.add(userId);
+          playlistsToChange[userId].push(playlist);
         }
       });
     });
   }
 
-  Object.keys(counts).forEach((userId) => {
-    const count113822357 = counts[userId]['113822357'];
-    const count541852177 = counts[userId]['541852177'];
+  const allChanges = Object.entries(playlistsToChange)
+    .filter(([userId, playlists]) => playlists.length > 0)
+    .flatMap(async ([userId, playlists]) => {
+      let newCvcDeckId = playlists.find((playlist) => playlist.linked_deck_id === 541852177) ? await createDeckCopy(541852177, userId) : null; // CVC (Consonant-Vowel-Consonant
+      let newBlendsAdvancedVowelsDeckId = playlists.find((playlist) => playlist.linked_deck_id === 113822357)
+        ? await createDeckCopy(113822357, userId)
+        : null; // Blends Advanced Vowels
 
-    if (count113822357 > 0 || count541852177 > 0) {
-      console.log('=====================================');
-      console.log(`For User ID: ${userId}`);
-      if (count113822357 > 0) {
-        console.log('Found this many playlists linked to Blends and Advanced Vowels:', count113822357);
-        console.log('Creating copy of Blends and Advanced Vowels for this user.');
-        createDeckCopy(113822357, userId);
-      }
-      if (count541852177 > 0) {
-        console.log('Found this many playlists linked to CVC and Magic E:', count541852177);
-        console.log('Creating copy of CVC and Magic E for this user.');
-        createDeckCopy(541852177, userId);
-      }
-    }
-  });
+      const promises = playlists.map(async (playlist) => {
+        const { linked_deck_id } = playlist;
+        if (linked_deck_id === 113822357) {
+          await writePath(`/playlists/user/${userId}/${playlist.refId}/linked_deck_id`, newBlendsAdvancedVowelsDeckId);
+        } else if (linked_deck_id === 541852177) {
+          await writePath(`/playlists/user/${userId}/${playlist.refId}/linked_deck_id`, newCvcDeckId);
+        }
+      });
+      return promises;
+    });
+  await Promise.all(allChanges);
   console.log('=====================================');
-  console.log('# Users whose libraries were updated with a copy of a preloaded deck: ', usersWithPlaylistsLinked.size);
+  console.log(
+    '# Users whose libraries were updated with a copy of a preloaded deck: ',
+    Object.entries(playlistsToChange).filter(([userId, playlists]) => playlists.length > 0).length,
+  );
   return new Response();
 };
