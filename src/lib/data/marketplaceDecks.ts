@@ -1,4 +1,3 @@
-import combinedBlends from '$lib/assets/marketplace/combined-blends.png';
 import doublingPractice from '$lib/assets/marketplace/doubling-practice.png';
 import weldedSounds from '$lib/assets/marketplace/welded-sounds.png';
 import latin from '$lib/assets/marketplace/latin.png';
@@ -22,14 +21,6 @@ const marketplaceDecks: MarketplaceDeck[] = [
     author: 'Summer Kiesel',
     image: twosyllable,
     id: '-Nl4-F3yj7JTYznUkUXL',
-  },
-  {
-    name: 'Combined Blends',
-    description:
-      "This deck contains all consonant blends and vowel graphemes. We've created this deck for those who prefer to have their blends on one card, rather than spread out by sound.",
-    author: 'Summer Kiesel',
-    image: combinedBlends,
-    id: '-NaT4aMfMtKhI7de8PQb',
   },
   {
     name: 'Doubling Practice',
