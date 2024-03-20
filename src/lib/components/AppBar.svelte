@@ -16,7 +16,8 @@
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <ul class={`nav-links ${isMenuopen ? '' : 'hide-menu'}`} on:click={toggleMenu} on:keypress={toggleMenu}>
       <li>
-        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => gtag('event', 'open_app')}>app</a>
+        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}
+          >app</a>
       </li>
       <li>
         <a id="home" href="/">home</a>

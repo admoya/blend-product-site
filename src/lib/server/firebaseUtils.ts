@@ -1,9 +1,8 @@
-import firebaseAdmin, { database } from 'firebase-admin';
+import firebaseAdmin from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
 import { error, type Cookies, type RequestEvent, redirect } from '@sveltejs/kit';
-import type { UserIdentifier } from 'firebase-admin/lib/auth/identifier';
-import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
-import type { ThenableReference } from '@firebase/database-types';
+import type { ThenableReference } from 'firebase-admin/database';
+import type { DecodedIdToken, UserIdentifier } from 'firebase-admin/auth';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(firebaseAdminCredential),

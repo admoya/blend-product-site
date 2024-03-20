@@ -38,9 +38,11 @@ export const load = (async ({ url, cookies }) => {
 
   // Redirect to Stripe Checkout if necessary
   if (actionParam && !isSubscribedToBlendPro(customer) && !(await isOrganizationMember(uid))) {
+    const newParams = new URLSearchParams(url.search);
+    newParams.delete('action');
+
     switch (actionParam) {
       case 'upgrade': {
-        url.searchParams.delete('action');
         let successUrl;
         if (redirectParam) {
           const token = await auth.createCustomToken(uid);
@@ -53,28 +55,27 @@ export const load = (async ({ url, cookies }) => {
         throw redirect(303, stripeSession.url!);
       }
       case 'choosePlan':
-        url.searchParams.delete('action');
-        throw redirect(303, `/account/plan?${url.searchParams.toString()}`);
+        throw redirect(303, `/account/plan?${newParams.toString()}`);
     }
   }
 
   if (!customer || customer.deleted) {
     return {
       isSubscribedToBlendPro: false,
-      hasOrganizationMembership: (await organizations).length > 0,
+      hasOrganizationMembership: organizations.length > 0,
       subscriptionPeriodEnd: 0,
       subscriptionPendingCancellation: false,
-      organizations: JSON.stringify(await organizations),
+      organizations: JSON.stringify(organizations),
     };
   }
   const subscription = getBlendProSubscription(customer);
 
   return {
     isSubscribedToBlendPro: !!subscription,
-    hasOrganizationMembership: (await organizations).length > 0,
+    hasOrganizationMembership: organizations.length > 0,
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
     subscriptionPendingCancellation: subscription?.cancel_at_period_end,
-    organizations: JSON.stringify(await organizations),
+    organizations: JSON.stringify(organizations),
   };
 }) satisfies PageServerLoad;
 
@@ -103,7 +104,10 @@ export const actions = {
     const organization = await readPath<Database.Organization>(`/organizations/${orgId}`);
     if (!organization) throw error(404);
     const user = await readPath<Database.User>(`/users/${uid}`);
-    await writePath(`/users/${uid}/protected/organizations`, user?.protected.organizations?.filter((id) => id !== orgId));
+    await writePath(
+      `/users/${uid}/protected/organizations`,
+      user?.protected.organizations?.filter((id) => id !== orgId),
+    );
     const orgMembers = organization.private?.members || {};
     await writePath(`/organizations/${orgId}/private/members`, {
       ...orgMembers,

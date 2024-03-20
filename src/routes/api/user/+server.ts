@@ -1,4 +1,4 @@
-import { authenticate, getOrganizationInfo, getOrganizationMemberDetails, getUserData, getUserOrganizations } from '$lib/server/firebaseUtils';
+import { authenticate, getOrganizationInfo, getUserData, getUserOrganizations } from '$lib/server/firebaseUtils';
 import {
   getBlendProSubscription,
   getStripeCustomerWithSubscriptions,
@@ -37,6 +37,7 @@ export const OPTIONS = (() => {
     headers: [
       ['Access-Control-Allow-Origin', '*'],
       ['Access-Control-Allow-Headers', '*'],
+      ['Access-Control-Allow-Methods', 'GET'],
     ],
   });
 }) satisfies RequestHandler;

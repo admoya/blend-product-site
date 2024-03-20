@@ -9,26 +9,32 @@
     "test": "playwright test",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "test:unit": "vitest",
+    "test:unit": "vitest run",
     "lint": "prettier --check . && eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --plugin prettier-plugin-svelte --write .",
-    "firebase-local": "cd firebase-local && firebase emulators:start --import mockData/"
+    "firebase-local": "cd firebase-local && firebase emulators:start --import mockData/",
+    "pre:commit": "npm run check && npm run test:unit"
   },
+  "pre-commit": [
+    "test:unit"
+  ],
   "devDependencies": {
     "@playwright/test": "^1.37.0",
-    "@sveltejs/adapter-auto": "^2.1.0",
-    "@sveltejs/adapter-netlify": "^2.0.8",
-    "@sveltejs/kit": "^1.22.6",
-    "@types/gtag.js": "^0.0.13",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
+    "@sveltejs/adapter-auto": "^3.1.1",
+    "@sveltejs/adapter-netlify": "^4.1.0",
+    "@sveltejs/kit": "^2.5.4",
+    "@types/gtag.js": "^0.0.19",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "@vitest/coverage-v8": "^1.4.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte": "^2.32.4",
     "firebase": "^10.1.0",
-    "firebase-admin": "^11.10.1",
+    "firebase-admin": "^12.0.0",
     "firebaseui": "^6.1.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^3.0.2",
     "prettier-plugin-svelte": "^3.0.3",
     "stripe": "^12.18.0",
@@ -36,8 +42,8 @@
     "svelte-check": "^3.5.0",
     "tslib": "^2.6.1",
     "typescript": "^5.1.6",
-    "vite": "^4.4.9",
-    "vitest": "^0.34.1"
+    "vite": "^5.1.6",
+    "vitest": "^1.4.0"
   },
   "type": "module",
   "dependencies": {

@@ -82,14 +82,16 @@
     <div class="side-by-side">
       <div class="description">
         <p>
-          Save time with our <b>Playlists</b> feature by creating word chains ahead of your lessons and present them in our sleek interface designed to minimize distractions.
+          Save time with our <b>Playlists</b> feature by creating word chains ahead of your lessons and present them in our sleek interface designed to
+          minimize distractions.
         </p>
         <p>
-          Craft playlists from scratch, integrate word lists from your school's structured literacy curriculum, or even export the history of a completed blending drill and seamlessly turn it into a playlist.
-          Then, when you're ready for your drill, flip through the words with the click of a button!
+          Craft playlists from scratch, integrate word lists from your school's structured literacy curriculum, or even export the history of a
+          completed blending drill and seamlessly turn it into a playlist. Then, when you're ready for your drill, flip through the words with the
+          click of a button!
         </p>
         <p>
-          With Playlists, you can reduce the prep work and devote more time to your kids, ensuring that they're equipped with vital literacy skills. 
+          With Playlists, you can reduce the prep work and devote more time to your kids, ensuring that they're equipped with vital literacy skills.
         </p>
       </div>
       <div class="description">
@@ -98,7 +100,10 @@
           <li><b>Create and save word chains ahead of time</b>, ensuring your structured literacy lessons run smoothly</li>
           <li><b>Keep your lessons flowing just by clicking</b> forward - no more fumbling for the next grapheme card</li>
           <li><b>Integrate word lists from your school's structured literacy curriculum</b> and save them to use year after year</li>
-          <li>Experience a visually uncluttered interface that minimizes distractions, so you can <b>focus on what matters most: empowering your students</b></li>
+          <li>
+            Experience a visually uncluttered interface that minimizes distractions, so you can <b
+              >focus on what matters most: empowering your students</b>
+          </li>
         </ul>
       </div>
     </div>
@@ -109,7 +114,7 @@
   <p>See our pricing plans and try Blend now!</p>
   <div class="side-by-side">
     <a class="btn" href="/features#pricing"><h2>pricing plans</h2></a>
-    <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => gtag('event', 'open_app')}
+    <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}
       ><h2>try the app</h2></a>
   </div>
   <div class="footnote">
@@ -130,7 +135,7 @@
     border-width: 2px;
   }
   .start-blending {
-    background: rgba(127, 113, 210, 0.50);
+    background: rgba(127, 113, 210, 0.5);
     border-color: #7f71d2;
     border-width: 2px;
   }

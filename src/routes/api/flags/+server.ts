@@ -19,11 +19,11 @@ const flagsToArray = (flags: RemoteFlags) => {
 export const GET = (async (event) => {
   const userFlagsPromise = weaklyAuthenticate(event).then((authResult) => {
     if (authResult) {
-      return readPath(`/flags/user/${authResult.uid}`, []);
+      return readPath<RemoteFlags>(`/flags/user/${authResult.uid}`, {});
     }
-    return [];
+    return {};
   });
-  const [globalFlags, userFlags] = await Promise.all([readPath(`/flags/global`, []), userFlagsPromise]);
+  const [globalFlags, userFlags] = await Promise.all([readPath<RemoteFlags>(`/flags/global`, {}), userFlagsPromise]);
   return json(
     flagsToArray({
       ...globalFlags,

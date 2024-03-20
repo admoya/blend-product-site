@@ -1,7 +1,7 @@
 import type { RequestHandler } from './$types';
 import { error } from '@sveltejs/kit';
-import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { auth } from '$lib/server/firebaseUtils';
+import type { DecodedIdToken } from 'firebase-admin/auth';
 
 export const POST = (async ({ request }) => {
   const { idToken } = await request.json();

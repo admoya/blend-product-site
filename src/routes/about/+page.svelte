@@ -35,21 +35,21 @@
     </div>
     <div class="text">
       <p>
-        It all started with two old friends catching up over lunch. Summer and Stephanie, who have been friends since 2004, 
-        were talking about friends, family, and work. Summer, working as a reading specialist at her own tutoring business, 
-        mentioned that she was frustrated with one of the tools she used in her phonics instruction. She explained the tool: a blending board. 
-        Physical boards didn't work very well for her online sessions, and the virtual options out there were clunky and missing basic features.
+        It all started with two old friends catching up over lunch. Summer and Stephanie, who have been friends since 2004, were talking about
+        friends, family, and work. Summer, working as a reading specialist at her own tutoring business, mentioned that she was frustrated with one of
+        the tools she used in her phonics instruction. She explained the tool: a blending board. Physical boards didn't work very well for her online
+        sessions, and the virtual options out there were clunky and missing basic features.
       </p>
       <p>
-        As luck would have it, Stephanie had just started a software company with Adrian, and felt inspired and excited to build a solution
-        that could help Summer teach kids to read. Stephanie and Adrian had always been interested in the intersection of education and technology,
-        so it was a perfect partnership. 
+        As luck would have it, Stephanie had just started a software company with Adrian, and felt inspired and excited to build a solution that could
+        help Summer teach kids to read. Stephanie and Adrian had always been interested in the intersection of education and technology, so it was a
+        perfect partnership.
       </p>
       <h1>Our Mission</h1>
       <p>
-        At Blend Reading, we believe in literacy for all children. We want to empower educators by providing innovative tools that make phonics instruction more engaging, 
-        effective, and accessible for both teachers and students.
-        That's why we built Blend, our virtual blending board app inspired by traditional tools and elevated to transform phonics instruction.
+        At Blend Reading, we believe in literacy for all children. We want to empower educators by providing innovative tools that make phonics
+        instruction more engaging, effective, and accessible for both teachers and students. That's why we built Blend, our virtual blending board app
+        inspired by traditional tools and elevated to transform phonics instruction.
       </p>
     </div>
     <div class="epilogue">
@@ -75,7 +75,7 @@
       padding: 0 !important;
       width: 100% !important;
     }
-    .epilogue img{
+    .epilogue img {
       width: 100% !important;
     }
   }
@@ -105,10 +105,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  .person>a>h3, .person>p{
-    margin: 0;
-    padding: 0;
   }
   .person img {
     width: 150px;
