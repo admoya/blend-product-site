@@ -45,8 +45,8 @@ export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAu
 
 export const getUsers = (uids: UserIdentifier[]) => auth.getUsers(uids);
 
-export const isUserGlobalAdmin = (uid: string) => {
-  return readPath(`organizations/0000/private/members/${uid}`);
+export const isUserGlobalAdmin = async (uid: string) => {
+  return !!(await readPath(`organizations/0000/private/members/${uid}`));
 };
 
 export const isUserOrganizationAdmin = async (uid: string, organization: Database.Organization) =>

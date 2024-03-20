@@ -1,12 +1,4 @@
-import {
-  deleteOrganizationInvites,
-  isUserGlobalAdmin,
-  isUserOrganizationAdmin,
-  pushPath,
-  readPath,
-  verifySessionCookie,
-  writePath,
-} from '$lib/server/firebaseUtils';
+import { deleteOrganizationInvites, isUserOrganizationAdmin, pushPath, readPath, verifySessionCookie, writePath } from '$lib/server/firebaseUtils';
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 

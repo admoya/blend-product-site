@@ -2,7 +2,6 @@ import {
   checkSessionAuth,
   getOrganizationInviteDetails,
   getOrganizationMemberDetails,
-  isUserGlobalAdmin,
   isUserOrganizationAdmin,
   readPath,
 } from '$lib/server/firebaseUtils.js';
