@@ -14,6 +14,7 @@
     <div class="footer-section">
       <h2>BLEND READING</h2>
       <p>Blend Reading was created by CSMA Technology in partnership with Sage Literacy.</p>
+      <p style="font-size: 0.8rem; margin-top: 0.4rem;">© Blend Reading 2023</p>
     </div>
     <div class="footer-section">
       <h2>USEFUL LINKS</h2>
