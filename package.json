@@ -37,7 +37,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^3.0.2",
     "prettier-plugin-svelte": "^3.0.3",
-    "stripe": "^12.18.0",
+    "stripe": "^14.24.0",
     "svelte": "^4.2.0",
     "svelte-check": "^3.5.0",
     "tslib": "^2.6.1",

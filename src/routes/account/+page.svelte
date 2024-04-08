@@ -53,6 +53,8 @@
     selectedOrgId = orgId;
     showOrgLeaveConfirmation = true;
   };
+
+  let isCreatingSubscriptionOrder = false;
 </script>
 
 <svelte:head>
@@ -151,11 +153,16 @@
         </p>
       {:else}
         <p>Blend Basic</p>
-        <form action="?/createSubscriptionOrder" method="POST">
+        <form
+          action="?/createSubscriptionOrder"
+          on:submit={() => {
+            isCreatingSubscriptionOrder = true;
+          }}
+          method="POST">
           <input type="hidden" name="email" value={$user?.email} />
           <input type="hidden" name="name" value={$user?.displayName} />
           <input type="hidden" name="uid" value={$user?.uid} />
-          <button id="checkout-and-portal-button" type="submit" class="btn">Upgrade to Blend Pro</button>
+          <button id="checkout-and-portal-button" type="submit" disabled={isCreatingSubscriptionOrder} class="btn">Upgrade to Blend Pro</button>
         </form>
       {/if}
     </div>

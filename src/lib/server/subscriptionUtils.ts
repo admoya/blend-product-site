@@ -1,7 +1,12 @@
 import Stripe from 'stripe';
-import { STRIPE_SECRET_KEY, STRIPE_BLEND_PRO_PRICE_CODE, STRIPE_BLEND_PRO_PRODUCT_CODE } from '$env/static/private';
+import {
+  STRIPE_SECRET_KEY,
+  STRIPE_BLEND_PRO_PRICE_CODE,
+  STRIPE_BLEND_PRO_PRODUCT_CODE,
+  STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE,
+} from '$env/static/private';
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2022-11-15',
+  apiVersion: '2023-10-16',
 });
 import firebaseAdmin from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
@@ -18,7 +23,8 @@ const db = firebaseAdmin.database();
 export const stripeClient = stripe;
 export const firebaseDb = db;
 
-export const PRICE_CODE = STRIPE_BLEND_PRO_PRICE_CODE;
+export const MONTHLY_PRICE_CODE = STRIPE_BLEND_PRO_PRICE_CODE;
+export const YEARLY_PRICE_CODE = STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE;
 export const PRODUCT_CODE = STRIPE_BLEND_PRO_PRODUCT_CODE;
 
 export const getStripeCustomerWithSubscriptions = async (uid: string) => {
@@ -73,7 +79,14 @@ export const getCustomerPortalSession = (customer: Stripe.Customer, returnUrl: s
 export const hasCustomerSubscribedBefore = (subscriptions: Stripe.Subscription[], productCode: string) =>
   subscriptions.some((subscription) => subscription.items.data.some((item) => item.price.product === productCode));
 
-export const createStripeSession = async (uid: string, email: string, name: string, origin: string, successUrl?: string) => {
+export const createStripeSession = async (
+  uid: string,
+  email: string,
+  name: string,
+  origin: string,
+  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly' },
+) => {
+  const priceCode = options?.subscriptionType === 'yearly' ? YEARLY_PRICE_CODE : MONTHLY_PRICE_CODE;
   console.log(`Fetching Stripe customer ID for user ${uid}`);
   const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
 
@@ -96,6 +109,7 @@ export const createStripeSession = async (uid: string, email: string, name: stri
       console.error(`User ${uid} is already subscribed to Blend Pro, aborting`);
       throw error(400, 'Customer is already subscribed to Blend Pro!');
     }
+    await cancelPreviouslyOpenedSessionsForCustomer(customer.id);
   }
 
   if (!hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE)) {
@@ -111,19 +125,32 @@ export const createStripeSession = async (uid: string, email: string, name: stri
     billing_address_collection: 'auto',
     line_items: [
       {
-        price: PRICE_CODE,
+        price: priceCode,
         quantity: 1,
       },
     ],
     subscription_data: subscriptionData,
     allow_promotion_codes: true,
     mode: 'subscription',
-    success_url: `${successUrl || `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`}`,
+    success_url: `${options?.successUrl ?? `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`}`,
     cancel_url: `${origin}/account/?subscription_checkout_status=cancel`,
+    custom_text: {
+      submit: {
+        message: `Prefer to pay ${options?.subscriptionType === 'yearly' ? 'monthly' : 'yearly'}? [Click here](${origin}/account?action=upgrade&subscriptionType=${options?.subscriptionType === 'yearly' ? 'monthly' : 'yearly'})`,
+      },
+    },
     // Enable the below if we need to collect sales tax in the future
     // automatic_tax: { enabled: true },
     // customer_update: { address: 'auto' }
   });
   console.log(`Stripe session created: ${session.id}`);
   return session;
+};
+
+const cancelPreviouslyOpenedSessionsForCustomer = async (customerId: string) => {
+  const checkoutSessions = await stripe.checkout.sessions.list({
+    customer: customerId,
+    status: 'open',
+  });
+  await Promise.all(checkoutSessions.data.map((session) => stripe.checkout.sessions.expire(session.id)));
 };

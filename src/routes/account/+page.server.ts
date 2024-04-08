@@ -51,7 +51,10 @@ export const load = (async ({ url, cookies }) => {
             token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
           }`;
         }
-        const stripeSession = await createStripeSession(uid, email, name, url.origin, successUrl);
+        const stripeSession = await createStripeSession(uid, email, name, url.origin, {
+          successUrl,
+          subscriptionType: newParams.get('subscriptionType') === 'yearly' ? 'yearly' : 'monthly',
+        });
         throw redirect(303, stripeSession.url!);
       }
       case 'choosePlan':
