@@ -17,6 +17,10 @@
   const searchParams = new URLSearchParams(decodeURIComponent($page.url.search));
   const redirectParam = searchParams.get('successRedirect') || '/';
   const actionParam = searchParams.get('action') || '';
+  const allOtherParams = Array.from(searchParams.entries())
+    .filter(([key]) => key !== 'successRedirect' && key !== 'action')
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&');
 
   type RedirectBuilderFunc = (user: User, token?: string) => string;
   let redirectBuilder: RedirectBuilderFunc;
@@ -24,7 +28,10 @@
   switch (redirectParam) {
     case 'account':
     case '/':
-      redirectBuilder = () => (actionParam ? `/account?action=${actionParam}` : '/account');
+      redirectBuilder = () =>
+        actionParam
+          ? `/account?action=${actionParam}${allOtherParams ? `&${allOtherParams}` : ''}`
+          : `/account${allOtherParams ? `?${allOtherParams}` : ''}`;
       break;
     case 'app':
       if (actionParam) {
