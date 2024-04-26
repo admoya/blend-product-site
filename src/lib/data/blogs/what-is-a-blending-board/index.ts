@@ -37,7 +37,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `Traditionally, blending boards have been used in one-on-one or small group settings, but as <a href="https://www.nytimes.com/2023/04/16/us/science-of-reading-literacy-parents.html" target="_blank">momentum builds</a> for science-based approaches to literacy, they are increasingly found in classrooms across the world. With the rise of online learning and technology-equipped classrooms, virtual blending boards (like Blend!) are becoming a popular option for teachers. These virtual options offer a number of advantages over traditional blending boards, including affordability, ease of use, and <a href="https://blendreading.com/features" target="_blank">additional features</a> for maximizing the effectiveness of this technique.`,
+      content: `Traditionally, blending boards have been used in one-on-one or small group settings, but as <a href="https://www.nytimes.com/2023/04/16/us/science-of-reading-literacy-parents.html" target="_blank">momentum builds</a> for science-based approaches to literacy, they are increasingly found in classrooms across the world. With the rise of online learning and technology-equipped classrooms, virtual blending boards (like Blend!) are becoming a popular option for teachers. These virtual options offer a number of advantages over traditional blending boards, including affordability, ease of use, and <a href="https://blendreading.com/pricing" target="_blank">additional features</a> for maximizing the effectiveness of this technique.`,
     },
     {
       type: 'heading',
@@ -94,7 +94,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `Blend is designed to supercharge your phonics instruction with modern features built around the familiar blending board experience. Check out our <a href="https://blendreading.com/features" target="_blank">features</a> page to learn about everything Blend has to offer, and then dive right in with the free version of our app!`,
+      content: `Blend is designed to supercharge your phonics instruction with modern features built around the familiar blending board experience. Check out our <a href="https://blendreading.com/pricing" target="_blank">features</a> page to learn about everything Blend has to offer, and then dive right in with the free version of our app!`,
     },
     {
       type: 'text',
@@ -107,7 +107,7 @@ const post: Blog.BlogPost = {
         <li><a href="https://www.understood.org/en/articles/what-is-structured-literacy" target="_blank">Understood.org: What is structured literacy?</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Orton-Gillingham" target="_blank">Wikipedia: The Orton-Gillingham Approach</a></li>
         <li><a href="https://www.nytimes.com/2023/04/16/us/science-of-reading-literacy-parents.html" target="_blank">NYT: 'Kids Can't Read': The Revolt That Is Taking On the Education Establishment</a></li>
-        <li><a href="https://blendreading.com/features" target="_blank">Blend Reading: Blend Features</a></li>
+        <li><a href="https://blendreading.com/pricing" target="_blank">Blend Reading: Blend Features</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Samuel_Orton" target="_blank">Wikipedia: About Samuel Orton</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Anna_Gillingham" target="_blank">Wikipedia: About Anna Gillingham</a></li>
         <li><a href="https://www.amazon.com/Remedial-Training-Children-Disability-Penmanship/dp/B001P6AW60" target="_blank">Amazon: Remedial Training for Children with Specific Disability in Reading, Spelling and Penmanship</a></li>

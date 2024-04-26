@@ -2,11 +2,13 @@
   import ProBadgeWrapper from './ProBadgeWrapper.svelte';
 
   const check = '\u2713';
+  const upgrade = () => {
+    gtag('event', 'click_upgrade');
+  };
 </script>
 
 <section class="pricing" id="pricing">
   <div class="content">
-    <h1>Pricing</h1>
     <ProBadgeWrapper>
       <div class="banner">
         <div>Get a 7-day free trial when you subscribe to Blend Pro!</div>
@@ -20,13 +22,15 @@
         </colgroup>
         <thead>
           <tr>
-            <th scope="col" class="column-header">Features</th>
+            <th scope="col"><h1>Compare Plans</h1></th>
             <th scope="col" class="column-header"
               >Basic
-              <h6>free</h6></th>
+              <h6>free</h6>
+              <a href="/login"><h6>Sign Up</h6></a></th>
             <th scope="col" class="column-header"
               >Pro
-              <h6>$3/month</h6></th>
+              <h6>$3/month</h6>
+              <a href="/account?action=upgrade" on:click={upgrade}><h6>Upgrade</h6></a></th>
           </tr>
         </thead>
         <tbody>
@@ -79,30 +83,24 @@
       </table>
       <div class="site-licensing">
         <div class="column-header">Group Licensing</div>
-        <a href="mailto:support@blendreading.com"><h6>Contact for Pricing</h6></a>
+        <a href="/organization#form">Request a quote</a>
         <div class="feature">All Blend Pro Features</div>
         <div class="feature">Easy Organization Management</div>
         <div class="feature">Organization-Wide Shared Decks & Playlists</div>
         <div class="feature">Dedicated Support</div>
-        <p>
-          Want to learn more about these features? <br />
-          <a href="https://drive.google.com/file/d/1y5GQ-mdf9fGhjr2EWVDlxlAxTvSPvbbT/view?usp=share_link" target="_blank" rel="noopener noreferrer"
-            >Click here</a> for more information.
-        </p>
-        <p>Save money by purchasing a group license! We'll work with you on a plan that makes sense for your organization.</p>
-        <h4>
-          Email us at <a id="email" href="mailto:support@blendreading.com">support@blendreading.com</a> to get started.
-        </h4>
+        <p>Small groups are welcome! We work with smaller tutoring groups and larger school districts alike.</p>
+        <p>Let us help you create a plan that makes sense for your organization.</p>
+        <a href="/organization" class="btn btn-blurple"><h6>Learn More</h6></a>
+        <a href="/organization#form" class="btn btn-purple"><h6>Request a quote</h6></a>
       </div>
-    </div>
-    <div class="side-by-side">
-      <a class="btn" href="/login">sign up</a>
-      <a class="btn" href="/account?action=upgrade">upgrade</a>
     </div>
   </div>
 </section>
 
 <style>
+  .btn {
+    margin: 1rem !important;
+  }
   .pricing {
     color: white;
     padding: 2rem;
@@ -136,16 +134,13 @@
   .site-licensing {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 1rem;
     border-spacing: 1.5rem;
     width: 30%;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     padding: 1.8rem;
-  }
-
-  a#email {
-    text-decoration: underline;
   }
 
   a:hover {
@@ -164,6 +159,7 @@
     min-height: 2.8rem;
     margin: 0.8rem;
     font-weight: 700;
+    width: 100%;
   }
 
   .column-header {
@@ -191,7 +187,6 @@
   }
 
   thead th {
-    vertical-align: top;
     color: white;
   }
 
@@ -212,6 +207,8 @@
 
   .empty {
     border: none;
+    background: none;
+    box-shadow: none;
   }
   @media (max-width: 480px) {
     .pricing-table {
@@ -223,7 +220,7 @@
     }
     .site-licensing {
       font-size: 90%;
-      width: 90%;
+      width: 100%;
     }
 
     .btn {

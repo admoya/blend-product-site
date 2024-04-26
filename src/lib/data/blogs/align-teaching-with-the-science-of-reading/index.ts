@@ -77,7 +77,7 @@ const post: Blog.BlogPost = {
       type: 'text',
       content: `<b>Focus on building fluency at the word level</b> before expecting it at the sentence or passage level. 
       This is where a blending board can come in handy, allowing you to focus on phonemic awareness and morphology through which your students can 
-      learn how to sound out and infer meaning from the different parts in a word. <a href="/features">Our digital blending board</a> is a great place to start – and it’s free!`,
+      learn how to sound out and infer meaning from the different parts in a word. <a href="/pricing">Our digital blending board</a> is a great place to start – and it’s free!`,
     },
     {
       type: 'text',
@@ -156,7 +156,7 @@ const post: Blog.BlogPost = {
         <li><a href="https://www.edweek.org/teaching-learning/which-states-have-passed-science-of-reading-laws-whats-in-them/2022/07" target="_blank">Education Week: Which States Have Passed 'Science of Reading' Laws? What's in Them?</a></li>
         <li><a href="https://read-write-grow.myshopify.com/blogs/news/beginning-with-science-of-reading" target="_blank">Read Write Grow: 5 Ways to Begin Aligning to Science of Reading</a></li>
         <li><a href="https://www.lexialearning.com/blog/a-full-breakdown-of-the-science-of-reading-components" target="_blank">Lexia Learning: A Full Breakdown of the Science of Reading Components</a></li>
-        <li><a href="https://blendreading.com/features" target="_blank">Blend Reading: Blend Features</a></li>
+        <li><a href="https://blendreading.com/pricing" target="_blank">Blend Reading: Blend Features</a></li>
         <li><a href="https://blendreading.com/blog" target="_blank">Blend Reading: The Blend Blog</a></li>
         <li><a href="https://esu11.org/wp-content/uploads/sites/13/2010/11/Phonics_Survey.pdf" target="_blank">ESU11: CORE Phonics Survey</a></li>
         <li><a href="https://dibels.uoregon.edu/materials" target="_blank">DIBELS: DIBELS 8th Edition Materials</a></li>

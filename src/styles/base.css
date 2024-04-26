@@ -88,6 +88,30 @@ h6 {
   background: #aa2a03bb !important;
 }
 
+.btn-orange {
+  background: #ffc076 !important;
+  border: none;
+}
+
+.btn-purple {
+  background: #7f71d2 !important;
+}
+
+.btn-blurple {
+  background: #588dff !important;
+}
+
+.btn-outlined {
+  background: none !important;
+  border: black solid 1px;
+  border-radius: 8px;
+  color: black;
+}
+
+.btn-outlined:hover {
+  color: black !important;
+}
+
 a:hover.btn {
   color: white;
 }

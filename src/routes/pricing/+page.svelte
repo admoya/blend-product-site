@@ -17,16 +17,12 @@
 </script>
 
 <svelte:head>
-  <title>Blend Features</title>
+  <title>Blend Pricing</title>
   <meta name="description" content="Learn about the features and pricing options for the Blend app" />
 </svelte:head>
 
 <section class="features">
   <div class="content">
-    <div class="blurb">
-      <h1>Features</h1>
-      <p>Blend is the all-in-one solution for your blending drill.</p>
-    </div>
     <div class="tier basic">
       <div class="section-title">
         <h2>Basic</h2>

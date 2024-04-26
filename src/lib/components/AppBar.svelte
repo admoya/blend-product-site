@@ -23,7 +23,10 @@
         <a id="home" href="/">home</a>
       </li>
       <li>
-        <a id="features" href="/features">features</a>
+        <a id="pricing" href="/pricing">pricing</a>
+      </li>
+      <li>
+        <a id="organization" href="/organization">organizations</a>
       </li>
       <li>
         <a id="library" href="/library">library</a>
@@ -112,16 +115,16 @@
     color: #f1b4fb;
   }
 
-  a#features:hover {
+  a#pricing:hover {
     color: #84e3de;
+  }
+
+  a#organization:hover {
+    color: #588dff;
   }
 
   a#blog:hover {
     color: #fa9a9a;
-  }
-
-  a#login:hover {
-    color: #ffc076;
   }
 
   a#library:hover {
