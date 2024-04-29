@@ -193,7 +193,7 @@
     width: 100%;
   }
   .feature {
-    width: 40%;
+    flex-basis: 27rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -307,7 +307,7 @@
     .quote-details {
       text-align: center;
     }
-    h2 {
+    .features h2 {
       text-align: center;
     }
   }

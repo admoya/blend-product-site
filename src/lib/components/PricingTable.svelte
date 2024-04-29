@@ -126,7 +126,7 @@
     margin: 1rem 0;
     border-spacing: 1.5rem;
     table-layout: fixed;
-    width: 60%;
+    flex-basis: 40rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
   }
@@ -137,7 +137,7 @@
     align-items: center;
     margin: 1rem;
     border-spacing: 1.5rem;
-    width: 30%;
+    flex-basis: 25rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     padding: 1.8rem;
@@ -212,14 +212,12 @@
   }
   @media (max-width: 480px) {
     .pricing-table {
-      font-size: 80%;
       width: 100%;
     }
     td {
       font-size: 1.5rem;
     }
     .site-licensing {
-      font-size: 90%;
       width: 100%;
     }
 
