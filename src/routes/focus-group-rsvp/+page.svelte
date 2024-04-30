@@ -2,10 +2,10 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   let email: String | null = '';
-  let name: String | null = '';
+  let name: String | undefined = '';
 
   onMount(() => {
-    name = $page.url.searchParams.get('name');
+    name = $page.url.searchParams.get('name')?.replaceAll(/'|"|blend user/gi, '');
     email = $page.url.searchParams.get('email');
   });
 </script>
