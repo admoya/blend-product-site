@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { appUrl } from '$lib/utils';
   import { onMount } from 'svelte';
 
   onMount(() => {
@@ -17,7 +16,8 @@
   <p>For resources on how to use our Pro features, check out the <a href="/blog">blog</a>.</p>
   <div class="side-by-side">
     <a href="/account" class="btn">Back to My Account</a>
-    <a href={$appUrl} target="_blank" rel="noopener noreferrer" class="btn" on:click={() => window.gtag('event', 'open_app')}>Open the App</a>
+    <a href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" class="btn" on:click={() => window.gtag('event', 'open_app')}
+      >Open the App</a>
   </div>
 </section>
 

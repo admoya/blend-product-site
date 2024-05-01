@@ -1,16 +1,20 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import { customLoginToken } from '$lib/firebase';
+  import { user } from '$lib/firebase';
 
   const redirectParam = $page.url.searchParams.get('successRedirect');
   const selectBasic = async () => {
     if (redirectParam && redirectParam === ('app' || 'previewApp')) {
-      const appUrl = redirectParam === 'app' ? 'https://app.blendreading.com' : 'https://preview-app.blendreading.com';
-      const url = `${appUrl}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
-        $customLoginToken ? `&loginToken=${encodeURIComponent($customLoginToken)}` : ''
-      }`;
-      window.location.replace(url);
+      const idToken = await $user?.getIdToken();
+      fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken }) }).then(async (response) => {
+        const token = (await response.json()).customToken;
+        const appUrl = redirectParam === 'app' ? 'https://app.blendreading.com' : 'https://preview-app.blendreading.com';
+        const url = `${appUrl}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
+          token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+        }`;
+        window.location.replace(url);
+      });
     } else {
       goto('/account');
     }

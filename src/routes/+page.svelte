@@ -3,7 +3,6 @@
   import play from '$lib/assets/home/play.png';
   import edit from '$lib/assets/home/edit.png';
   import playlists from '$lib/assets/home/playlists-side-by-side.png';
-  import { appUrl } from '$lib/utils';
 </script>
 
 <svelte:head>
@@ -16,7 +15,7 @@
     <img src={cards} alt="cards spelling BLEND" />
   </div>
   <div class="side-by-side">
-    <a class="btn start-blending" href={$appUrl} target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
+    <a class="btn start-blending" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
     <a class="btn" href="/login"><h2>sign up</h2></a>
   </div>
 </section>
@@ -114,8 +113,9 @@
   <h1>Ready to get started?</h1>
   <p>See our pricing plans and try Blend now!</p>
   <div class="side-by-side">
-    <a class="btn" href="/features#pricing"><h2>pricing plans</h2></a>
-    <a class="btn" href={$appUrl} target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}><h2>try the app</h2></a>
+    <a class="btn" href="/pricing"><h2>pricing plans</h2></a>
+    <a class="btn" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}
+      ><h2>try the app</h2></a>
   </div>
   <div class="footnote">
     <h6>System Requirements</h6>
