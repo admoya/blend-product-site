@@ -48,7 +48,7 @@ export const load = (async ({ url, cookies }) => {
           const token = await auth.createCustomToken(uid);
           const appUrl = redirectParam === 'previewApp' ? 'https://preview-app.blendreading.com' : 'https://app.blendreading.com';
           successUrl = `${appUrl}?jumpScene=${encodeURIComponent(url.searchParams.get('jumpScene') || 'none')}${
-            token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+            token ? `&loginToken=${encodeURIComponent(token)}` : ''
           }`;
         }
         const stripeSession = await createStripeSession(uid, email, name, url.origin, {

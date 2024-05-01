@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { auth, setWillAttempLogin } from '$lib/firebase';
+  import { auth, customLoginToken, setWillAttempLogin } from '$lib/firebase';
   import { page } from '$app/stores';
   import { EmailAuthProvider, GoogleAuthProvider, type User } from 'firebase/auth';
   import * as firebaseui from 'firebaseui';
@@ -40,7 +40,7 @@
         isAppRedirect = true;
         redirectBuilder = (user, token) =>
           `${APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
-            token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+            token ? `&loginToken=${encodeURIComponent(token)}` : ''
           }`;
       }
       break;
@@ -52,7 +52,7 @@
         isAppRedirect = true;
         redirectBuilder = (user, token) =>
           `${PREVIEW_APP_URL}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
-            token ? `&context=${encodeURIComponent(JSON.stringify({ token }))}` : ''
+            token ? `&loginToken=${encodeURIComponent(token)}` : ''
           }`;
       }
       break;
@@ -65,21 +65,28 @@
         signInSuccessWithAuthResult(authResult, redirectUrl) {
           awaitingRedirect = true;
           setWillAttempLogin(true);
-          fetch('/login/sessionCookie', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(() => {
-            if (!actionParam && authResult.additionalUserInfo.isNewUser) {
-              gtag('event', 'new_account');
-              goto(`/account${$page.url.search || '?'}&action=choosePlan`);
-            } else if (isAppRedirect) {
-              fetch('/login/customToken', { method: 'POST', body: JSON.stringify({ idToken: authResult.user.accessToken }) }).then(
-                async (response) => {
-                  const token = (await response.json()).customToken;
-                  window.location.replace(redirectBuilder(authResult.user, token));
-                },
-              );
-            } else {
-              goto(redirectBuilder(authResult.user), { replaceState: true });
-            }
-          });
+          if (authResult.additionalUserInfo.isNewUser) gtag('event', 'new_account');
+          (async () => {
+            // Sets a session cookie on the browser
+            const sessionCookiePromise = fetch('/login/sessionCookie', {
+              method: 'POST',
+              body: JSON.stringify({ idToken: authResult.user.accessToken }),
+            });
+            // Now that we have logged in, the customToken store in firebase.ts will be updated, so we wait for that before redirecting
+            const unsubscribe = customLoginToken.subscribe(async (customToken) => {
+              if (customToken) {
+                unsubscribe(); // Make sure this doesn't fire again after the first time the token is updated
+                await sessionCookiePromise; // Make sure this finished to set the login cookie before redirecting
+                if (!actionParam && authResult.additionalUserInfo.isNewUser) {
+                  goto(`/account${$page.url.search || '?'}&action=choosePlan`);
+                } else if (isAppRedirect) {
+                  window.location.replace(redirectBuilder(authResult.user, customToken));
+                } else {
+                  goto(redirectBuilder(authResult.user), { replaceState: true });
+                }
+              }
+            });
+          })();
           return false;
         },
       },

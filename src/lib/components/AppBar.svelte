@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { user } from '$lib/firebase';
+  import { appUrl } from '$lib/utils';
   var isMenuopen = false;
   $: isLoggedIn = browser && $user;
   const toggleMenu = () => {
@@ -16,8 +17,7 @@
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <ul class={`nav-links ${isMenuopen ? '' : 'hide-menu'}`} on:click={toggleMenu} on:keypress={toggleMenu}>
       <li>
-        <a id="app" href="https://app.blendreading.com" target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}
-          >app</a>
+        <a id="app" href={$appUrl} target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}>app</a>
       </li>
       <li>
         <a id="home" href="/">home</a>

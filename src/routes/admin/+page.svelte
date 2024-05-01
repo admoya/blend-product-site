@@ -38,7 +38,7 @@
     }).then((res) => res.json());
     windowHandle = window.open('', 'BlendEmulator', 'width=1920,height=1080,popup')!;
     windowHandle.document.write(
-      `<iframe credentialless width="1920" height="1080" src="${`${PUBLIC_APP_URL}?jumpScene=${encodeURIComponent('res://Scenes/Account/Account.tscn')}&context=${encodeURIComponent(JSON.stringify({ token: emulationToken }))}`}" frameBorder="0" allowfullscreen></iframe>`,
+      `<iframe credentialless width="1920" height="1080" src="${`${PUBLIC_APP_URL}?jumpScene=${encodeURIComponent('res://Scenes/Account/Account.tscn')}&loginToken=${encodeURIComponent(emulationToken)}`}" frameBorder="0" allowfullscreen></iframe>`,
     );
     windowHandle.document.head.innerHTML += `<style>body { margin: 0; overflow: hidden }</style>`;
     windowHandle.onunload = () => {
