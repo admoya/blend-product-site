@@ -58,7 +58,7 @@
 </script>
 
 <svelte:head>
-  <title>My Account</title>
+  <title>My Account - Blend</title>
 </svelte:head>
 
 <div class="content">

@@ -111,7 +111,7 @@
 </script>
 
 <svelte:head>
-  <title>Login</title>
+  <title>Login - Blend</title>
 </svelte:head>
 
 <div class="content">

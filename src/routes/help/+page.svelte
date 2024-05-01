@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>Help</title>
+  <title>Help - Blend</title>
 </svelte:head>
 
 <main>
@@ -12,13 +12,22 @@
     <h1>Blend Help Center</h1>
     <div class="side-by-side">
       <div class="intro-item">
+        <h2>Watch our tutorials!</h2>
+        <p>We've created a playlist of tutorials on our YouTube channel to help you get started with Blend!</p>
+        <a
+          href="https://youtube.com/playlist?list=PL2TEs6eelwhfLxHTn2hyXDiYdKuh1Upv-&si=PZJBMi8mM-C1RTP3"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-blurple">Blend Tutorials</a>
+      </div>
+      <div class="intro-item">
         <h2>Need help?</h2>
         <p>If you can't find an answer here, you can submit an issue report, and our team will get back to you ASAP!</p>
         <a href="/help/report-an-issue" class="btn btn-red">Report an issue</a>
       </div>
       <div class="intro-item">
-        <h2>Leave a comment!</h2>
-        <p>We love hearing from you! Feel free to leave any comments, feedback, or new ideas.</p>
+        <h2>Leave us a message!</h2>
+        <p>We love hearing from you! Feel free to leave us any comments, feedback, or new ideas.</p>
         <a href="/help/feedback" class="btn btn-purple">Submit feedback</a>
       </div>
     </div>
@@ -39,7 +48,7 @@
     width: 70%;
   }
   .intro-item {
-    flex-basis: 32rem;
+    flex-basis: 20rem;
     display: flex;
     flex-direction: column;
     align-items: center;

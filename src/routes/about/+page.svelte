@@ -5,7 +5,7 @@
   import blendTeam from '$lib/assets/people/full-blend-team.jpg';
 </script>
 
-<svelte:head>About</svelte:head>
+<svelte:head>About - Blend</svelte:head>
 
 <div class="content">
   <section class="paper">

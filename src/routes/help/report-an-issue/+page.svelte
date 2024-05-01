@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Report an Issue</title>
+  <title>Issue Report - Blend</title>
 </svelte:head>
 
 <div class="content">

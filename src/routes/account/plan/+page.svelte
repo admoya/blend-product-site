@@ -26,7 +26,7 @@
   };
 </script>
 
-<svelte:head>Choose Your Plan</svelte:head>
+<svelte:head>Choose Plan - Blend</svelte:head>
 
 <div class="content">
   <h1>Choose your plan</h1>

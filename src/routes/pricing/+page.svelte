@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-  <title>Blend Pricing</title>
+  <title>Pricing - Blend</title>
   <meta name="description" content="Learn about the features and pricing options for the Blend app" />
 </svelte:head>
 

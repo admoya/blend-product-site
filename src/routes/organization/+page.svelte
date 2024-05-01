@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Organization Pricing</title>
+  <title>Organizations - Blend</title>
 </svelte:head>
 
 <main>

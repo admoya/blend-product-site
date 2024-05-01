@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Feedback</title>
+  <title>Feedback - Blend</title>
 </svelte:head>
 
 {#if browser}
