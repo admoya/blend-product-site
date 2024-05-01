@@ -56,13 +56,6 @@ declare global {
     }
   }
 
-  namespace Help {
-    interface Faq {
-      question: string;
-      answer: string;
-    }
-  }
-
   namespace Database {
     interface Deck {
       created_ts: string;

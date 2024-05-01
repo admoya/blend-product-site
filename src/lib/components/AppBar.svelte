@@ -19,17 +19,14 @@
       <li>
         <a id="app" href={$appUrl} target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}>app</a>
       </li>
-      <!-- <li>
+      <li>
         <a id="home" href="/">home</a>
-      </li> -->
+      </li>
       <li>
         <a id="pricing" href="/pricing">pricing</a>
       </li>
       <li>
         <a id="organization" href="/organization">organizations</a>
-      </li>
-      <li>
-        <a id="help" href="/help">help</a>
       </li>
       <li>
         <a id="library" href="/library">library</a>
@@ -114,7 +111,7 @@
     color: white;
   }
 
-  a#help:hover {
+  a#home:hover {
     color: #f1b4fb;
   }
 
