@@ -93,7 +93,14 @@
       signInSuccessUrl: `'/login'`,
       signInOptions: [
         EmailAuthProvider.PROVIDER_ID,
-        GoogleAuthProvider.PROVIDER_ID,
+        // GoogleAuthProvider.PROVIDER_ID,
+        {
+          provider: GoogleAuthProvider.PROVIDER_ID,
+          customParameters: {
+            prompt: 'select_account',
+          },
+        },
+
         // FacebookAuthProvider.PROVIDER_ID
       ],
       signInFlow: 'popup',
