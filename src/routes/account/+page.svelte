@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto, invalidate, invalidateAll } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
-  import { user, signOut } from '$lib/firebase';
+  import { user, signOut, customLoginToken } from '$lib/firebase';
   import type { PageData } from './$types';
 
   export let data: PageData;
@@ -16,17 +16,11 @@
   //@ts-ignore
   window.debugBlendUser = async () => {
     const idToken = await $user?.getIdToken();
-    const { customToken } = await (
-      await fetch('/login/customToken', {
-        method: 'POST',
-        body: JSON.stringify({ idToken }),
-      })
-    ).json();
     console.log(
       `
           uid: ${$user?.uid},
           id_token: ${idToken},
-          custom_token: ${customToken}
+          custom_token: ${$customLoginToken}
         `,
     );
   };

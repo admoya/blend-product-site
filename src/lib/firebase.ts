@@ -77,6 +77,33 @@ export const user = readable(auth.currentUser, (set) => {
   });
 });
 
+export const customLoginToken = writable<string | null>(null, (set) => {
+  const setToken = (user: User) => {
+    user.getIdToken().then(async (idToken) => {
+      set(
+        (
+          await (
+            await fetch('/login/customToken', {
+              method: 'POST',
+              body: JSON.stringify({ idToken }),
+            })
+          ).json()
+        ).customToken,
+      );
+    });
+  };
+  if (auth.currentUser) {
+    setToken(auth.currentUser);
+  }
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      setToken(user);
+    } else {
+      set(null);
+    }
+  });
+});
+
 export const signOut = async () => {
   await fetch('/login/sessionCookie', {
     method: 'DELETE',

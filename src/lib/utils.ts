@@ -1,4 +1,7 @@
 import { browser } from '$app/environment';
+import { PUBLIC_APP_URL } from '$env/static/public';
+import { readable } from 'svelte/store';
+import { customLoginToken } from './firebase';
 
 export function isEmbeddedBrowser() {
   if (!browser) return false;
@@ -8,3 +11,13 @@ export function isEmbeddedBrowser() {
 
   return isFacebookEmbedded;
 }
+
+export const appUrl = readable<string>(PUBLIC_APP_URL, (set) => {
+  customLoginToken.subscribe((token) => {
+    if (token) {
+      set(`${PUBLIC_APP_URL}?loginToken=${token}`);
+    } else {
+      set(PUBLIC_APP_URL);
+    }
+  });
+});
