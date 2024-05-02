@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { auth, customLoginToken, setWillAttempLogin } from '$lib/firebase';
+  import { auth, customLoginToken, setWillAttempLogin, signOut } from '$lib/firebase';
   import { page } from '$app/stores';
   import { EmailAuthProvider, GoogleAuthProvider, type User } from 'firebase/auth';
   import * as firebaseui from 'firebaseui';
@@ -8,6 +8,8 @@
   import { goto } from '$app/navigation';
   import { isEmbeddedBrowser } from '$lib/utils';
   import Alert from '$lib/components/Alert.svelte';
+
+  signOut(); // Make sure we're not logged in when we get here
 
   const ui = firebaseui.auth.AuthUI.getInstance() ?? new firebaseui.auth.AuthUI(auth);
 
