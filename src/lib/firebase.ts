@@ -77,29 +77,40 @@ export const user = readable(auth.currentUser, (set) => {
   });
 });
 
+const getCustomToken = async (user: User) => {
+  const idToken = await user.getIdToken();
+  const customToken = (
+    await (
+      await fetch('/login/customToken', {
+        method: 'POST',
+        body: JSON.stringify({ idToken }),
+      })
+    ).json()
+  ).customToken;
+  // set(customToken);
+  return customToken;
+};
+
 export const customLoginToken = writable<string | null>(null, (set) => {
-  const setToken = (user: User) => {
-    user.getIdToken().then(async (idToken) => {
-      set(
-        (
-          await (
-            await fetch('/login/customToken', {
-              method: 'POST',
-              body: JSON.stringify({ idToken }),
-            })
-          ).json()
-        ).customToken,
-      );
+  let lastTokenPassed: Promise<string> | null = null;
+  const setToken = (token: Promise<string> | null) => {
+    lastTokenPassed = token;
+    if (token === null) {
+      set(null);
+      return;
+    }
+    token.then((customToken) => {
+      // This is to resolve sync issues, where we the user logs in and then out in quick succession, and the promise for the token is not yet resolved by the time it is set to null
+      if (lastTokenPassed === token) {
+        set(customToken);
+      }
     });
   };
-  if (auth.currentUser) {
-    setToken(auth.currentUser);
-  }
   auth.onAuthStateChanged((user) => {
     if (user) {
-      setToken(user);
+      setToken(getCustomToken(user));
     } else {
-      set(null);
+      setToken(null);
     }
   });
 });
