@@ -13,13 +13,8 @@
 <div class="content">
   <h1>Focus Group RSVP</h1>
   <div class="paper" style="margin-top: 0">
-    <p>
-      Thank you for the interest in our focus group! We expect this session to be about 30-45 minutes long and will be held virtually.
-    </p>
-    <p>
-      Please fill in your contact information below and select a time to join us. We will reach out via
-      email with the meeting details.
-    </p>
+    <p>Thank you for the interest in our focus group! We expect this session to be about 30-45 minutes long and will be held virtually.</p>
+    <p>Please fill in your contact information below and select a time to join us. We will reach out via email with the meeting details.</p>
     <form data-netlify="true" name="focus-group-rsvp" method="POST" action="/focus-group-rsvp/thank-you">
       <input type="hidden" name="form-name" value="focus-group-rsvp" />
       <label>
@@ -32,10 +27,6 @@
       </label>
       <fieldset>
         <legend> Availibility </legend>
-        <label style="display: block;">
-          <input style="display: inline;" type="checkbox" name="time1" value="Friday, May 3rd, 6:30PM EST" />
-          Friday, May 3rd, 6:30PM EST
-        </label>
         <label style="display: block;">
           <input style="display: inline;" type="checkbox" name="time2" value="Wednesday, May 8th, 7:00PM EST" />
           Wednesday, May 8th, 7:00PM EST
