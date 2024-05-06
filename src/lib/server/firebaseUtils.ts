@@ -138,6 +138,8 @@ export const weaklyAuthenticate = async (event: RequestEvent) => {
 };
 
 export const getUserData = (uid: string) => auth.getUser(uid);
+export const getUserDataByEmail = (email: string) => auth.getUserByEmail(email);
+export const listAllUsers = (nextPageToken?: string) => auth.listUsers(1000, nextPageToken);
 
 export const getUserFromEmail = (email: string) => auth.getUserByEmail(email);
 

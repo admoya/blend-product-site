@@ -3,6 +3,10 @@
   import Modal from '$lib/components/Modal.svelte';
   import { createWritableStore, generatePushID } from '$lib/firebase';
   import { PUBLIC_APP_URL } from '$env/static/public';
+  import { enhance } from '$app/forms';
+  import type { UserSearchResult } from './+page.server';
+
+  export let form;
 
   const organizations = createWritableStore<{ [id: string]: Database.Organization }>('/organizations');
   let showAddOrganizationModal = false;
@@ -41,7 +45,7 @@
       `<iframe credentialless width="1920" height="1080" src="${`${PUBLIC_APP_URL}?jumpScene=${encodeURIComponent('res://Scenes/Account/Account.tscn')}&loginToken=${encodeURIComponent(emulationToken)}`}" frameBorder="0" allowfullscreen></iframe>`,
     );
     windowHandle.document.head.innerHTML += `<style>body { margin: 0; overflow: hidden }</style>`;
-    windowHandle.onunload = () => {
+    windowHandle.onbeforeunload = () => {
       windowHandle = null;
     };
   };
@@ -50,46 +54,128 @@
     windowHandle?.close();
     windowHandle = null;
   };
+
+  $: userSearchResults = (form as UserSearchResult[]) ?? [];
 </script>
 
 <AuthCheck />
 <div class="content">
   <h1>Admin View</h1>
   {#if $organizations}
-    <h2>Organizations:</h2>
-    <table class="org-table">
-      <tr>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-      {#each Object.entries($organizations) as [orgId, org]}
+    <div class="paper">
+      <h2>Organizations:</h2>
+      <table class="org-table">
         <tr>
-          <td>
-            <a href={`/organization/${orgId}`}>{org.public.name}</a>
-          </td>
-          <td>
-            <button class="btn btn-red btn-small">Delete</button>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+        {#each Object.entries($organizations) as [orgId, org]}
+          <tr>
+            <td>
+              <a href={`/organization/${orgId}`}>{org.public.name}</a>
+            </td>
+            <td>
+              <button class="btn btn-red btn-small">Delete</button>
+            </td>
+          </tr>
+        {/each}
+        <tr>
+          <td colspan="2">
+            <button style="width: 100%; margin: 1rem 0 0 0" class="btn btn-green" on:click={() => (showAddOrganizationModal = true)}>Create</button>
           </td>
         </tr>
+      </table>
+    </div>
+  {/if}
+  <div class="paper">
+    <h2>Emulation Mode</h2>
+    <label>
+      UID
+      <input type="text" disabled={!!windowHandle} bind:value={emulationUid} />
+    </label>
+    {#if windowHandle}
+      <button on:click={stopEmulation} class="btn btn-red">Stop</button>
+    {:else}
+      <button disabled={!emulationUid} on:click={() => startEmulation(emulationUid)} class="btn btn-green">Start</button>
+    {/if}
+  </div>
+  <div class="paper">
+    <h2>User Search</h2>
+    <form action="?/userSearch" method="POST" use:enhance>
+      <div style="display: flex; flex-direction: row; gap: 0.5rem; vertical-align: bottom; align-items: center; justify-content: center;">
+        <label style="display: flex; flex-direction: column;">
+          UID
+          <input name="uid" type="text" />
+        </label>
+        <span style="padding-top: 1rem;">OR</span>
+        <label style="display: flex; flex-direction: column;">
+          Email
+          <input name="email" type="text" />
+        </label>
+      </div>
+      <button style="margin: 1rem auto; width: 90%" class="btn btn-green">Search</button>
+    </form>
+    {#if userSearchResults.length > 0}
+      <h3 style="margin-bottom: 0;">Results</h3>
+      {#each userSearchResults as userSearchResult}
+        <div style="border-width: 2px; border-radius: 5px; border-style: solid; padding: 1rem;">
+          <h4 style="text-align: center; margin: 0;">{userSearchResult.displayName}</h4>
+          <dl style="display: grid; grid-template-columns: auto auto; column-gap: 1rem;">
+            <dt>UID:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.uid}</dd>
+            <dt>Email:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.email}</dd>
+            <dt>Blend Pro Subscriber:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.isSubscribedToBlendPro}</dd>
+            <dt>Account Created:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.accountCreated}</dd>
+            <dt>Last Login:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.lastLogin}</dd>
+            <dt>Last Refresh:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.lastRefresh}</dd>
+            <dt>Organizations:</dt>
+            <dd style="margin-left: 0;">{userSearchResult.organizations.map((org) => org.name).join(', ')}</dd>
+            <dt>Decks ({Object.keys(userSearchResult.decks).length}):</dt>
+            <dd style="margin-left: 0;">
+              {#each Object.entries(userSearchResult.decks) as [key, deck]}
+                <dl
+                  style="display: grid; grid-template-columns: auto auto; column-gap: .5rem; border-width: 1px; border-style: dashed; padding: 0.5rem; margin: 0.3rem auto;">
+                  <dt>Name:</dt>
+                  <dd style="margin-left: 0;">{deck.name}</dd>
+                  <dt>RefId:</dt>
+                  <dd style="margin-left: 0;">{deck.refId}</dd>
+                  <dt>Created:</dt>
+                  <dd style="margin-left: 0;">{deck.created_ts}</dd>
+                  <dt>Updated:</dt>
+                  <dd style="margin-left: 0;">{deck.modified_ts}</dd>
+                </dl>
+              {/each}
+            </dd>
+            <dt>Playlists ({Object.keys(userSearchResult.playlists).length})</dt>
+            <dd style="margin-left: 0;">
+              {#each Object.entries(userSearchResult.playlists) as [key, playlist]}
+                <dl
+                  style="display: grid; grid-template-columns: auto auto; column-gap: .5rem; border-width: 1px; border-style: dashed; padding: 0.5rem; margin: 0.3rem auto;">
+                  <dt>Name:</dt>
+                  <dd style="margin-left: 0;">{playlist.name}</dd>
+                  <dt>RefId:</dt>
+                  <dd style="margin-left: 0;">{playlist.refId}</dd>
+                  <dt>Created:</dt>
+                  <dd style="margin-left: 0;">{playlist.created_ts}</dd>
+                  <dt>Updated:</dt>
+                  <dd style="margin-left: 0;">{playlist.modified_ts}</dd>
+                  <dt>Linked Deck ID:</dt>
+                  <dd style="margin-left: 0;">{playlist.linked_deck_id}</dd>
+                </dl>
+              {/each}
+            </dd>
+          </dl>
+        </div>
       {/each}
-      <tr>
-        <td colspan="2">
-          <button style="width: 100%; margin: 1rem 0 0 0" class="btn btn-green" on:click={() => (showAddOrganizationModal = true)}>Create</button>
-        </td>
-      </tr>
-    </table>
-  {/if}
-  <h2 style="margin-top: 2rem;">Emulation Mode</h2>
-  <label>
-    UID
-    <input type="text" disabled={!!windowHandle} bind:value={emulationUid} />
-  </label>
-  {#if windowHandle}
-    <button on:click={stopEmulation} class="btn btn-red">Stop</button>
-  {:else}
-    <button disabled={!emulationUid} on:click={() => startEmulation(emulationUid)} class="btn btn-green">Start</button>
-  {/if}
+    {/if}
+  </div>
 </div>
+
 <Modal bind:showModal={showAddOrganizationModal}>
   <h2 slot="header">Create a new Organization</h2>
   <form on:submit|preventDefault={createOrganization}>
@@ -113,5 +199,16 @@
   }
   .org-table th {
     font-size: 1.2rem;
+  }
+  .paper {
+    min-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .paper h2 {
+    text-align: center;
+    margin-bottom: 1rem;
   }
 </style>
