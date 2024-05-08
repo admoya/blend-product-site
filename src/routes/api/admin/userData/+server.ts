@@ -1,7 +1,16 @@
-import { getOrganizationInfo, getUserData, getUserFromEmail, getUserOrganizations, readPath } from '$lib/server/firebaseUtils';
-import { isSubscribedToBlendPro, getStripeCustomerWithSubscriptions } from '$lib/server/subscriptionUtils';
+import {
+  checkSessionAuth,
+  getOrganizationInfo,
+  getUserData,
+  getUserFromEmail,
+  getUserOrganizations,
+  isUserGlobalAdmin,
+  listAllUsers,
+  readPath,
+} from '$lib/server/firebaseUtils';
+import { getStripeCustomerWithSubscriptions, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { json } from '@sveltejs/kit';
 import type { UserRecord } from 'firebase-admin/auth';
-import type { Actions, PageServerLoad } from './$types';
 
 export interface UserSearchResult {
   displayName: string;
@@ -42,27 +51,26 @@ const getUserSearchResult = async (user: UserRecord) => {
   return userSearchResult;
 };
 
-export const actions: Actions = {
-  userSearch: async ({ cookies, request }) => {
-    const data = await request.formData();
-    const uid = data.get('uid') as string;
-    const email = data.get('email') as string;
-    if (uid) {
-      try {
-        const user = await getUserData(uid);
-        return [await getUserSearchResult(user)];
-      } catch {
-        return [];
-      }
+export const GET = async ({ cookies, url }) => {
+  await checkSessionAuth(cookies, { authFunction: ({ uid }) => isUserGlobalAdmin(uid) });
+  const uid = url.searchParams.get('uid');
+  const email = url.searchParams.get('email');
+  if (uid) {
+    try {
+      const user = await getUserData(uid);
+      return json([await getUserSearchResult(user)]);
+    } catch {
+      return json([]);
     }
-    if (email) {
-      try {
-        const user = await getUserFromEmail(email);
-        return [await getUserSearchResult(user)];
-      } catch {
-        return [];
-      }
+  }
+  if (email) {
+    try {
+      const user = await getUserFromEmail(email);
+      return json([await getUserSearchResult(user)]);
+    } catch {
+      return json([]);
     }
-    return [];
-  },
+  }
+  const allUserRecords = await listAllUsers();
+  return json(await Promise.all(allUserRecords.map(getUserSearchResult)));
 };

@@ -2,7 +2,8 @@ import firebaseAdmin from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
 import { error, type Cookies, type RequestEvent, redirect } from '@sveltejs/kit';
 import type { ThenableReference } from 'firebase-admin/database';
-import type { DecodedIdToken, UserIdentifier } from 'firebase-admin/auth';
+import type { DecodedIdToken, UserIdentifier, UserRecord } from 'firebase-admin/auth';
+import { user } from '$lib/firebase';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
@@ -139,7 +140,14 @@ export const weaklyAuthenticate = async (event: RequestEvent) => {
 
 export const getUserData = (uid: string) => auth.getUser(uid);
 export const getUserDataByEmail = (email: string) => auth.getUserByEmail(email);
-export const listAllUsers = (nextPageToken?: string) => auth.listUsers(1000, nextPageToken);
+export const listAllUsers = async (nextPageToken?: string): Promise<UserRecord[]> => {
+  const { users, pageToken } = await auth.listUsers(1000, nextPageToken);
+  if (pageToken) {
+    const nextUsers = await listAllUsers(pageToken);
+    return [...users, ...nextUsers];
+  }
+  return users;
+};
 
 export const getUserFromEmail = (email: string) => auth.getUserByEmail(email);
 

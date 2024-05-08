@@ -1,12 +1,10 @@
 <script lang="ts">
   import AuthCheck from '$lib/components/AuthCheck.svelte';
   import Modal from '$lib/components/Modal.svelte';
-  import { createWritableStore, generatePushID } from '$lib/firebase';
+  import { createWritableStore, generatePushID, user } from '$lib/firebase';
   import { PUBLIC_APP_URL } from '$env/static/public';
   import { enhance } from '$app/forms';
-  import type { UserSearchResult } from './+page.server';
-
-  export let form;
+  import type { UserSearchResult } from '../api/admin/userData/+server';
 
   const organizations = createWritableStore<{ [id: string]: Database.Organization }>('/organizations');
   let showAddOrganizationModal = false;
@@ -55,7 +53,45 @@
     windowHandle = null;
   };
 
-  $: userSearchResults = (form as UserSearchResult[]) ?? [];
+  let userSearchResults: UserSearchResult[] = [];
+  let userSearchUid = '';
+  let userSearchEmail = '';
+  const handleUserSearch = async () => {
+    const response = await fetch(`/api/admin/userData?uid=${userSearchUid}&email=${userSearchEmail}`);
+    userSearchResults = await response.json();
+    userSearchEmail = '';
+    userSearchUid = '';
+  };
+
+  const downloadAllUserDetails = async () => {
+    if (!confirm('This will download all user data into a CSV. Are you sure you want to continue?')) return;
+    const response = await fetch('/api/admin/userData');
+    const users = (await response.json()) as UserSearchResult[];
+    const csv = ['UID,Email,DisplayName,IsSubscribedToBlendPro,AccountCreated,LastLogin,LastRefresh,Organizations,Decks,Playlists'];
+    for (const user of users) {
+      csv.push(
+        [
+          user.uid,
+          user.email,
+          user.displayName,
+          user.isSubscribedToBlendPro,
+          user.accountCreated,
+          user.lastLogin,
+          user.lastRefresh,
+          user.organizations.map((org) => org.name).join(','),
+          JSON.stringify(user.decks),
+          JSON.stringify(user.playlists),
+        ].join(','),
+      );
+    }
+    const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'user_data.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 </script>
 
 <AuthCheck />
@@ -100,17 +136,23 @@
     {/if}
   </div>
   <div class="paper">
-    <h2>User Search</h2>
-    <form action="?/userSearch" method="POST" use:enhance>
+    <div style="display: flex; flex-direction: row;">
+      <div style="flex-grow: 1;"></div>
+      <h2 style="flex-grow: 1;">User Search</h2>
+      <form style="flex-grow: 0;" on:submit|preventDefault={downloadAllUserDetails}>
+        <button class="btn btn-small btn-green" style="margin-bottom: 1rem;">Download All</button>
+      </form>
+    </div>
+    <form on:submit|preventDefault={handleUserSearch}>
       <div style="display: flex; flex-direction: row; gap: 0.5rem; vertical-align: bottom; align-items: center; justify-content: center;">
         <label style="display: flex; flex-direction: column;">
           UID
-          <input name="uid" type="text" />
+          <input bind:value={userSearchUid} type="text" />
         </label>
         <span style="padding-top: 1rem;">OR</span>
         <label style="display: flex; flex-direction: column;">
           Email
-          <input name="email" type="text" />
+          <input bind:value={userSearchEmail} type="text" />
         </label>
       </div>
       <button style="margin: 1rem auto; width: 90%" class="btn btn-green">Search</button>
