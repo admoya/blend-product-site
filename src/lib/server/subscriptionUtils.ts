@@ -35,6 +35,16 @@ export const getStripeCustomerWithSubscriptions = async (uid: string) => {
   });
 };
 
+export const getAllCustomersWithSubscriptions = async (): Promise<{ [uid: string]: Stripe.Customer }> => {
+  return (
+    await stripe.customers.list({
+      expand: ['data.subscriptions'],
+    })
+  ).data
+    .filter((customer) => customer.metadata.uid)
+    .reduce((acc, customer) => ({ ...acc, [customer.metadata.uid]: customer }), {});
+};
+
 export const getAllCustomerSubscriptions = async (uid: string) => {
   const stripeCustomerId: string | null = (await db.ref(`/users/${uid}/private/stripeCustomerId`).once('value')).val();
   if (stripeCustomerId === null) return [];

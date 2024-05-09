@@ -8,7 +8,7 @@ import {
   listAllUsers,
   readPath,
 } from '$lib/server/firebaseUtils';
-import { getStripeCustomerWithSubscriptions, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { getAllCustomersWithSubscriptions, getStripeCustomerWithSubscriptions, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
 import { json } from '@sveltejs/kit';
 import type { UserRecord } from 'firebase-admin/auth';
 
@@ -51,6 +51,30 @@ const getUserSearchResult = async (user: UserRecord) => {
   return userSearchResult;
 };
 
+const getAllUsers = async () => {
+  const [allUserRecords, allStripeUsers, allUserDecks, allUserPlaylists] = await Promise.all([
+    listAllUsers(),
+    getAllCustomersWithSubscriptions(),
+    readPath<Database.Decks.User>(`/decks/user`),
+    readPath<Database.Playlists.User>(`/playlists/user`),
+  ]);
+  const allUserData = await Promise.all(
+    allUserRecords.map(async (user) => ({
+      displayName: user.displayName ?? 'N/A',
+      email: user.email ?? 'N/A',
+      uid: user.uid,
+      isSubscribedToBlendPro: isSubscribedToBlendPro(allStripeUsers[user.uid]),
+      accountCreated: user.metadata.creationTime,
+      lastLogin: user.metadata.lastSignInTime,
+      lastRefresh: user.metadata.lastRefreshTime ?? 'N/A',
+      decks: allUserDecks?.[user.uid] ?? {},
+      playlists: allUserPlaylists?.[user.uid] ?? {},
+      organizations: await getUserOrganizations(user.uid),
+    })),
+  );
+  return allUserData;
+};
+
 export const GET = async ({ cookies, url }) => {
   await checkSessionAuth(cookies, { authFunction: ({ uid }) => isUserGlobalAdmin(uid) });
   const uid = url.searchParams.get('uid');
@@ -72,5 +96,5 @@ export const GET = async ({ cookies, url }) => {
     }
   }
   const allUserRecords = await listAllUsers();
-  return json(await Promise.all(allUserRecords.map(getUserSearchResult)));
+  return json(await getAllUsers());
 };
