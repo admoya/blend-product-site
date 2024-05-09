@@ -3,8 +3,7 @@
   import Modal from '$lib/components/Modal.svelte';
   import { createWritableStore, generatePushID, user } from '$lib/firebase';
   import { PUBLIC_APP_URL } from '$env/static/public';
-  import { enhance } from '$app/forms';
-  import type { UserSearchResult } from '../api/admin/userData/+server';
+  import type { AllUserData, UserSearchResult } from '../api/admin/userData/+server';
 
   const organizations = createWritableStore<{ [id: string]: Database.Organization }>('/organizations');
   let showAddOrganizationModal = false;
@@ -66,21 +65,23 @@
   const downloadAllUserDetails = async () => {
     if (!confirm('This will download all user data into a CSV. Are you sure you want to continue?')) return;
     const response = await fetch('/api/admin/userData');
-    const users = (await response.json()) as UserSearchResult[];
-    const csv = ['UID,Email,DisplayName,IsSubscribedToBlendPro,AccountCreated,LastLogin,LastRefresh,Organizations,Decks,Playlists'];
+    const users = (await response.json()) as AllUserData;
+    const csv = [
+      'UID,Email,DisplayName,IsSubscribedToBlendPro,AccountCreated,LastLogin,LastRefresh,Organizations,Number of Decks,Number of Playlists',
+    ];
     for (const user of users) {
       csv.push(
         [
           user.uid,
-          user.email,
-          user.displayName,
+          `"${user.email}"`,
+          `"${user.displayName}"`,
           user.isSubscribedToBlendPro,
-          user.accountCreated,
-          user.lastLogin,
-          user.lastRefresh,
-          user.organizations.map((org) => org.name).join(','),
-          JSON.stringify(user.decks),
-          JSON.stringify(user.playlists),
+          `"${user.accountCreated}"`,
+          `"${user.lastLogin}"`,
+          `"${user.lastRefresh}"`,
+          `"${user.organizations.join(',')}"`,
+          user.deckCount,
+          user.playlistCount,
         ].join(','),
       );
     }

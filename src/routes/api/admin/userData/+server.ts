@@ -25,6 +25,20 @@ export interface UserSearchResult {
   organizations: Database.Organization.Public[];
 }
 
+export interface AllUserData
+  extends Array<{
+    displayName: string;
+    email: string;
+    uid: string;
+    isSubscribedToBlendPro: boolean;
+    accountCreated: string;
+    lastLogin: string;
+    lastRefresh: string;
+    deckCount: number;
+    playlistCount: number;
+    organizations: string[];
+  }> {}
+
 const getUserSearchResult = async (user: UserRecord) => {
   const uid = user.uid;
   const [userDecks, userPlaylists, organizationIds, stripeCustomer] = await Promise.all([
@@ -52,13 +66,14 @@ const getUserSearchResult = async (user: UserRecord) => {
 };
 
 const getAllUsers = async () => {
-  const [allUserRecords, allStripeUsers, allUserDecks, allUserPlaylists] = await Promise.all([
+  const [allUserRecords, allStripeUsers, allUserDecks, allUserPlaylists, allOrganizations] = await Promise.all([
     listAllUsers(),
     getAllCustomersWithSubscriptions(),
     readPath<Database.Decks.User>(`/decks/user`),
     readPath<Database.Playlists.User>(`/playlists/user`),
+    readPath<{ [orgId: string]: Database.Organization }>(`/organizations`),
   ]);
-  const allUserData = await Promise.all(
+  const allUserData: AllUserData = await Promise.all(
     allUserRecords.map(async (user) => ({
       displayName: user.displayName ?? 'N/A',
       email: user.email ?? 'N/A',
@@ -67,9 +82,9 @@ const getAllUsers = async () => {
       accountCreated: user.metadata.creationTime,
       lastLogin: user.metadata.lastSignInTime,
       lastRefresh: user.metadata.lastRefreshTime ?? 'N/A',
-      decks: allUserDecks?.[user.uid] ?? {},
-      playlists: allUserPlaylists?.[user.uid] ?? {},
-      organizations: await getUserOrganizations(user.uid),
+      deckCount: Object.keys(allUserDecks?.[user.uid] ?? {}).length,
+      playlistCount: Object.keys(allUserPlaylists?.[user.uid] ?? {}).length,
+      organizations: (await getUserOrganizations(user.uid)).map((orgId) => allOrganizations?.[orgId]?.public?.name ?? ''),
     })),
   );
   return allUserData;
