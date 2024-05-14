@@ -94,12 +94,13 @@ export const createStripeSession = async (
   email: string,
   name: string,
   origin: string,
-  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly' },
+  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string },
 ) => {
   const priceCode = options?.subscriptionType === 'yearly' ? YEARLY_PRICE_CODE : MONTHLY_PRICE_CODE;
   console.log(`Fetching Stripe customer ID for user ${uid}`);
   const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
 
+  const promoCodesPromise = options?.promoCode ? stripeClient.promotionCodes.list({ code: options.promoCode }) : Promise.resolve({ data: [] });
   let [customer, allSubscriptions] = await Promise.all([getStripeCustomerWithSubscriptions(uid), getAllCustomerSubscriptions(uid)]);
 
   let subscriptionData: Stripe.Checkout.SessionCreateParams.SubscriptionData = {};
@@ -130,6 +131,7 @@ export const createStripeSession = async (
 
   console.log(`Customer is ${subscriptionData.trial_period_days ? '' : 'not '}eligible for a free trial.`);
   console.log('Creating Stripe session');
+  const promoCode = (await promoCodesPromise).data.pop();
   const session = await stripeClient.checkout.sessions.create({
     customer: customer.id,
     billing_address_collection: 'auto',
@@ -140,7 +142,8 @@ export const createStripeSession = async (
       },
     ],
     subscription_data: subscriptionData,
-    allow_promotion_codes: true,
+    allow_promotion_codes: promoCode ? undefined : true,
+    discounts: promoCode ? [{ promotion_code: promoCode.id }] : undefined,
     mode: 'subscription',
     success_url: `${options?.successUrl ?? `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`}`,
     cancel_url: `${origin}/account/?subscription_checkout_status=cancel`,

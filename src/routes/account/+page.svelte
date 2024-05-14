@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto, invalidate, invalidateAll } from '$app/navigation';
+  import { goto } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
   import { user, signOut, customLoginToken } from '$lib/firebase';
   import type { PageData } from './$types';

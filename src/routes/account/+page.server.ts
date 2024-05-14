@@ -54,6 +54,7 @@ export const load = (async ({ url, cookies }) => {
         const stripeSession = await createStripeSession(uid, email, name, url.origin, {
           successUrl,
           subscriptionType: newParams.get('subscriptionType') === 'yearly' ? 'yearly' : 'monthly',
+          promoCode: newParams.get('promoCode') ?? undefined,
         });
         throw redirect(303, stripeSession.url!);
       }
