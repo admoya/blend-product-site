@@ -110,6 +110,9 @@ declare global {
       interface User {
         [playlistId: string]: Playlist;
       }
+      interface Preloaded {
+        [playlistId: string]: Playlist;
+      }
     }
     namespace Invite {
       interface Organization {
