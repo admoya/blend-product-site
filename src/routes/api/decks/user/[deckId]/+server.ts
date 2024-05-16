@@ -9,9 +9,7 @@ export const GET = (async (event) => {
   if (!deck) {
     throw error(404, `No deck exists with refId ${deckId}`);
   }
-  return json(deck, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(deck);
 }) satisfies RequestHandler;
 
 export const POST = (async (event) => {
@@ -21,7 +19,6 @@ export const POST = (async (event) => {
   await writePath(`/decks/user/${uid}/${deckId}`, deckData);
   return json(deckData, {
     status: 201,
-    headers: [['Access-Control-Allow-Origin', '*']],
   });
 }) satisfies RequestHandler;
 
@@ -39,9 +36,7 @@ export const PUT = (async (event) => {
     ...deckData,
   };
   await writePath(path, newDeck);
-  return json(newDeck, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(newDeck);
 }) satisfies RequestHandler;
 
 export const DELETE = (async (event) => {
@@ -53,17 +48,11 @@ export const DELETE = (async (event) => {
     throw error(404, `No deck exists with refId ${deckId}`);
   }
   await deletePath(path);
-  return json(existingDeck, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(existingDeck);
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE']],
   });
 }) satisfies RequestHandler;

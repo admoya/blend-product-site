@@ -16,10 +16,5 @@ export const POST = (async ({ request }) => {
     JSON.stringify({
       customToken,
     }),
-    {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    },
   );
 }) satisfies RequestHandler;

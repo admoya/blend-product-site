@@ -21,16 +21,11 @@ export const POST = (async (event) => {
   await writePath(`/flags/user/${uid}/${flagName}`, value);
   return json(value, {
     status: 201,
-    headers: [['Access-Control-Allow-Origin', '*']],
   });
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'POST']],
   });
 }) satisfies RequestHandler;

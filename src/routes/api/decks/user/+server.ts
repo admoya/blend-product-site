@@ -6,18 +6,14 @@ export const GET = (async (event) => {
   const { uid } = await authenticate(event);
   const omitOrgDecks = event.url.searchParams.get('omitOrgDecks') ?? false;
   const orgIdParam = event.url.searchParams.get('orgId');
-  if (omitOrgDecks && orgIdParam)
-    return new Response('Cannot specify both omitOrgDecks and orgId', { status: 400, headers: [['Access-Control-Allow-Origin', '*']] });
+  if (omitOrgDecks && orgIdParam) return new Response('Cannot specify both omitOrgDecks and orgId', { status: 400 });
   if (omitOrgDecks) {
     const userDecks = (await readPath<Database.Decks.User>(`/decks/user/${uid}`)) || {};
     const deckArray = Object.entries(userDecks).map(([key, val]) => val);
-    return json(deckArray, {
-      headers: [['Access-Control-Allow-Origin', '*']],
-    });
+    return json(deckArray);
   } else if (orgIdParam) {
     const organizationIds = await getUserOrganizations(uid);
-    if (!organizationIds.includes(orgIdParam))
-      return new Response('User is not a member of this organization', { status: 403, headers: [['Access-Control-Allow-Origin', '*']] });
+    if (!organizationIds.includes(orgIdParam)) return new Response('User is not a member of this organization', { status: 403 });
     const orgDecks = (await getOrganizationDecks(orgIdParam)) ?? {};
     const organizationInfo = await getOrganizationInfo(orgIdParam);
     const deckArray = Object.values(orgDecks).map(({ deck }) => ({
@@ -27,9 +23,7 @@ export const GET = (async (event) => {
         orgId: orgIdParam,
       },
     }));
-    return json(deckArray, {
-      headers: [['Access-Control-Allow-Origin', '*']],
-    });
+    return json(deckArray);
   } else {
     const userDecks = (await readPath<Database.Decks.User>(`/decks/user/${uid}`)) || {};
     const userDeckArray = Object.entries(userDecks).map(([key, val]) => val);
@@ -52,17 +46,12 @@ export const GET = (async (event) => {
       )
     ).flat();
 
-    return json([...userDeckArray, ...organizationDeckArray], {
-      headers: [['Access-Control-Allow-Origin', '*']],
-    });
+    return json([...userDeckArray, ...organizationDeckArray]);
   }
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET']],
   });
 }) satisfies RequestHandler;

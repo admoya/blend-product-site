@@ -13,9 +13,7 @@ export const GET = (async (event) => {
     ...playlist,
     words: playlist.words?.map((word) => word.map((letters) => (letters === false ? null : letters))) ?? [],
   };
-  return json(modifiedPlaylist, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(modifiedPlaylist);
 }) satisfies RequestHandler;
 
 export const POST = (async (event) => {
@@ -29,7 +27,6 @@ export const POST = (async (event) => {
   await writePath(`/playlists/user/${uid}/${playlistId}`, modifiedData);
   return json(playlistData, {
     status: 201,
-    headers: [['Access-Control-Allow-Origin', '*']],
   });
 }) satisfies RequestHandler;
 
@@ -55,9 +52,7 @@ export const PUT = (async (event) => {
     ...modifiedPlaylistData,
   };
   await writePath(path, newPlaylist);
-  return json(newPlaylist, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(newPlaylist);
 }) satisfies RequestHandler;
 
 export const DELETE = (async (event) => {
@@ -69,17 +64,11 @@ export const DELETE = (async (event) => {
     throw error(404, `No playlist exists with refId ${existingPlaylist}`);
   }
   await deletePath(path);
-  return json(existingPlaylist, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(existingPlaylist);
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE']],
   });
 }) satisfies RequestHandler;

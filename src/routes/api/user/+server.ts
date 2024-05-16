@@ -27,17 +27,11 @@ export const GET = (async (event) => {
     subscriptionPeriodEnd: subscriptionData ? subscriptionData.current_period_end : 0,
     organizationInfo,
   };
-  return new Response(JSON.stringify(userData, null, 2), {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return new Response(JSON.stringify(userData, null, 2));
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET']],
   });
 }) satisfies RequestHandler;

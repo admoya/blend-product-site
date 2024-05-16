@@ -1,5 +1,5 @@
-import { authenticate, readPath, weaklyAuthenticate, writePath } from '$lib/server/firebaseUtils';
-import { error, json } from '@sveltejs/kit';
+import { readPath, weaklyAuthenticate } from '$lib/server/firebaseUtils';
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 interface RemoteFlags {
@@ -29,18 +29,11 @@ export const GET = (async (event) => {
       ...globalFlags,
       ...userFlags,
     }),
-    {
-      headers: [['Access-Control-Allow-Origin', '*']],
-    },
   );
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET']],
   });
 }) satisfies RequestHandler;

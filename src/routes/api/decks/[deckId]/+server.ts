@@ -17,15 +17,11 @@ export const GET: RequestHandler = async (request) => {
   }
   if (!deck) throw error(404);
 
-  return json(deck, { headers: [['Access-Control-Allow-Origin', '*']] });
+  return json(deck);
 };
 
 export const OPTIONS: RequestHandler = () => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET']],
   });
 };

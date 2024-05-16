@@ -27,17 +27,11 @@ export const GET = (async (event) => {
     ...playlist,
     words: playlist.words?.map((word) => word.map((letter) => (letter === false ? null : letter))) ?? [],
   }));
-  return json(modifiedPlaylists, {
-    headers: [['Access-Control-Allow-Origin', '*']],
-  });
+  return json(modifiedPlaylists);
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET']],
   });
 }) satisfies RequestHandler;

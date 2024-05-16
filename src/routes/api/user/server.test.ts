@@ -6,8 +6,6 @@ import type { RequestEvent } from './$types';
 
 test('Options method contains correct headers', () => {
   const response = OPTIONS();
-  expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
-  expect(response.headers.get('Access-Control-Allow-Headers')).toBe('*');
   expect(response.headers.get('Access-Control-Allow-Methods')).toBe('GET');
 });
 

@@ -23,10 +23,6 @@ export const DELETE = (async (event) => {
 
 export const OPTIONS = (() => {
   return new Response(null, {
-    headers: [
-      ['Access-Control-Allow-Origin', '*'],
-      ['Access-Control-Allow-Headers', '*'],
-      ['Access-Control-Allow-Methods', 'GET, DELETE'],
-    ],
+    headers: [['Access-Control-Allow-Methods', 'GET, DELETE']],
   });
 }) satisfies RequestHandler;
