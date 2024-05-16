@@ -100,7 +100,9 @@ export const createStripeSession = async (
   console.log(`Fetching Stripe customer ID for user ${uid}`);
   const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
 
-  const promoCodesPromise = options?.promoCode ? stripeClient.promotionCodes.list({ code: options.promoCode }) : Promise.resolve({ data: [] });
+  const promoCodesPromise = options?.promoCode
+    ? stripeClient.promotionCodes.list({ code: options.promoCode, active: true })
+    : Promise.resolve({ data: [] });
   let [customer, allSubscriptions] = await Promise.all([getStripeCustomerWithSubscriptions(uid), getAllCustomerSubscriptions(uid)]);
 
   let subscriptionData: Stripe.Checkout.SessionCreateParams.SubscriptionData = {};
@@ -123,7 +125,8 @@ export const createStripeSession = async (
     await cancelPreviouslyOpenedSessionsForCustomer(customer.id);
   }
 
-  if (!hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE)) {
+  const hadBlendProBefore = hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE);
+  if (!hadBlendProBefore) {
     subscriptionData = {
       trial_period_days: 7,
     };
@@ -131,7 +134,10 @@ export const createStripeSession = async (
 
   console.log(`Customer is ${subscriptionData.trial_period_days ? '' : 'not '}eligible for a free trial.`);
   console.log('Creating Stripe session');
-  const promoCode = (await promoCodesPromise).data.pop();
+
+  // NOTE: If we use further restrictions on promo codes in the future besides first time customers only we probably need to validate it here. It is bullshit that the Stripe API doesn't allow us to take a customer and code and just return a boolean if it's valid.
+  const promoCode = (await promoCodesPromise).data.filter((promoCode) => !hadBlendProBefore || !promoCode.restrictions.first_time_transaction).pop();
+
   const session = await stripeClient.checkout.sessions.create({
     customer: customer.id,
     billing_address_collection: 'auto',
