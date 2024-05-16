@@ -1,7 +1,7 @@
 import { authenticate, getUserFromEmail, pushPath, readPath, getUserData } from '$lib/server/firebaseUtils';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getStripeCustomerWithSubscriptions, isOrganizationMember, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { getStripeCustomerWithSubscriptions, isOrganizationMember, isCustomerSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
 import { sendPlaylistShareEmail } from '$lib/server/emailUtils';
 
 export const POST = (async (event) => {
@@ -24,8 +24,8 @@ export const POST = (async (event) => {
   ]);
 
   if (!playlist) throw error(404, `Playlist ${playlistId} does not exist for user ${sourceUid}`);
-  if (!isSubscribedToBlendPro(sourceCustomer) && !isOrganizationMember(sourceUid)) throw error(401);
-  if (!isSubscribedToBlendPro(targetCustomer) && !isOrganizationMember(targetUid))
+  if (!isCustomerSubscribedToBlendPro(sourceCustomer) && !isOrganizationMember(sourceUid)) throw error(401);
+  if (!isCustomerSubscribedToBlendPro(targetCustomer) && !isOrganizationMember(targetUid))
     throw error(400, `The user ${targetUserEmail} is not a Blend Pro subscriber`);
 
   const sharedKey = (

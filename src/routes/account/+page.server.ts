@@ -5,7 +5,7 @@ import {
   getBlendProSubscription,
   getCustomerPortalSession,
   createStripeSession,
-  isSubscribedToBlendPro,
+  isCustomerSubscribedToBlendPro,
   isOrganizationMember,
 } from '$lib/server/subscriptionUtils';
 import { auth, checkSessionAuth, getUserData, getUserOrganizations, isUserGlobalAdmin, readPath, writePath } from '$lib/server/firebaseUtils';
@@ -37,7 +37,7 @@ export const load = (async ({ url, cookies }) => {
   const customer = await getStripeCustomerWithSubscriptions(uid);
 
   // Redirect to Stripe Checkout if necessary
-  if (actionParam && !isSubscribedToBlendPro(customer) && !(await isOrganizationMember(uid))) {
+  if (actionParam && !isCustomerSubscribedToBlendPro(customer) && !(await isOrganizationMember(uid))) {
     const newParams = new URLSearchParams(url.search);
     newParams.delete('action');
 

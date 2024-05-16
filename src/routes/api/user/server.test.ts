@@ -1,7 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { OPTIONS, GET } from './+server';
 
-import { db } from '$lib/server/firebaseUtils';
 import type { RequestEvent } from './$types';
 
 test('Options method contains correct headers', () => {
@@ -37,7 +36,6 @@ test('GET method returns user data for basic user', async () => {
       "email": "basic@test.com",
       "isSubscribedToBlendPro": false,
       "organizationInfo": [],
-      "subscriptionPeriodEnd": 0,
       "uid": "basicUserId",
     }
   `);

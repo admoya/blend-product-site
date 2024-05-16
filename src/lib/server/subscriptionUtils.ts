@@ -10,7 +10,7 @@ const stripe = new Stripe(STRIPE_SECRET_KEY, {
 });
 import firebaseAdmin from 'firebase-admin';
 import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminCredential';
-import { readPath } from './firebaseUtils';
+import { readPath, writePath } from './firebaseUtils';
 import { error } from '@sveltejs/kit';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
@@ -28,11 +28,14 @@ export const YEARLY_PRICE_CODE = STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE;
 export const PRODUCT_CODE = STRIPE_BLEND_PRO_PRODUCT_CODE;
 
 export const getStripeCustomerWithSubscriptions = async (uid: string) => {
+  const startTime = Date.now();
   const stripeCustomerId: string | null = (await db.ref(`/users/${uid}/private/stripeCustomerId`).once('value')).val();
   if (stripeCustomerId === null) return stripeCustomerId;
-  return await stripe.customers.retrieve(stripeCustomerId, {
+  const data = await stripe.customers.retrieve(stripeCustomerId, {
     expand: ['subscriptions'],
   });
+  console.log(`--Got Stripe customer data in ${Date.now() - startTime}ms`);
+  return data;
 };
 
 export const getAllCustomersWithSubscriptions = async (): Promise<{ [uid: string]: Stripe.Customer }> => {
@@ -77,7 +80,25 @@ export const isOrganizationMember = async (uid: string) => {
   }
 };
 
-export const isSubscribedToBlendPro = (customer: Stripe.Customer | Stripe.DeletedCustomer | null) =>
+/**
+ * All-in-one function to check if a user is subscribed to Blend Pro. This does not account for organization membership.
+ * The function first checks Firebase, where the subscription status should be stored, then falls back to querying Stripe.
+ * If the subscription status is found in Stripe, it is written to Firebase for future use.
+ * @param uid the firebase user ID
+ * @returns whether the user is subscribed to Blend Pro
+ */
+export const isSubscribedToBlendPro = async (uid: string) => {
+  let isSubscribed = await readPath<boolean>(`users/${uid}/protected/isSubscribedToBlendPro`);
+  if (isSubscribed === null) {
+    console.log(`isSubscribedToBlendPro not found in Firebase for user ${uid}, fetching from Stripe`);
+    isSubscribed = isCustomerSubscribedToBlendPro(await getStripeCustomerWithSubscriptions(uid));
+    console.log(`isSubscribedToBlendPro for user ${uid} is ${isSubscribed}. Writing to Firebase for next time.`);
+    await writePath(`users/${uid}/protected/isSubscribedToBlendPro`, isSubscribed);
+  }
+  return isSubscribed;
+};
+
+export const isCustomerSubscribedToBlendPro = (customer: Stripe.Customer | Stripe.DeletedCustomer | null) =>
   !!(customer && !customer.deleted && getBlendProSubscription(customer));
 
 export const getCustomerPortalSession = (customer: Stripe.Customer, returnUrl: string) =>
