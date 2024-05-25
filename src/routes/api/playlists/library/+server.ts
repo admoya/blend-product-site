@@ -11,7 +11,9 @@ export const GET = (async (request) => {
     words: transformPlaylistForClient(playlist) ?? [],
   }));
   const filteredPlaylists = filterAttributes(attributes, playlistArray);
-  return json(filteredPlaylists.some((playlist: Database.Playlist) => Object.keys(playlist).length > 0) ? filteredPlaylists : playlistArray);
+  return json(filteredPlaylists.some((playlist: Database.Playlist) => Object.keys(playlist).length > 0) ? filteredPlaylists : playlistArray, {
+    headers: [['Cache-Control', 'must-revalidate, max-age=3600, stale-while-revalidate=604800']],
+  });
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {

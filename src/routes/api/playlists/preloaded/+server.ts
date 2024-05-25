@@ -9,7 +9,7 @@ export const GET = (async (request) => {
     ...playlist,
     words: transformPlaylistForClient(playlist) ?? [],
   }));
-  return json(playlistArray);
+  return json(playlistArray, { headers: [['Cache-Control', 'must-revalidate, max-age=3600, stale-while-revalidate=604800']] });
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {
