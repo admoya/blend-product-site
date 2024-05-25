@@ -180,3 +180,23 @@ export const deletePath = async (path: string) =>
       else resolve();
     });
   });
+
+const cache = new Map<string, any>();
+/**
+ * Reads data from a firebase path and caches it for a specified duration.
+ * Improves best-case performance for data that can be safely cached.
+ * In a serverless environment, if the function is cold-started, the cache will be empty, but subsequent calls will be faster.
+ * @param path the firebase path of the data
+ * @param duration the duration in milliseconds to cache the data. Default is 60000 (1 minute).
+ * @returns the data from the path
+ */
+export const readPathWithCache = async <T>(path: string, duration: number = 60000): Promise<T | null> => {
+  if (cache.has(path)) return cache.get(path);
+
+  const data = await readPath(path);
+  cache.set(path, data);
+  setTimeout(() => {
+    cache.delete(path);
+  }, duration);
+  return data;
+};
