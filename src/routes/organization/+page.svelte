@@ -7,6 +7,7 @@
 
 <svelte:head>
   <title>Organizations - Blend</title>
+  <meta name="description" content="Request a quote today for a Blend Organization License for your school or tutoring organization." />
 </svelte:head>
 
 <main>

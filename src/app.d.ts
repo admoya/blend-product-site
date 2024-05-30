@@ -63,6 +63,20 @@ declare global {
     }
   }
 
+  namespace BlendLibrary {
+    interface Section {
+      title: string;
+      description: string;
+      playlists: Playlist[];
+    }
+    interface Playlist {
+      name: string;
+      slug: string;
+      description: string;
+      imagePath: string;
+    }
+  }
+
   namespace Database {
     interface Deck {
       created_ts: string;
