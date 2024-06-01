@@ -58,7 +58,11 @@ vi.mock('firebase-admin', async () => {
           const pathSegments = path.split('/').filter((p) => p);
           return {
             get: () => ({
-              val: () => path.split('/').reduce((acc, cur) => (acc ? acc[cur] : null), db),
+              val: () =>
+                path
+                  .replace(/^\/+/, '')
+                  .split('/')
+                  .reduce((acc, cur) => (acc ? acc[cur] : null), db),
             }),
             once: () => {
               return {

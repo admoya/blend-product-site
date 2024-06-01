@@ -1,7 +1,7 @@
 import { authenticate, getOrganizationInfo, getOrganizationPlaylists, getUserOrganizations, readPath } from '$lib/server/firebaseUtils';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { transformPlaylistForClient } from '$lib/utils';
+import { transformPlaylistWordsForClient } from '$lib/utils';
 
 export const GET = (async (event) => {
   const { uid } = await authenticate(event);
@@ -26,7 +26,7 @@ export const GET = (async (event) => {
 
   const modifiedPlaylists = [...userPlaylistsArray, ...organizationPlaylistsArray].map((playlist) => ({
     ...playlist,
-    words: transformPlaylistForClient(playlist) ?? [],
+    words: transformPlaylistWordsForClient(playlist.words ?? []),
   }));
   return json(modifiedPlaylists);
 }) satisfies RequestHandler;

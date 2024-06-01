@@ -1,7 +1,7 @@
 import { authenticate, deletePath, readPath, writePath } from '$lib/server/firebaseUtils';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { transformPlaylistForClient, transformPlaylistForDatabase } from '$lib/utils';
+import { transformPlaylistWordsForClient, transformPlaylistWordsForDatabase } from '$lib/utils';
 
 export const GET = (async (event) => {
   const { playlistId } = event.params;
@@ -12,7 +12,7 @@ export const GET = (async (event) => {
   }
   const modifiedPlaylist = {
     ...playlist,
-    words: transformPlaylistForClient(playlist) ?? [],
+    words: transformPlaylistWordsForClient(playlist.words ?? []),
   };
   return json(modifiedPlaylist);
 }) satisfies RequestHandler;
@@ -23,7 +23,7 @@ export const POST = (async (event) => {
   const playlistData = await event.request.json();
   const modifiedData = {
     ...playlistData,
-    words: transformPlaylistForDatabase(playlistData),
+    words: transformPlaylistWordsForDatabase(playlistData.words ?? []),
   };
   await writePath(`/playlists/user/${uid}/${playlistId}`, modifiedData);
   return json(playlistData, {
@@ -42,11 +42,11 @@ export const PUT = (async (event) => {
   }
   const modifiedExistingPlaylist = {
     ...existingPlaylist,
-    words: transformPlaylistForDatabase(existingPlaylist),
+    words: existingPlaylist.words,
   };
   const modifiedPlaylistData = {
     ...playlistData,
-    words: playlistData.words.map((word: (string | null)[]) => word.map((letter) => letter ?? false)),
+    words: transformPlaylistWordsForDatabase(playlistData.words ?? []),
   };
   const newPlaylist = {
     ...modifiedExistingPlaylist,

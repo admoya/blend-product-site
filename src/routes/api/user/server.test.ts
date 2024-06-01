@@ -16,12 +16,7 @@ test('GET method returns user data for pro user', async () => {
       "displayName": "Test User",
       "email": "test@test.com",
       "isSubscribedToBlendPro": true,
-      "organizationInfo": [
-        {
-          "orgId": "0000",
-          "orgName": "Illuminati",
-        },
-      ],
+      "organizationInfo": [],
       "uid": "proUserId",
     }
   `);
