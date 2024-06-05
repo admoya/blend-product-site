@@ -7,13 +7,44 @@ import digraphMix from '$lib/assets/playlistLibrary/consonant-digraphs/ck-sh-th-
 
 const consonantDigraphs: BlendLibrary.Section = {
   title: 'Consonant Digraphs',
-  items: [
-    { type: 'playlist', name: 'ck digraph', id: 'ck-digraph', imagePath: ck },
-    { type: 'playlist', name: 'sh digraph', id: 'sh-digraph', imagePath: sh },
-    { type: 'playlist', name: 'Voiced th digraph', id: 'voiced-th-digraph', imagePath: voicedTh },
-    { type: 'playlist', name: 'Unvoiced th digraph', id: 'unvoiced-th-digraph', imagePath: unvoicedTh },
-    { type: 'playlist', name: 'ch digraph', id: 'ch-digraph', imagePath: ch },
-    { type: 'playlist', name: 'ck, sh, th, ch mix', id: 'ck-sh-th-ch-mix', imagePath: digraphMix },
+  description: 'This group of playlists builds on consonant and short vowel sounds, introducing consonant digraphs.',
+  playlists: [
+    {
+      name: 'ck digraph',
+      slug: 'ck-digraph',
+      description: 'Sample description',
+      imagePath: ck,
+    },
+    {
+      name: 'sh digraph',
+      slug: 'sh-digraph',
+      description: 'Sample description',
+      imagePath: sh,
+    },
+    {
+      name: 'Voiced th digraph',
+      slug: 'voiced-th-digraph',
+      description: 'Sample description',
+      imagePath: voicedTh,
+    },
+    {
+      name: 'Unvoiced th digraph',
+      slug: 'unvoiced-th-digraph',
+      description: 'Sample description',
+      imagePath: unvoicedTh,
+    },
+    {
+      name: 'ch digraph',
+      slug: 'ch-digraph',
+      description: 'Sample description',
+      imagePath: ch,
+    },
+    {
+      name: 'ck, sh, th, ch mix',
+      slug: 'ck-sh-th-ch-mix',
+      description: 'Sample description',
+      imagePath: digraphMix,
+    },
   ],
 };
 

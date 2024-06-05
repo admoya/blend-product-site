@@ -66,15 +66,14 @@ declare global {
   namespace BlendLibrary {
     interface Section {
       title: string;
-      items: Item[];
+      description: string;
+      playlists: Playlist[];
     }
-    interface Item {
-      type: 'deck' | 'playlist';
+    interface Playlist {
       name: string;
-      id: string;
+      slug: string;
+      description: string;
       imagePath: string;
-      description?: string;
-      author?: string;
     }
   }
 

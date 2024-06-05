@@ -32,23 +32,3 @@ export const transformPlaylistWordsForClient = (words: (string | false)[][]): (s
 
 export const transformPlaylistWordsForDatabase = (words: (string | null)[][]): (string | false)[][] =>
   words.map((word) => word.map((letter) => (letter === null ? false : letter)));
-
-type Image = {
-	sources: {
-		avif: string
-		webp: string
-		png: string
-	}
-	img: {
-		src: string
-		w: number
-		h: number
-	}
-}
-
-export const images = import.meta.glob<Image>('$lib/assets/**/*.{jpg,jpeg,png}', {
-	query: { enhanced: true },
-	import: 'default',
-	eager: true
-});
-console.log(images);

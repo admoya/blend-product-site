@@ -4,8 +4,8 @@ import consonantsAndShortVowels from '$lib/data/library/playlists/consonantsAndS
 import consonantDigraphs from '$lib/data/library/playlists/consonantDigraphs';
 
 export const load = (({ params }) => {
-  const playlists: BlendLibrary.Item[] = [...consonantsAndShortVowels.items, ...consonantDigraphs.items];
-  const playlist: BlendLibrary.Item | undefined = playlists.find((playlist) => playlist.id === params.playlistSlug);
+  const playlists: BlendLibrary.Playlist[] = [...consonantsAndShortVowels.playlists, ...consonantDigraphs.playlists];
+  const playlist: BlendLibrary.Playlist | undefined = playlists.find((playlist) => playlist.slug === params.playlistSlug);
   if (playlist) {
     return {
       playlist,

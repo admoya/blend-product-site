@@ -33,7 +33,7 @@
           <div class="title">{data.deckMetadata.name}</div>
           <p>{data.deckMetadata.description}</p>
         </div>
-        <img src={data.deckMetadata.imagePath} alt="deck letters" />
+        <img src={data.deckMetadata.image} alt="deck letters" />
         <form method="POST" use:enhance>
           <fieldset>
             <input type="hidden" name="uid" value={$user?.uid} />

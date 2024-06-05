@@ -55,12 +55,6 @@ h6 {
 }
 
 .btn:disabled {
-  background: rgba(158, 158, 158, 0.15);
-  border: 1px solid #8a8a8a;
-  color: #8a8a8a;
-}
-
-.btn:disabled {
   pointer-events: none;
   filter: saturate(0.3);
 }
@@ -116,7 +110,6 @@ h6 {
 
 .btn-outlined:hover {
   color: black !important;
-  background: rgba(255, 255, 255, 0.5) !important;
 }
 
 a:hover.btn {
