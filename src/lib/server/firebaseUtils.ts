@@ -3,7 +3,6 @@ import firebaseAdminCredential, { databaseURL } from '$lib/server/firebaseAdminC
 import { error, type Cookies, type RequestEvent, redirect } from '@sveltejs/kit';
 import type { ThenableReference } from 'firebase-admin/database';
 import type { DecodedIdToken, UserIdentifier, UserRecord } from 'firebase-admin/auth';
-import { user } from '$lib/firebase';
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(firebaseAdminCredential),
@@ -29,7 +28,7 @@ type CheckSessionAuthOptions = {
  */
 export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAuthOptions = {}) => {
   const { loginRedirect, authFunction } = options;
-  const successRedirect = loginRedirect ? `/login?successRedirect=${encodeURIComponent(loginRedirect)}` : '/login';
+  const successRedirect = loginRedirect ? `/login?successRedirect=${encodeURIComponent(loginRedirect.replace('?', '&'))}` : '/login';
   const sessionCookie = cookies.get('session');
   // If there is no cookie, they are not logged in
   if (!sessionCookie) throw redirect(302, successRedirect);
