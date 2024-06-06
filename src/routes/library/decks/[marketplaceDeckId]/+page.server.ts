@@ -5,7 +5,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { isOrganizationMember, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
 
 export const load = (async ({ params: { marketplaceDeckId } }) => {
-  const deckMetadata = marketplaceDecks.find((deck) => deck.id === marketplaceDeckId);
+  const deckMetadata = marketplaceDecks.items.find((deck: BlendLibrary.Item) => deck.id === marketplaceDeckId);
   if (!deckMetadata) throw error(404);
   return {
     deckMetadata,

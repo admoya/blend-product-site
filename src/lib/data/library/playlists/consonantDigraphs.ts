@@ -1,50 +1,22 @@
-import ck from '$lib/assets/playlistLibrary/consonant-digraphs/ck-digraph.png';
-import sh from '$lib/assets/playlistLibrary/consonant-digraphs/sh-digraph.png';
-import voicedTh from '$lib/assets/playlistLibrary/consonant-digraphs/voiced-th-digraph.png';
-import unvoicedTh from '$lib/assets/playlistLibrary/consonant-digraphs/unvoiced-th-digraph.png';
-import ch from '$lib/assets/playlistLibrary/consonant-digraphs/ch-digraph.png';
-import digraphMix from '$lib/assets/playlistLibrary/consonant-digraphs/ck-sh-th-ch-mix.png';
+import { transformImages } from '$lib/utils';
+
+const images = transformImages(
+  import.meta.glob('$lib/assets/playlistLibrary/consonant-digraphs/**/*.{png,jpg,jpeg}', {
+    query: { enhanced: true },
+    import: 'default',
+    eager: true,
+  }),
+);
 
 const consonantDigraphs: BlendLibrary.Section = {
   title: 'Consonant Digraphs',
-  description: 'This group of playlists builds on consonant and short vowel sounds, introducing consonant digraphs.',
-  playlists: [
-    {
-      name: 'ck digraph',
-      slug: 'ck-digraph',
-      description: 'Sample description',
-      imagePath: ck,
-    },
-    {
-      name: 'sh digraph',
-      slug: 'sh-digraph',
-      description: 'Sample description',
-      imagePath: sh,
-    },
-    {
-      name: 'Voiced th digraph',
-      slug: 'voiced-th-digraph',
-      description: 'Sample description',
-      imagePath: voicedTh,
-    },
-    {
-      name: 'Unvoiced th digraph',
-      slug: 'unvoiced-th-digraph',
-      description: 'Sample description',
-      imagePath: unvoicedTh,
-    },
-    {
-      name: 'ch digraph',
-      slug: 'ch-digraph',
-      description: 'Sample description',
-      imagePath: ch,
-    },
-    {
-      name: 'ck, sh, th, ch mix',
-      slug: 'ck-sh-th-ch-mix',
-      description: 'Sample description',
-      imagePath: digraphMix,
-    },
+  items: [
+    { type: 'playlist', name: 'ck digraph', id: 'ck-digraph', image: images['ck-digraph'] },
+    { type: 'playlist', name: 'sh digraph', id: 'sh-digraph', image: images['sh-digraph'] },
+    { type: 'playlist', name: 'Voiced th digraph', id: 'voiced-th-digraph', image: images['voiced-th-digraph'] },
+    { type: 'playlist', name: 'Unvoiced th digraph', id: 'unvoiced-th-digraph', image: images['unvoiced-th-digraph'] },
+    { type: 'playlist', name: 'ch digraph', id: 'ch-digraph', image: images['ch-digraph'] },
+    { type: 'playlist', name: 'ck, sh, th, ch mix', id: 'ck-sh-th-ch-mix', image: images['ck-sh-th-ch-mix'] },
   ],
 };
 

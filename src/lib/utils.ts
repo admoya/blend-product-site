@@ -32,3 +32,15 @@ export const transformPlaylistWordsForClient = (words: (string | false)[][]): (s
 
 export const transformPlaylistWordsForDatabase = (words: (string | null)[][]): (string | false)[][] =>
   words.map((word) => word.map((letter) => (letter === null ? false : letter)));
+
+/**
+ * Transforms images for use with data files, where the images will ultimately be fed into enhanced image components.
+ * @param images - The result of `import.meta.glob`
+ * @returns An object where the key is the file name, sans extension, and the value is the file object.
+ */
+export const transformImages = (images: { [key: string]: ImageFile }) =>
+  Object.keys(images).reduce<{ [key: string]: ImageFile }>((acc, key) => {
+    const name = key.split('/').pop()?.split('.')[0];
+    if (!name) return acc;
+    return { ...acc, [name]: images[key] };
+  }, {});
