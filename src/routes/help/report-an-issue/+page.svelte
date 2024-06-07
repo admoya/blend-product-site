@@ -8,7 +8,7 @@
     <p>Fill out and submit the form below, and our support team will get back to you shortly.</p>
     <p>Please ensure to include as many details about your issue as possible to help us resolve it as quickly as possible.</p>
     <p>Thank you for your patience!</p>
-    <form name="issue-report" action="/help/report-an-issue/success" method="POST" netlify-honeypot="bot-field" data-netlify="true">
+    <form name="issue-report" action="/help/report-an-issue/success" method="POST" data-netlify="true">
       <input type="hidden" name="form-name" value="issue-report" />
       <input type="hidden" name="subject" value="Issue Report from blendreading.com" />
       <p><label class="form-label">Email<input type="email" name="email" required /></label></p>

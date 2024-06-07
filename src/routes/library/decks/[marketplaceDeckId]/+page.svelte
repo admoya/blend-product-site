@@ -4,6 +4,7 @@
   import type { PageData } from './$types';
   import { onMount } from 'svelte';
   export let data: PageData;
+  import blendLogo from '$lib/assets/blend_logo.png';
 
   let isPro = false;
   let isLoading = false;
@@ -33,7 +34,7 @@
           <div class="title">{data.deckMetadata.name}</div>
           <p>{data.deckMetadata.description}</p>
         </div>
-        <img src={data.deckMetadata.imagePath} alt="deck letters" />
+        <img src={data.deckMetadata.image?.img.src ?? blendLogo} alt="deck letters" />
         <form method="POST" use:enhance>
           <fieldset>
             <input type="hidden" name="uid" value={$user?.uid} />
@@ -50,6 +51,7 @@
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    margin-bottom: 1rem;
   }
   .back a:hover {
     color: #588dff;
@@ -101,11 +103,6 @@
     display: flex;
     flex-wrap: wrap-reverse;
     justify-content: center;
-  }
-  .subtitle {
-    margin: 0;
-    width: 80%;
-    color: white;
   }
   @media (max-width: 480px) {
     .content {

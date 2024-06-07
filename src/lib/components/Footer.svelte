@@ -25,15 +25,7 @@
         <li><a href="/info/data-deletion">Data Deletion Request</a></li>
       </ul>
     </div>
-    <div class="footer-section">
-      <h2>STAY IN TOUCH</h2>
-      <div class="social-media">
-        <a href="https://www.facebook.com/blendreading" target="_blank" rel="noopener noreferrer"><img src={facebook} alt="facebook logo" /></a>
-        <a href="https://www.instagram.com/blendreading/" target="_blank" rel="noopener noreferrer"><img src={instagram} alt="instagram logo" /></a>
-        <a href="https://www.youtube.com/@blendreading" target="_blank" rel="noopener noreferrer"><img src={youtube} alt="youtube icon" /></a>
-        <a href="/newsletter"><img src={newsletter} alt="email newsletter icon" /></a>
-      </div>
-    </div>
+
     <div class="footer-section">
       <h2>ABOUT US</h2>
       <ul>
@@ -50,6 +42,15 @@
           <a href="https://sageliteracy.org" target="_blank" rel="noopener noreferrer">Sage Literacy</a>
         </li>
       </ul>
+    </div>
+    <div class="footer-section">
+      <h2 style="text-align: center;">STAY IN TOUCH</h2>
+      <div class="social-media">
+        <a href="https://www.facebook.com/blendreading" target="_blank" rel="noopener noreferrer"><img src={facebook} alt="facebook logo" /></a>
+        <a href="https://www.instagram.com/blendreading/" target="_blank" rel="noopener noreferrer"><img src={instagram} alt="instagram logo" /></a>
+        <a href="https://www.youtube.com/@blendreading" target="_blank" rel="noopener noreferrer"><img src={youtube} alt="youtube icon" /></a>
+        <a href="/newsletter"><img src={newsletter} alt="email newsletter icon" /></a>
+      </div>
     </div>
   </div>
 </footer>
@@ -75,9 +76,14 @@
     flex-direction: column;
   }
 
+  .footer-section > p {
+    font-size: medium;
+  }
+
   .social-media {
     display: flex;
     gap: 1rem;
+    margin: 0.2rem auto 0 auto;
   }
 
   .social-media img {
@@ -95,11 +101,34 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: flex-start;
+    row-gap: 1rem;
   }
 
   ul {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+  }
+  li {
+    font-size: medium;
+    width: fit-content;
+  }
+  li > a {
+    font-size: medium;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-family: 'Contrail One';
+    font-weight: 500;
+  }
+
+  @media (max-width: 480px) {
+    .footer-section {
+      flex-basis: 9rem;
+    }
+    .footer-logo {
+      margin: auto 0;
+    }
   }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { PageData } from './$types';
+  import blendLogo from '$lib/assets/blend_logo.png';
 
   export let data: PageData;
 </script>
@@ -15,7 +16,7 @@
       <div class="info">
         <h1>{data.playlist.name}</h1>
       </div>
-      <img src={data.playlist.imagePath} alt="Playlist Preview" />
+      <img src={data.playlist.image?.img.src ?? blendLogo} alt="Playlist Preview" />
       <a href="https://app.blendreading.com" class="btn btn-purple">Open in Blend</a>
       <p>All playlists in the Blend Library are available right in the app!</p>
     </div>

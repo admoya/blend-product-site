@@ -13,10 +13,10 @@
     "lint": "prettier --check . && eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --plugin prettier-plugin-svelte --write .",
-    "firebase-local": "cd firebase-local && firebase emulators:start --import mockData/",
-    "pre:commit": "npm run check && npm run test:unit"
+    "firebase-local": "cd firebase-local && firebase emulators:start --import mockData/"
   },
   "pre-commit": [
+    "check",
     "test:unit"
   ],
   "devDependencies": {

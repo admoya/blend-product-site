@@ -121,13 +121,7 @@
           <p>Submit this form to request a quote for your organization.</p>
           <img src={form} alt="playlists side by side" />
         </div>
-        <form
-          name="organization-form"
-          class="quote-form"
-          action="/organization/request-a-quote"
-          method="POST"
-          netlify-honeypot="bot-field"
-          data-netlify="true">
+        <form name="organization-form" class="quote-form" action="/organization/request-a-quote" method="POST" data-netlify="true">
           <input type="hidden" name="form-name" value="organization-form" />
           <input type="hidden" name="subject" value="Org License Quote Request from blendreading.com" />
           <label>Name<input name="name" placeholder="Enter name" required /></label>

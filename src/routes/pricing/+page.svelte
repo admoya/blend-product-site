@@ -111,15 +111,6 @@
   .caption {
     margin: 1.5rem;
   }
-  .blurb {
-    margin-top: 0;
-    padding: 0;
-    margin-bottom: 2rem;
-  }
-  .blurb p {
-    font-size: 2rem;
-    margin: 0;
-  }
   h2 {
     font-family: 'Contrail One';
     font-size: 2.5rem;
@@ -152,11 +143,5 @@
   .features {
     color: white;
     background-color: #3b2e86;
-  }
-  .blurb {
-    margin-top: 2rem;
-  }
-  h1 {
-    margin-bottom: 0;
   }
 </style>

@@ -18,7 +18,7 @@
   <div class="form-details">
     <p>We'd love to hear what you think about our app.</p>
     <p>Complete the form below to tell us about your experience with Blend and submit any ideas for new features!</p>
-    <form name="feedback" method="post" action="/help/feedback/success" netlify-honeypot="bot-field" data-netlify="true">
+    <form name="feedback" method="post" action="/help/feedback/success" data-netlify="true">
       <input type="hidden" name="form-name" value="feedback" />
       <input type="hidden" name="subject" value="Feedback Submission from blendreading.com" />
       <input type="hidden" name="uid" value={$user?.uid} />
