@@ -17,6 +17,11 @@ const consonantDigraphs: BlendLibrary.Section = {
     { type: 'playlist', name: 'Unvoiced th digraph', id: 'unvoiced-th-digraph', image: images['unvoiced-th-digraph'] },
     { type: 'playlist', name: 'ch digraph', id: 'ch-digraph', image: images['ch-digraph'] },
     { type: 'playlist', name: 'ck, sh, th, ch mix', id: 'ck-sh-th-ch-mix', image: images['ck-sh-th-ch-mix'] },
+    { type: 'playlist', name: 'wh digraph', id: 'wh-digraph', image: images['wh-digraph'] },
+    { type: 'playlist', name: 'ng digraph (separated)', id: 'ng-digraph-separated', image: images['ng-digraph-separated'] },
+    { type: 'playlist', name: 'ng word families', id: 'ng-word-families', image: images['ng-word-families'] },
+    { type: 'playlist', name: 'nk (separated)', id: 'nk-separated', image: images['nk-separated'] },
+    { type: 'playlist', name: 'nk word families', id: 'nk-word-families', image: images['nk-word-families'] },
   ],
 };
 

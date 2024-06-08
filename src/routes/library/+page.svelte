@@ -3,6 +3,8 @@
   import ProBadge from '$lib/components/ProBadge.svelte';
   import consonantsAndShortVowels from '$lib/data/library/playlists/consonantsAndShortVowels';
   import consonantDigraphs from '$lib/data/library/playlists/consonantDigraphs';
+  import silentE from '$lib/data/library/playlists/silentE';
+  import suffixes from '$lib/data/library/playlists/suffixes';
   import bannerImg from '$lib/assets/library-banner.png';
   import LibraryCarousel from '$lib/components/LibraryCarousel.svelte';
 </script>
@@ -53,7 +55,9 @@
       into your lessons with a scope and sequence that makes sense.
     </p>
     <LibraryCarousel section={consonantsAndShortVowels} scrollBy={3} />
-    <LibraryCarousel section={consonantDigraphs} />
+    <LibraryCarousel section={consonantDigraphs} scrollBy={2} />
+    <LibraryCarousel section={silentE} />
+    <LibraryCarousel section={suffixes} />
   </section>
 </main>
 
