@@ -17,7 +17,8 @@
         <h1>{data.playlist.name}</h1>
       </div>
       <img src={data.playlist.image?.img.src ?? blendLogo} alt="Playlist Preview" />
-      <a href="https://app.blendreading.com" class="btn btn-purple">Open in Blend</a>
+      <a href="https://app.blendreading.com/?jumpScene=res%3a%2f%2fScenes%2fHome%2fPlaylist%2fPlaylistView.tscn" class="btn btn-purple"
+        >Open in Blend</a>
       <p>All playlists in the Blend Library are available right in the app!</p>
     </div>
   </div>
