@@ -48,6 +48,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sentry/sveltekit": "^8.11.0",
     "email-validator": "^2.0.4"
   }
 }

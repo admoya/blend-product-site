@@ -24,11 +24,14 @@
       "settings": {
         "eslint.validate": ["javascript", "svelte", "typescript"],
         "editor.insertSpaces": true,
-				"editor.tabSize": 2,
-				"editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "[svelte]": {
           "editor.defaultFormatter": "svelte.svelte-vscode"
+        },
+        "workbench.editor.customLabels.patterns": {
+          "**/+*": "${dirname}/${filename}.${extname}"
         }
       }
     }
