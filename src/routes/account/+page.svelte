@@ -104,6 +104,15 @@
           {/each}
         </ul>
       </div>
+      <div class="org-help">
+        <p>Need help with your organization?</p>
+        <p>
+          Check out our guide here: <a
+            href="https://docs.google.com/document/d/1RdX4JEZEGHoX9J2ccliZw-wEQzeWMudbcqTbdwM-zsc/edit?usp=drive_link"
+            target="_blank"
+            rel="noopener noreferrer">Blend Organizations Guide</a>
+        </p>
+      </div>
     {/if}
     <div class="detail">
       <button disabled={disableSignOut} on:click={onSignOutCLicked} class="btn">Sign Out</button>
@@ -212,5 +221,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  .org-help a:hover {
+    color: white;
   }
 </style>
