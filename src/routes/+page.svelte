@@ -13,7 +13,7 @@
 <section class="banner">
   <h1>Personalize, plan, and transform your phonics instruction</h1>
   <div class="cards">
-    <img src={cards} alt="cards spelling BLEND" />
+    <img width="726" height="313" src={cards} alt="cards spelling BLEND" />
   </div>
   <div class="side-by-side">
     <a class="btn start-blending" href={$appUrl} target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
@@ -162,6 +162,7 @@
 
   .cards img {
     max-width: 100%;
+    height: auto;
   }
 
   #playlists img {
