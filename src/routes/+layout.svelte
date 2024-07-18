@@ -48,9 +48,6 @@
     flex-direction: row;
     gap: 0.2rem;
     width: fit-content;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
   }
   .card {
     width: 4rem;
