@@ -56,10 +56,16 @@
   let userSearchUid = '';
   let userSearchEmail = '';
   const handleUserSearch = async () => {
-    const response = await fetch(`/api/admin/userData?uid=${userSearchUid}&email=${userSearchEmail}`);
+    const response = await fetch(`/api/admin/userData?uid=${userSearchUid}&email=${encodeURIComponent(userSearchEmail)}`);
     userSearchResults = await response.json();
     userSearchEmail = '';
     userSearchUid = '';
+  };
+
+  const deleteUser = async (uid: string) => {
+    if (!confirm('Are you sure you want to delete this user?')) return;
+    await fetch(`/api/admin/userData?uid=${uid}`, { method: 'DELETE' });
+    userSearchResults = userSearchResults.filter((user) => user.uid !== uid);
   };
 
   const downloadAllUserDetails = async () => {
@@ -163,6 +169,13 @@
       {#each userSearchResults as userSearchResult}
         <div style="border-width: 2px; border-radius: 5px; border-style: solid; padding: 1rem;">
           <h4 style="text-align: center; margin: 0;">{userSearchResult.displayName}</h4>
+          <div style="width: 100%; display: flex; flex-direction: row; justify-content: flex-end;">
+            <button
+              on:click={() => {
+                deleteUser(userSearchResult.uid);
+              }}
+              class="btn btn-small btn-red">Delete</button>
+          </div>
           <dl style="display: grid; grid-template-columns: auto auto; column-gap: 1rem;">
             <dt>UID:</dt>
             <dd style="margin-left: 0;">{userSearchResult.uid}</dd>

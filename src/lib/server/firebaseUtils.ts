@@ -147,8 +147,20 @@ export const listAllUsers = async (nextPageToken?: string): Promise<UserRecord[]
   }
   return users;
 };
-
 export const getUserFromEmail = (email: string) => auth.getUserByEmail(email);
+
+export const deleteUser = async (uid: string) => {
+  const userOrgs = await getUserOrganizations(uid);
+  const orgDeletePromises = userOrgs.map((orgId) => deletePath(`organizations/${orgId}/private/members/${uid}`));
+  await Promise.all([
+    ...orgDeletePromises,
+    deletePath(`users/${uid}`),
+    deletePath(`decks/user/${uid}`),
+    deletePath(`playlists/user/${uid}`),
+    deletePath(`flags/user/${uid}`),
+    auth.deleteUser(uid),
+  ]);
+};
 
 export const readPath = async <T = any>(path: string, defaultValue: T | null = null) => {
   const ref = db.ref(path);

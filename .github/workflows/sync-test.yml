@@ -1,0 +1,21 @@
+name: Sync Test Branch with Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-test-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Reset test branch to main
+        run: |
+          git fetch
+          git checkout test
+          git reset --hard main
+          git push --force origin test

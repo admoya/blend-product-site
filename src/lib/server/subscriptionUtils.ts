@@ -194,3 +194,12 @@ const cancelPreviouslyOpenedSessionsForCustomer = async (customerId: string) => 
   });
   await Promise.all(checkoutSessions.data.map((session) => stripe.checkout.sessions.expire(session.id)));
 };
+
+export const deleteStripeCustomer = async (uid: string) => {
+  const customerId = (await db.ref(`/users/${uid}/private/stripeCustomerId`).once('value')).val();
+  if (!customerId) {
+    console.warn(`No Stripe customer found for user ${uid}`);
+    return;
+  }
+  await stripe.customers.del(customerId);
+};

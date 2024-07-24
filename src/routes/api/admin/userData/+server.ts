@@ -1,5 +1,7 @@
+import { listmonkClient } from '$lib/server/emailUtils.js';
 import {
   checkSessionAuth,
+  deleteUser,
   getOrganizationInfo,
   getUserData,
   getUserFromEmail,
@@ -8,8 +10,13 @@ import {
   listAllUsers,
   readPath,
 } from '$lib/server/firebaseUtils';
-import { getAllCustomersWithSubscriptions, getStripeCustomerWithSubscriptions, isCustomerSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
-import { json } from '@sveltejs/kit';
+import {
+  deleteStripeCustomer,
+  getAllCustomersWithSubscriptions,
+  getStripeCustomerWithSubscriptions,
+  isCustomerSubscribedToBlendPro,
+} from '$lib/server/subscriptionUtils';
+import { error, json } from '@sveltejs/kit';
 import type { UserRecord } from 'firebase-admin/auth';
 
 export interface UserSearchResult {
@@ -110,6 +117,34 @@ export const GET = async ({ cookies, url }) => {
       return json([]);
     }
   }
-  const allUserRecords = await listAllUsers();
   return json(await getAllUsers());
+};
+
+export const DELETE = async ({ cookies, url }) => {
+  await checkSessionAuth(cookies, { authFunction: ({ uid }) => isUserGlobalAdmin(uid) });
+  const uid = url.searchParams.get('uid');
+  if (!uid) throw error(400, 'Missing required parameter: uid');
+  try {
+    const user = await getUserData(uid);
+    console.log(`Deleting user: ${user.email}`);
+
+    //Strip should come first because we use firebase to get the Stripe ID
+    console.log('Deleting Stripe data...');
+    await deleteStripeCustomer(uid);
+    console.log('Stripe data deleted');
+
+    console.log('Deleting Firebase data...');
+    await deleteUser(uid);
+    console.log('Firebase data deleted');
+
+    console.log('Deleting Listmonk subscriber...');
+    await listmonkClient.deleteSubscriber(user.email!);
+    console.log('Listmonk subscriber deleted');
+
+    console.log('User deleted');
+    return new Response('User deleted', { status: 200 });
+  } catch (err) {
+    console.error(`Unable to delete user, error: ${err}`);
+    throw error(500);
+  }
 };

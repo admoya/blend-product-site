@@ -20,8 +20,8 @@ export const POST = (async (event) => {
     ]);
 
   if (!deck) throw error(404, `Deck ${deckId} does not exist for user ${sourceUid}`);
-  if (!isCustomerSubscribedToBlendPro(sourceCustomer) && !isOrganizationMember(sourceUid)) throw error(401);
-  if (!isCustomerSubscribedToBlendPro(targetCustomer) && !isOrganizationMember(targetUid))
+  if (!isCustomerSubscribedToBlendPro(sourceCustomer) && !(await isOrganizationMember(sourceUid))) throw error(401);
+  if (!isCustomerSubscribedToBlendPro(targetCustomer) && !(await isOrganizationMember(targetUid)))
     throw error(400, `The user ${targetUserEmail} is not a Blend Pro subscriber`);
 
   const sharedKey = (
