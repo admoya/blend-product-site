@@ -10,7 +10,7 @@
     <p>Thank you for your patience!</p>
     <form name="issue-report" action="/help/report-an-issue/success" method="POST" data-netlify="true">
       <input type="hidden" name="form-name" value="issue-report" />
-      <input type="hidden" name="subject" value="Issue Report from blendreading.com" />
+      <input type="hidden" name="subject" data-remove-prefix value="Issue Report from blendreading.com" />
       <p><label class="form-label">Email<input type="email" name="email" required /></label></p>
       <p><label class="form-label">Message<textarea name="message" required></textarea></label></p>
       <p><button class="btn" type="submit">Submit</button></p>

@@ -20,7 +20,7 @@
     <p>Complete the form below to tell us about your experience with Blend and submit any ideas for new features!</p>
     <form name="feedback" method="post" action="/help/feedback/success" data-netlify="true">
       <input type="hidden" name="form-name" value="feedback" />
-      <input type="hidden" name="subject" value="Feedback Submission from blendreading.com" />
+      <input type="hidden" name="subject" data-remove-prefix value="Feedback Submission from blendreading.com" />
       <input type="hidden" name="uid" value={$user?.uid} />
       <input type="hidden" name="name" value={$user?.displayName} />
       <input type="hidden" name="email" value={$user?.email} />

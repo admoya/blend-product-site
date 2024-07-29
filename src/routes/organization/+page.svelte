@@ -123,7 +123,7 @@
         </div>
         <form name="organization-form" class="quote-form" action="/organization/request-a-quote" method="POST" data-netlify="true">
           <input type="hidden" name="form-name" value="organization-form" />
-          <input type="hidden" name="subject" value="Org License Quote Request from blendreading.com" />
+          <input type="hidden" name="subject" data-remove-prefix value="Org License Quote Request from blendreading.com" />
           <label>Name<input name="name" placeholder="Enter name" required /></label>
           <label>Email<input type="email" name="email" placeholder="Enter email" required /></label>
           <label>Organization Name<input name="orgName" placeholder="Enter organization name" required /></label>
