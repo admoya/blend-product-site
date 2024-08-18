@@ -11,12 +11,12 @@
 </script>
 
 <div class="content">
-  <h1>Focus Group RSVP</h1>
+  <h1>Beta Test Form</h1>
   <div class="paper" style="margin-top: 0">
-    <p>Thank you for the interest in our focus group! We expect this session to be about 30-45 minutes long and will be held virtually.</p>
-    <p>Please fill in your contact information below and select a time to join us. We will reach out via email with the meeting details.</p>
-    <form data-netlify="true" name="focus-group-rsvp" method="POST" action="/focus-group-rsvp/thank-you">
-      <input type="hidden" name="form-name" value="focus-group-rsvp" />
+    <p>Thank you for your interest in our Blend Beta Test! We truly appreciate your time and feedback.</p>
+    <p>Please fill in your contact information below, and we will send detailed instructions when the test begins.</p>
+    <form data-netlify="true" name="beta-test-rsvp" method="POST" action="/beta-test-rsvp/thank-you">
+      <input type="hidden" name="form-name" value="beta-test-rsvp" />
       <label>
         Name
         <input bind:value={name} type="text" name="name" required />
@@ -25,17 +25,6 @@
         Email
         <input bind:value={email} type="email" name="email" required />
       </label>
-      <fieldset>
-        <legend> Availibility </legend>
-        <label style="display: block;">
-          <input style="display: inline;" type="checkbox" name="time2" value="Wednesday, May 8th, 7:00PM EST" />
-          Wednesday, May 8th, 7:00PM EST
-        </label>
-        <label style="display: block;">
-          <input style="display: inline;" type="checkbox" name="time3" value="Saturday, May 11th, 11:00AM EST" />
-          Saturday, May 11th, 11:00AM EST
-        </label>
-      </fieldset>
       <button class="btn btn-purple" style="margin: 0" type="submit">RSVP</button>
     </form>
   </div>
