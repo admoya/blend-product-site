@@ -126,8 +126,10 @@
           <input type="hidden" name="subject" data-remove-prefix value="Org License Quote Request from blendreading.com" />
           <label>Name<input name="name" placeholder="Enter name" required /></label>
           <label>Email<input type="email" name="email" placeholder="Enter email" required /></label>
+          <label>Phone<input type="tel" name="phone" placeholder="Enter phone number" required /></label>
           <label>Organization Name<input name="orgName" placeholder="Enter organization name" required /></label>
-          <label>How many teachers are in your organization?<input type="number" placeholder="Enter number of seats" name="seats" required /></label>
+          <label
+            >How many teachers are in your organization?<input type="number" placeholder="Enter number of teachers" name="seats" required /></label>
           <label for="billing">How would you prefer to be billed?</label>
           <select name="billing" id="billing">
             <option value="yearly">Yearly</option>
