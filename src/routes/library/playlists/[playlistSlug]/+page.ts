@@ -4,9 +4,16 @@ import consonantsAndShortVowels from '$lib/data/library/playlists/consonantsAndS
 import consonantDigraphs from '$lib/data/library/playlists/consonantDigraphs';
 import silentE from '$lib/data/library/playlists/silentE';
 import suffixes from '$lib/data/library/playlists/suffixes';
+import rControlledVowels from '$lib/data/library/playlists/rControlledVowels';
 
 export const load = (({ params }) => {
-  const playlists: BlendLibrary.Item[] = [...consonantsAndShortVowels.items, ...consonantDigraphs.items, ...silentE.items, ...suffixes.items];
+  const playlists: BlendLibrary.Item[] = [
+    ...consonantsAndShortVowels.items,
+    ...consonantDigraphs.items,
+    ...silentE.items,
+    ...suffixes.items,
+    ...rControlledVowels.items,
+  ];
   const playlist: BlendLibrary.Item | undefined = playlists.find((playlist) => playlist.id === params.playlistSlug);
   if (playlist) {
     return {

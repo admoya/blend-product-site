@@ -7,6 +7,7 @@
   import suffixes from '$lib/data/library/playlists/suffixes';
   import bannerImg from '$lib/assets/library-banner.png';
   import LibraryCarousel from '$lib/components/LibraryCarousel.svelte';
+  import rControlledVowels from '$lib/data/library/playlists/rControlledVowels';
 </script>
 
 <svelte:head>
@@ -58,6 +59,7 @@
     <LibraryCarousel section={consonantDigraphs} scrollBy={2} />
     <LibraryCarousel section={silentE} />
     <LibraryCarousel section={suffixes} />
+    <LibraryCarousel section={rControlledVowels} />
   </section>
 </main>
 
