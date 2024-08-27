@@ -181,3 +181,11 @@ a:hover {
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.flex-center {
+  justify-content: center;
+}

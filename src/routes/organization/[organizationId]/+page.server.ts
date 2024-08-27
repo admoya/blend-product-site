@@ -1,12 +1,14 @@
 import {
   checkSessionAuth,
   getOrganizationInviteDetails,
+  getOrganizationInviteRequestDetails,
   getOrganizationMemberDetails,
   isUserOrganizationAdmin,
   readPath,
+  writePath,
 } from '$lib/server/firebaseUtils.js';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types.js';
+import type { Actions, PageServerLoad } from './$types.js';
 
 export const load = (async ({ cookies, params: { organizationId }, url }) => {
   const organization = await readPath<Database.Organization>(`/organizations/${organizationId}`);
@@ -16,7 +18,8 @@ export const load = (async ({ cookies, params: { organizationId }, url }) => {
     authFunction: async ({ uid }) => await isUserOrganizationAdmin(uid, organization),
   });
   return {
-    memberDetails: JSON.stringify(await getOrganizationMemberDetails(organization)),
-    inviteDetails: JSON.stringify(await getOrganizationInviteDetails(organization)),
+    memberDetails: await getOrganizationMemberDetails(organization),
+    inviteDetails: await getOrganizationInviteDetails(organization),
+    inviteRequestDetails: await getOrganizationInviteRequestDetails(organization),
   };
 }) satisfies PageServerLoad;

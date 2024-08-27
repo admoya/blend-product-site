@@ -3,15 +3,15 @@
 declare global {
   interface ImageFile {
     sources: {
-      avif: string
-      webp: string
-      png: string
-    }
+      avif: string;
+      webp: string;
+      png: string;
+    };
     img: {
-      src: string
-      w: number
-      h: number
-    }
+      src: string;
+      w: number;
+      h: number;
+    };
   }
   interface Window {
     dataLayer: Record<string, any>[];
@@ -175,16 +175,26 @@ declare global {
         uid: string;
       }
 
+      interface InviteRequest {
+        timestamp: number;
+        message?: string;
+      }
+
       interface Public {
         name: string;
         contactEmail?: string;
       }
+      // Private fields can be seen and edited by org admins
       interface Private {
         members?: {
           [uid: string]: Member;
         };
         invites?: string[];
+        inviteRequests?: {
+          [uid: string]: Nullable<InviteRequest>;
+        };
       }
+      // Locked fields can be seen by org admins but only edited by Blend admins
       interface Locked {
         active: boolean;
         seats: number;

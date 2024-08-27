@@ -59,7 +59,7 @@
       }
       break;
     default:
-      redirectBuilder = () => decodeURIComponent(redirectParam);
+      redirectBuilder = () => `${decodeURIComponent(redirectParam)}${allOtherParams ? `?${allOtherParams}` : ''}`;
   }
   onMount(() => {
     ui.start('#firebaseui-auth-container', {

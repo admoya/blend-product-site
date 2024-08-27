@@ -22,9 +22,9 @@ type CheckSessionAuthOptions = {
 /**
  * Validates a request's session cookie and redirects to the login page if it is missing or invalid, or if the user fails an optional validator function.
  * @param cookies the "cookies" object passed to Sveltekit server-side functions
- * @param options.loginRedirect the "successRedirect" that should be passed to the login page (do not URL encode)
+ * @param options.loginRedirect the "successRedirect" that should be passed to the login page (Will be encoded as a URI component)
  * @param options.authFunction after the session is validated, this will be called with the decoded token and awaited. Return value determines if the user is authorized or not.
- * @returns
+ * @returns a DecodedIdToken from Firebase
  */
 export const checkSessionAuth = async (cookies: Cookies, options: CheckSessionAuthOptions = {}) => {
   const { loginRedirect, authFunction } = options;
@@ -101,6 +101,21 @@ export const getOrganizationInviteDetails = async (organization: Database.Organi
       }),
     )
   ).filter((inv): inv is Exclude<typeof inv, null> => inv !== null);
+};
+
+export const getOrganizationInviteRequestDetails = async (organization: Database.Organization) => {
+  const { inviteRequests = {} } = organization.private ?? {};
+  return await Promise.all(
+    Object.entries(inviteRequests).map(async ([uid, request]) => {
+      const userData = await getUserData(uid);
+      return {
+        ...request,
+        displayName: userData.displayName,
+        email: userData.email,
+        uid,
+      };
+    }),
+  );
 };
 
 export const deleteOrganizationInvites = async (inviteIds: string[], organizationId: string, organization: Database.Organization) => {
