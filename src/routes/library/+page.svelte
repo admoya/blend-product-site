@@ -24,11 +24,11 @@
           <h1>The Blend Library</h1>
           <div class="badge"><ProBadge /></div>
         </div>
-        <p>
+        <p class="my-4">
           Our reading specialist, <a href="/about">Summer</a>, has worked tirelessly to create this collection of grab-and-go resources that you can
           use in your blending drills.
         </p>
-        <p>
+        <p class="my-4">
           We have both decks and playlists available, perfect for both new phonics teachers and seasoned veterans who might need fresh ideas for new
           lessons. Whichever you are, we hope you enjoy them!
         </p>
@@ -42,7 +42,7 @@
 
   <section class="library-content" style="background-color: #8ec9ff;" id="deck-library">
     <h1>Deck Library</h1>
-    <p class="library-description">
+    <p class="library-description my-4">
       These boards are thoughtfully designed by our reading specialist to target certain phonics skills and bring more focus to your lessons. Try them
       out by importing them into your own collection!
     </p>
@@ -51,7 +51,7 @@
 
   <section class="library-content" style="background-color: #b4b3ff;" id="playlist-library">
     <h1>Playlist Library</h1>
-    <p class="library-description">
+    <p class="library-description my-4">
       The playlists in the Blend Library are grouped logically by phonics concept, and each group building on what was previously learned. Jump right
       into your lessons with a scope and sequence that makes sense.
     </p>
@@ -93,7 +93,7 @@
     align-items: center;
     margin: 1.2rem;
     padding: 2rem;
-    width: 90%;
+    width: 95%;
     background-color: white;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -109,7 +109,7 @@
   }
   .library-description {
     text-align: center;
-    width: 70%;
+    width: 80%;
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
@@ -125,7 +125,7 @@
 
   @media (max-width: 480px) {
     .banner {
-      width: 100%;
+      width: 95%;
     }
     .blurb {
       width: 100%;
@@ -133,7 +133,12 @@
     }
     .library-description {
       width: 100%;
+      padding: 0;
       text-align: justify;
+    }
+
+    main {
+      padding: 0;
     }
   }
 </style>

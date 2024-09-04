@@ -4,8 +4,8 @@
   let expanded = false;
 </script>
 
-<div class="collapsible">
-  <button class="question" on:click={() => (expanded = !expanded)}>
+<div class="collapsible py-4">
+  <button class="question font-bold" on:click={() => (expanded = !expanded)}>
     <h3>{faq.question}</h3>
     {#if expanded}
       <span class="material-symbols-rounded item-icon">unfold_less</span>
@@ -15,7 +15,7 @@
   </button>
   <div>
     {#if expanded}
-      <div class="answer">{@html faq.answer}</div>
+      <div class="answer prose max-w-full px-4 pt-4 prose-headings:my-0 prose-p:my-4 prose-p:text-lg prose-a:font-bold">{@html faq.answer}</div>
     {/if}
   </div>
 </div>
@@ -43,6 +43,6 @@
   }
   .answer {
     text-align: left;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
   }
 </style>

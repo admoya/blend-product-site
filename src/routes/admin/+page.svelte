@@ -103,7 +103,7 @@
 
 <AuthCheck />
 <div class="content">
-  <h1>Admin View</h1>
+  <h1 class="mt-4">Admin View</h1>
   {#if $organizations}
     <div class="paper">
       <h2>Organizations:</h2>
@@ -151,7 +151,8 @@
       </form>
     </div>
     <form on:submit|preventDefault={handleUserSearch}>
-      <div style="display: flex; flex-direction: row; gap: 0.5rem; vertical-align: bottom; align-items: center; justify-content: center;">
+      <div
+        style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.5rem; vertical-align: bottom; align-items: center; justify-content: center;">
         <label style="display: flex; flex-direction: column;">
           UID
           <input bind:value={userSearchUid} type="text" />
@@ -261,6 +262,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
   }
 
   .paper h2 {

@@ -56,20 +56,20 @@
 </svelte:head>
 
 <div class="content">
-  <h1>Manage Account</h1>
+  <h1 class="mt-4">Manage Account</h1>
   <section class="info">
     <h2>Profile Info</h2>
     <div class="detail">
-      <h3>Name</h3>
+      <h3 class="font-bold">Name</h3>
       <p>{$user?.displayName ?? 'Not Specified'}</p>
     </div>
     <div class="detail">
-      <h3>Email</h3>
+      <h3 class="font-bold">Email</h3>
       <p>{$user?.email}</p>
     </div>
     <Modal bind:showModal={showOrgLeaveConfirmation}>
       <h2 slot="header">Are you sure?</h2>
-      <p>
+      <p class="p-4">
         This will remove you from the {orgDetails.find(({ id }) => id === selectedOrgId)?.name} organization. You will need to be invited back in order
         to re-join.
       </p>
@@ -89,7 +89,7 @@
     </Modal>
     {#if orgDetails.length}
       <div class="detail">
-        <h3>Organizations</h3>
+        <h3 class="font-bold">Organizations</h3>
         <ul class="organization-list">
           {#each orgDetails as { id, name, role } ({ id })}
             <li class="organization-item">
@@ -104,7 +104,7 @@
           {/each}
         </ul>
       </div>
-      <div class="org-help">
+      <div class="org-help mt-4">
         <p>Need help with your organization?</p>
         <p>
           Check out our guide here: <a
@@ -121,11 +121,11 @@
   <section class="info">
     <h2>Subscription Information</h2>
     <div class="detail">
-      <h3>Your Blend Plan</h3>
+      <h3 class="font-bold">Your Blend Plan</h3>
       {#if isSubscribedToBlendPro}
         <p>Blend Pro</p>
         <div class="detail">
-          <h3>Billing</h3>
+          <h3 class="font-bold">Billing</h3>
           {#if subscriptionPendingCancellation}
             <p>
               Your subscription has been cancelled and will expire {new Date(subscriptionPeriodEnd * 1000).toLocaleDateString()}. You will not be
@@ -148,7 +148,7 @@
         </div>
       {:else if hasOrganizationMembership}
         <p>Blend Pro - Group License</p>
-        <p>You have Blend Pro access through your organization membership(s).</p>
+        <p class="text-sm">You have Blend Pro access through your organization membership(s).</p>
         <br />
         <p>
           For questions about your access, please reach out to your organization admin or email us at <a href="mailto:support@blendreading.com"

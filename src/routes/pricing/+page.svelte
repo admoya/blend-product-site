@@ -32,7 +32,7 @@
       <p class="caption">
         Get started right away with our free offering that combines the familiar features of a traditional blending board with modern tools.
       </p>
-      <section class="highlights">
+      <section class="highlights gap-3">
         <FeatureCard
           imagePath={preloaded}
           featureTitle="Preloaded Decks"
@@ -62,7 +62,7 @@
         <a class="btn" style="color: black; border-color: black;" href="/account?action=upgrade" on:click={upgrade}>Upgrade</a>
       </div>
       <p class="caption">Elevate your phonics instruction with additional customization and tools to make lesson planning a breeze.</p>
-      <section class="highlights">
+      <section class="highlights gap-4">
         <FeatureCard
           imagePath={unlimited}
           featureTitle="Unlimited Decks"
@@ -95,7 +95,7 @@
   .tier {
     border: 1px solid white;
     border-radius: 8px;
-    width: 90%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,6 +135,10 @@
     .content {
       width: 90%;
       font-size: 90%;
+    }
+
+    .tier {
+      width: 100%;
     }
   }
   .pricing {

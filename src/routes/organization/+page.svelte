@@ -15,12 +15,12 @@
     <div class="header">
       <div class="side-by-side">
         <div class="description">
-          <p class="subtitle">Blend Organization Licensing</p>
+          <p class="subtitle mb-2">Blend Organization Licensing</p>
           <h1>Blend is better together.</h1>
-          <p>
+          <p class="my-4">
             Whether you're part of a large school district or a small tutoring group, organization licensing could the perfect plan for your team.
           </p>
-          <p>
+          <p class="my-4">
             Blend is even more powerful with shared resources and seamless collaboration, empowering your team to save time in lesson planning and
             focus on cultivating fluent readers! Request a quote or read on to learn more.
           </p>
@@ -177,6 +177,7 @@
     flex-direction: column;
     justify-content: center;
   }
+
   .features {
     padding: 2rem;
   }
@@ -190,6 +191,7 @@
     width: 100%;
   }
   .feature {
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     flex-basis: 27rem;
     display: flex;
     flex-direction: column;

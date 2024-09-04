@@ -12,7 +12,7 @@
 
 <section class="banner">
   <h1>Personalize, plan, and transform your phonics instruction</h1>
-  <div class="cards">
+  <div class="mb-4 mt-5 h-auto max-w-full">
     <img width="726" height="313" src={cards} alt="cards spelling BLEND" />
   </div>
   <div class="side-by-side">
@@ -36,7 +36,7 @@
         </p>
 
         <h2>Key Features</h2>
-        <ul>
+        <ul class="list-disc pl-10">
           <li><b>Elegant interface</b> inspired by physical blending boards</li>
           <li>Automatic recognition and <b>color-coding of vowel sounds</b></li>
           <li><b>Simple grapheme selection</b> with keyboard-like interface</li>
@@ -59,7 +59,7 @@
           intervention students.
         </p>
         <h2>Key Features</h2>
-        <ul>
+        <ul class="list-disc pl-10">
           <li><b>Get started right away</b> with two premade boards available in your library to use and build on</li>
           <li><b>Create unlimited custom decks</b> to align with any level or lesson that you're teaching*</li>
           <li><b>Easily differentiate</b> by targeting the specific skills and needs of every group of students with each deck</li>
@@ -97,7 +97,7 @@
       </div>
       <div class="description">
         <h2>Key Features</h2>
-        <ul>
+        <ul class="list-disc pl-10">
           <li><b>Create and save word chains ahead of time</b>, ensuring your structured literacy lessons run smoothly</li>
           <li><b>Keep your lessons flowing just by clicking</b> forward - no more fumbling for the next grapheme card</li>
           <li><b>Integrate word lists from your school's structured literacy curriculum</b> and save them to use year after year</li>
@@ -146,6 +146,7 @@
   }
 
   .feature-title h1 {
+    margin-top: 2rem;
     text-align: center;
     margin-bottom: 0;
   }
@@ -158,11 +159,6 @@
   .footnote p,
   h6 {
     margin: 0;
-  }
-
-  .cards img {
-    max-width: 100%;
-    height: auto;
   }
 
   #playlists img {
@@ -196,6 +192,13 @@
     margin: 0px;
     text-align: justify;
     flex-basis: 40rem;
+  }
+
+  .description,
+  .epilogue > p,
+  h2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .feature {

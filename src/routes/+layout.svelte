@@ -26,7 +26,7 @@
 <AppBar />
 <main>
   {#if $navigating}
-    <div class="loading-indicator" role="status" aria-label="loading">
+    <div class="loading-indicator [&>*]:box-content" role="status" aria-label="loading">
       <div class="card" aria-hidden><p>L</p></div>
       <div class="card yellow-bg delay-1" aria-hidden><p>OA</p></div>
       <div class="card delay-2" aria-hidden><p>D</p></div>

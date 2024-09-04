@@ -9,8 +9,8 @@
 </svelte:head>
 
 <div class="content">
-  <h1 id="title">Blend Blog</h1>
-  <p id="subtitle">Check out our blog posts below for Blend tutorials and more!</p>
+  <h1 id="title" class="my-4">Blend Blog</h1>
+  <p id="subtitle" class="my-4">Check out our blog posts below for Blend tutorials and more!</p>
   <ul class="post-list">
     {#each blogPosts as blogPost}
       <li>
@@ -55,6 +55,7 @@
     text-align: left;
     font-size: x-large;
     margin: 0 auto;
+    margin-bottom: 0.5rem;
   }
   .post-subtitle {
     text-align: justify;

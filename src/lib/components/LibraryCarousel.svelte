@@ -47,7 +47,7 @@
               <img fetchpriority={i <= initiallyVisibleItems ? 'high' : 'low'} class="item-img" src={blendLogo} alt="" />
             {/if}
           </a>
-          <h2 class="title title-small">{item.name}</h2>
+          <h2 class="title title-small mt-2">{item.name}</h2>
           <a href="/library/{item.type}s/{item.id}?offset={offset}" class="btn btn-outlined">More Info</a>
         </div>
       {/each}
@@ -75,6 +75,7 @@
   }
 
   .section-outer {
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,6 +93,7 @@
   }
 
   .item {
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     text-align: center;
     display: flex;
     flex-direction: column;

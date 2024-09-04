@@ -15,7 +15,7 @@
       </div>
     </ProBadgeWrapper>
     <div class="side-by-side">
-      <table class="pricing-table">
+      <table class="pricing-table box-border border-separate">
         <colgroup>
           <col class="feature-names" />
           <col span="2" class="check-marks" />
@@ -88,8 +88,8 @@
         <div class="feature">Easy Organization Management</div>
         <div class="feature">Organization-Wide Shared Decks & Playlists</div>
         <div class="feature">Dedicated Support</div>
-        <p>Small groups are welcome! We work with smaller tutoring groups and larger school districts alike.</p>
-        <p>Let us help you create a plan that makes sense for your organization.</p>
+        <p class="my-4">Small groups are welcome! We work with smaller tutoring groups and larger school districts alike.</p>
+        <p class="my-4">Let us help you create a plan that makes sense for your organization.</p>
         <a href="/organization" class="btn btn-blurple"><h6>Learn More</h6></a>
         <a href="/organization#form" class="btn btn-purple"><h6>Request a quote</h6></a>
       </div>
@@ -126,7 +126,7 @@
     margin: 1rem 0;
     border-spacing: 1.5rem;
     table-layout: fixed;
-    flex-basis: 40rem;
+    flex-basis: 44rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
   }
@@ -137,7 +137,7 @@
     align-items: center;
     margin: 1rem;
     border-spacing: 1.5rem;
-    flex-basis: 25rem;
+    flex-basis: 29rem;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     padding: 1.8rem;
@@ -219,6 +219,8 @@
     }
     .site-licensing {
       width: 100%;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     .btn {

@@ -6,10 +6,10 @@
 </script>
 
 <div class="feature-card">
-  <div class={className}>
+  <div class={`${className} h-full`}>
     <img src={imagePath} alt="playlist icon" />
     <h3>{featureTitle}</h3>
-    <p>{description}</p>
+    <p class="my-4 min-w-60">{description}</p>
   </div>
 </div>
 
@@ -31,7 +31,7 @@
   }
   .highlight {
     min-height: 20rem;
-    width: 85%;
+    min-width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;

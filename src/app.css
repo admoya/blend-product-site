@@ -1,3 +1,6 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 @import 'styles/base.css';
 /* @import "styles/tablet.css" (max-width: 768px); */
 @import 'styles/mobile.css' (max-width: 480px);

@@ -9,7 +9,7 @@
 
 <main>
   <section class="content">
-    <h1>Blend Help Center</h1>
+    <h1 class="my-6">Blend Help Center</h1>
     <div class="side-by-side">
       <div class="intro-item">
         <h2>Watch our tutorials!</h2>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="questions">
-      <h1>Frequently Asked Questions</h1>
+      <h1 class="my-4">Frequently Asked Questions</h1>
       {#each faqs as faq}
         <Collapsible {faq} />
       {/each}
@@ -48,6 +48,7 @@
     width: 70%;
   }
   .intro-item {
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     flex-basis: 20rem;
     display: flex;
     flex-direction: column;

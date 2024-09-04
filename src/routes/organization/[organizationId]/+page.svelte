@@ -146,12 +146,12 @@
 <AuthCheck />
 <div class="content" style="overflow-x: auto;">
   {#if $organization}
-    <div class="row flex-center" style="gap: 1rem; align-items: center;">
+    <div class="row flex-center my-4" style="gap: 1rem; align-items: center;">
       <!-- Spacer -->
-      <div style="flex-grow: 1; width: 100px" />
-      <h1 style="margin-bottom: 0">{$organization.public.name}</h1>
-      <div style="flex-grow: 1; position: relative; width: 100px">
-        <div class="card" style="height: fit-content; width: fit-content; margin: 15px 0 0 0;">
+      <div class="w-[100px] grow" />
+      <h1 class="mb-0">{$organization.public.name}</h1>
+      <div class="relative w-[100px] grow">
+        <div class="card !m-0 h-fit w-fit">
           Seats Used: {Object.keys($organization.private?.members ?? {}).length}/{$organization.locked.seats}
         </div>
       </div>
@@ -343,6 +343,7 @@
   }
 
   .card {
+    box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     background-color: rgba(245, 245, 245, 0.473);
     border-radius: 1rem;
     padding: 1rem;
