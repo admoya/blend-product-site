@@ -98,6 +98,16 @@ vi.mock('firebase-admin', async () => {
           };
         },
       }),
+      storage: () => ({
+        bucket: () => ({
+          file: (path: string) => ({
+            save: async (data: Buffer, options: any) => {
+              return { publicUrl: () => `https://test.com/${path}` };
+            },
+            publicUrl: () => `https://test.com/${path}`,
+          }),
+        }),
+      }),
     },
   };
 });

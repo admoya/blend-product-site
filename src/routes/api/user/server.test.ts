@@ -35,3 +35,27 @@ test('GET method returns user data for basic user', async () => {
     }
   `);
 });
+
+test('GET method returns user data for organization member', async () => {
+  const request = new Request('https://test.com/api/user', {
+    headers: {
+      Authorization: 'Bearer orgMember',
+    },
+  });
+  const response = await GET({ request } as RequestEvent);
+  expect(await response.json()).toMatchInlineSnapshot(`
+    {
+      "displayName": "Test User 2",
+      "email": "test2@test.com",
+      "isSubscribedToBlendPro": true,
+      "organizationInfo": [
+        {
+          "logoUrl": null,
+          "orgId": "0000",
+          "orgName": "Illuminati",
+        },
+      ],
+      "uid": "orgMemberId",
+    }
+  `);
+});

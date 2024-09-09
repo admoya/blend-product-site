@@ -3,6 +3,7 @@ import {
   FIREBASE_SERVICE_PRIVATE_KEY_ID,
   FIREBASE_AUTH_EMULATOR_HOST,
   FIREBASE_DATABASE_EMULATOR_HOST,
+  FIREBASE_STORAGE_EMULATOR_HOST,
 } from '$env/static/private';
 import { PUBLIC_DEPLOY_CONTEXT } from '$env/static/public';
 import { dev } from '$app/environment';
@@ -11,6 +12,7 @@ if (dev) {
     console.log('Starting Firebase Admin SDK in emulator mode');
     process.env.FIREBASE_AUTH_EMULATOR_HOST = FIREBASE_AUTH_EMULATOR_HOST;
     process.env.FIREBASE_DATABASE_EMULATOR_HOST = FIREBASE_DATABASE_EMULATOR_HOST;
+    process.env.FIREBASE_STORAGE_EMULATOR_HOST = FIREBASE_STORAGE_EMULATOR_HOST;
   } else {
     console.warn(
       `Dev environment detected, but at least one of FIREBASE_AUTH_EMULATOR_HOST and FIREBASE_DATABASE_EMULATOR_HOST is not set. Firebase Admin SDK will connect to the configured live instance: ${PUBLIC_DEPLOY_CONTEXT}`,
@@ -46,7 +48,7 @@ const testConfig = dev
     }
   : {
       ...commonConfig,
-      project_id: 'blend-test-96c76',
+      projectId: 'blend-test-96c76',
       clientEmail: 'firebase-adminsdk-3fr3p@blend-test-96c76.iam.gserviceaccount.com',
       clientId: '108712155394638013128',
       clientX509CertUrl: 'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3fr3p%40blend-test-96c76.iam.gserviceaccount.com',
@@ -57,5 +59,7 @@ const testDbUrl = dev ? 'http://127.0.0.1:9000/?ns=csma-blend-default-rtdb' : 'h
 const config = PUBLIC_DEPLOY_CONTEXT === 'production' ? prodConfig : testConfig;
 
 export const databaseURL = PUBLIC_DEPLOY_CONTEXT === 'production' ? 'https://csma-blend-default-rtdb.firebaseio.com' : testDbUrl;
+
+export const defaultStorageBucket = `${config.projectId}.appspot.com`;
 
 export default config;

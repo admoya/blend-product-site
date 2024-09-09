@@ -1,5 +1,6 @@
 import { authenticate, getOrganizationInfo, getUserData, getUserOrganizations } from '$lib/server/firebaseUtils';
 import { isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET = (async (event) => {
@@ -15,8 +16,9 @@ export const GET = (async (event) => {
         orgs.map(async (orgId) => {
           const orgInfo = await getOrganizationInfo(orgId);
           return {
-            orgName: orgInfo?.name,
+            orgName: orgInfo?.name ?? null,
             orgId,
+            logoUrl: orgInfo?.logoUrl ?? null,
           };
         }),
       ),
@@ -30,7 +32,7 @@ export const GET = (async (event) => {
     organizationInfo,
   };
   console.log(`Total time: ${Date.now() - startTime}ms`);
-  return new Response(JSON.stringify(userData, null, 2));
+  return json(userData);
 }) satisfies RequestHandler;
 
 export const OPTIONS = (() => {

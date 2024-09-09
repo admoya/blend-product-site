@@ -7,6 +7,9 @@
   import { invalidateAll } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
   import OrganizationItemTable from './OrganizationItemTable.svelte';
+  import { enhance } from '$app/forms';
+  import { afterUpdate } from 'svelte';
+  import { fade } from 'svelte/transition';
   export let data: PageData;
   const { organizationId } = $page.params;
   let members: Database.Organization.MemberDetails[];
@@ -137,6 +140,22 @@
     if (!confirm('Are you sure you want to deny this invite request?')) return;
     $organization!.private!.inviteRequests![uid] = null;
   };
+
+  let isUpdatingLogo = !$organization?.public.logoUrl;
+  let logoFileList: FileList;
+  $: isLogoFileTooBig = logoFileList?.[0]?.size > 5 * 1024 * 1024;
+  let isLogoWrongSize = false;
+  $: {
+    let image = new Image();
+    image.src = logoFileList ? URL.createObjectURL(logoFileList?.[0]) : '';
+    image.onload = () => {
+      if (image.width > 128 || image.width !== image.height) {
+        isLogoWrongSize = true;
+        return;
+      }
+      isLogoWrongSize = false;
+    };
+  }
 </script>
 
 <svelte:head>
@@ -146,18 +165,77 @@
 <AuthCheck />
 <div class="content" style="overflow-x: auto;">
   {#if $organization}
-    <div class="row flex-center my-4" style="gap: 1rem; align-items: center;">
-      <!-- Spacer -->
-      <div class="w-[100px] grow" />
-      <h1 class="mb-0">{$organization.public.name}</h1>
-      <div class="relative w-[100px] grow">
-        <div class="card !m-0 h-fit w-fit">
+    <div class="row flex-center my-4 max-md:flex-wrap" style="gap: 1rem; align-items: center;">
+      <div class="relative !w-[500px] grow">
+        <div class="card h-fit w-fit sm:!m-0 sm:!ml-auto">
           Seats Used: {Object.keys($organization.private?.members ?? {}).length}/{$organization.locked.seats}
+        </div>
+      </div>
+      <h1 class="mb-0">{$organization.public.name}</h1>
+      <div class="!w-[500px] grow">
+        <div
+          class={`card !m-0 ${isUpdatingLogo ? `${isLogoFileTooBig || isLogoWrongSize ? 'h-48' : 'h-40'} w-96` : 'h-24 w-24'} !max-w-sm transition-all duration-500 max-sm:!mx-auto`}>
+          {#if !isUpdatingLogo}
+            <img src={$organization.public.logoUrl} class="mx-auto" width="64" height="64" alt="Organization Logo" />
+            <button
+              class="btn btn-small !mx-auto !border-gray-500 !text-gray-600"
+              on:click={() => {
+                isUpdatingLogo = true;
+              }}>Change Logo</button>
+          {:else}
+            <form
+              class="flex flex-col items-center gap-1 text-nowrap text-sm"
+              in:fade={{ delay: 150 }}
+              method="POST"
+              use:enhance
+              action="?/updateLogo"
+              enctype="multipart/form-data"
+              on:submit={() => {
+                isUpdatingLogo = false;
+                return true;
+              }}>
+              <label for="logo" class="text-lg"> Upload a Logo</label>
+              <div class="text-center">
+                <p>
+                  This logo will appear as a small badge in the Blend app. <br />
+                  If you need help resizing your image, please email it to <br />
+                  <a href="mailto:support@blendreading.com">support@blendreading.com</a>
+                </p>
+                {#if isLogoFileTooBig}
+                  <p class="!w-full text-red-600">File size must be less than 5MB</p>
+                {:else if isLogoWrongSize}
+                  <p class="!w-full text-red-600">Image must be square and less than 128x128 pixels</p>
+                {/if}
+              </div>
+              <input
+                id="logo"
+                class="my-1 block w-full max-w-[200px] rounded-lg border border-gray-100 text-sm file:rounded-lg file:border-transparent file:bg-blue-50 focus:outline-none"
+                bind:files={logoFileList}
+                name="logo"
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                required />
+              <div class="flex flex-row gap-1">
+                <button disabled={isLogoFileTooBig} class="btn btn-small btn-gray w-fit !px-5" style="margin: 0">Upload</button>
+                {#if $organization.public.logoUrl}
+                  <button
+                    class="btn btn-small btn-gray w-fit !px-5"
+                    style="margin: 0"
+                    type="button"
+                    on:click={() => {
+                      isUpdatingLogo = false;
+                    }}
+                    >Cancel
+                  </button>
+                {/if}
+              </div>
+            </form>
+          {/if}
         </div>
       </div>
     </div>
     <div class="row flex-wrap">
-      <section class="card" style="width: 45%">
+      <section class="card md:w-[45%]">
         <h2>Members</h2>
         <table class="member-table" style="font-size: medium;">
           <tr>
@@ -209,7 +287,7 @@
         </table>
         <InviteModal bind:showModal={showMemberAddModal} organization={$organization} orgId={$page.params.organizationId} />
       </section>
-      <section class="card" style="width: 45%">
+      <section class="card md:w-[45%]">
         <h2>Invite Requests</h2>
         <p style="font-size: medium;">Requests that Blend users have made to join your oganization will appear here.</p>
         <table style="list-style: none; width: 100%; font-size: medium;">

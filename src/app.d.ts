@@ -183,6 +183,7 @@ declare global {
       interface Public {
         name: string;
         contactEmail?: string;
+        logoUrl?: string;
       }
       // Private fields can be seen and edited by org admins
       interface Private {
