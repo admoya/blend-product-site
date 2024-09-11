@@ -7,6 +7,7 @@ import {
   createStripeSession,
   isCustomerSubscribedToBlendPro,
   isOrganizationMember,
+  isSubscribedToBlendPro,
 } from '$lib/server/subscriptionUtils';
 import { auth, checkSessionAuth, getUserData, getUserOrganizations, isUserGlobalAdmin, readPath, writePath } from '$lib/server/firebaseUtils';
 
@@ -63,22 +64,13 @@ export const load = (async ({ url, cookies }) => {
     }
   }
 
-  if (!customer || customer.deleted) {
-    return {
-      isSubscribedToBlendPro: false,
-      hasOrganizationMembership: organizations.length > 0,
-      subscriptionPeriodEnd: 0,
-      subscriptionPendingCancellation: false,
-      organizations: JSON.stringify(organizations),
-    };
-  }
-  const subscription = getBlendProSubscription(customer);
+  const subscription = customer && !customer.deleted ? getBlendProSubscription(customer) : null;
 
   return {
-    isSubscribedToBlendPro: !!subscription,
+    isSubscribedToBlendPro: await isSubscribedToBlendPro(uid),
     hasOrganizationMembership: organizations.length > 0,
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
-    subscriptionPendingCancellation: subscription?.cancel_at_period_end,
+    subscriptionPendingCancellation: subscription?.cancel_at_period_end ?? false,
     organizations: JSON.stringify(organizations),
   };
 }) satisfies PageServerLoad;

@@ -136,7 +136,7 @@
               <input type="hidden" name="uid" value={$user?.uid} />
               <button id="checkout-and-portal-button" type="submit" class="btn">Manage Subscription</button>
             </form>
-          {:else}
+          {:else if subscriptionPeriodEnd}
             <p>
               Your next billing period starts on {new Date(subscriptionPeriodEnd * 1000).toLocaleDateString()}
             </p>
@@ -144,6 +144,8 @@
               <input type="hidden" name="uid" value={$user?.uid} />
               <button id="checkout-and-portal-button" type="submit" class="btn">Manage Subscription</button>
             </form>
+          {:else}
+            <p>Your subscription is active.</p>
           {/if}
         </div>
       {:else if hasOrganizationMembership}
