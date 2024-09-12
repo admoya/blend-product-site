@@ -30,7 +30,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `<div style="display: flex; justify-content: center;"><a href="https://app.blendreading.com" class="btn btn-blurple" style="width: 20rem;">Check out the Blend app</a><a href="/account?action=upgrade&successRedirect=app&jumpScene=res%3a%2f%2fScenes%2fAccount%2fAccount.tscn" class="btn btn-green" style="width: 20rem;">Try Blend Pro Free for 7 days</a></div>`,
+      content: `<div class="side-by-side"><a href="https://app.blendreading.com" class="btn btn-blurple" style="width: 20rem;">Check out the Blend app</a><a href="/account?action=upgrade&successRedirect=app&jumpScene=res%3a%2f%2fScenes%2fAccount%2fAccount.tscn" class="btn btn-green" style="width: 20rem;">Try Blend Pro Free for 7 days</a></div>`,
     },
     {
       type: 'image',
@@ -201,7 +201,7 @@ const post: Blog.BlogPost = {
     },
     {
       type: 'text',
-      content: `<div style="display: flex; justify-content: center;"><a href="https://app.blendreading.com" class="btn btn-blurple" style="width: 20rem;">Check out the Blend app</a><a href="/account?action=upgrade&successRedirect=app&jumpScene=res%3a%2f%2fScenes%2fAccount%2fAccount.tscn" class="btn btn-green" style="width: 20rem;">Try Blend Pro Free for 7 days</a></div>`,
+      content: `<div class="side-by-side"><a href="https://app.blendreading.com" class="btn btn-blurple" style="width: 20rem;">Check out the Blend app</a><a href="/account?action=upgrade&successRedirect=app&jumpScene=res%3a%2f%2fScenes%2fAccount%2fAccount.tscn" class="btn btn-green" style="width: 20rem;">Try Blend Pro Free for 7 days</a></div>`,
     },
     {
       type: 'heading',
