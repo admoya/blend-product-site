@@ -22,11 +22,11 @@ const post: Blog.BlogPost = {
       type: 'byline',
       name: 'Stephanie Cruz',
       imageSrc: stephHeadshot,
-      date: 'September 11th, 2024',
+      date: 'September 12th, 2024',
     },
     {
       type: 'text',
-      content: `This launch is unlike any other for Blend. We asked our users what they wanted to see from us, and we're excited to announce that we've implmented some of the most requested features! Read on to see what's new.`,
+      content: `This launch is unlike any other for Blend. We asked our users what they wanted to see from us, and we're excited to announce that we've implemented some of the most requested features! Read on to see what's new.`,
     },
     {
       type: 'text',
@@ -39,6 +39,14 @@ const post: Blog.BlogPost = {
         width: 750,
       },
       altText: 'Collage of new features',
+    },
+    {
+      type: 'text',
+      content: `<p style="font-size: medium;"><b>NOTE</b>: If you don't see the new features in your app, make sure you update Blend by clicking Log In or My Account in the top right of the app. Then, click on the install link in the banner at the top of your screen. See video for help. <a href="https://youtu.be/pMi2hE60bU4" target="_blank" rel="noopener noreferrer"><u>VIDEO: How to check if Blend has a new update to install</u></a></p>`,
+    },
+    {
+      type: 'text',
+      content: `<hr class="w-48 h-1 mx-auto my-2 bg-gray-100 border-0 rounded md:my-4 dark:bg-gray-700">`,
     },
     {
       type: 'heading',
