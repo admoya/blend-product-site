@@ -36,9 +36,10 @@
         <p>Every user gets these features out of the box:</p>
         <ul>
           <li>Virtual Blending Board</li>
-          <li>Two Preloaded Decks</li>
-          <li>One Custom Deck</li>
-          <li>Word History</li>
+          <li>Preloaded Decks</li>
+          <li>One (1) Custom Deck</li>
+          <li>Preloaded Playlists</li>
+          <li>One (1) Custom Playlist</li>
         </ul>
         <p><br /></p>
         <button class="btn basic" on:click={selectBasic}><h3>Choose Basic</h3></button>
@@ -52,10 +53,11 @@
       <div class="features">
         <p>With Pro, you get all of the basic features, plus:</p>
         <ul>
-          <li>Unlimited Custom Decks</li>
-          <li>Playlist Creation</li>
-          <li>Access to the Deck Library</li>
-          <li>Deck Sharing</li>
+          <li>Unlimited Decks & Playlists</li>
+          <li>Access to Word Mats</li>
+          <li>Custom Themes</li>
+          <li>Access to the Blend Library</li>
+          <li>Resource Sharing</li>
         </ul>
         <p>Get 7 days free when you try Pro!</p>
         <button class="btn pro" on:click={selectPro}><h3>Choose Pro</h3></button>
@@ -76,7 +78,7 @@
   }
   .plan {
     margin: 1rem;
-    width: 22rem;
+    width: 24rem;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     background: rgba(255, 255, 255, 0.35);
