@@ -141,7 +141,7 @@
     $organization!.private!.inviteRequests![uid] = null;
   };
 
-  let isUpdatingLogo = !$organization?.public.logoUrl;
+  $: isUpdatingLogo = !$organization?.public.logoUrl;
   let logoFileList: FileList;
   $: isLogoFileTooBig = logoFileList?.[0]?.size > 5 * 1024 * 1024;
   let isLogoWrongSize = false;

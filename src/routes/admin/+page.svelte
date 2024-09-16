@@ -4,28 +4,21 @@
   import { createWritableStore, generatePushID, user } from '$lib/firebase';
   import { PUBLIC_APP_URL } from '$env/static/public';
   import type { AllUserData, UserSearchResult } from '../api/admin/userData/+server';
+  import OrganizationEditModal from './OrganizationEditModal.svelte';
 
+  const emptyOrganization = {
+    public: {
+      name: '',
+    },
+    locked: {
+      active: true,
+      isLicensed: false,
+      seats: 0,
+    },
+  };
   const organizations = createWritableStore<{ [id: string]: Database.Organization }>('/organizations');
   let showAddOrganizationModal = false;
-  let newOrgName = '';
-  let newOrgSeats = 0;
-  const createOrganization = () => {
-    if ($organizations) {
-      const id = generatePushID();
-      $organizations[id] = {
-        public: {
-          name: newOrgName,
-        },
-        locked: {
-          active: true,
-          seats: newOrgSeats,
-        },
-      };
-    }
-    newOrgName = '';
-    newOrgSeats = 0;
-    showAddOrganizationModal = false;
-  };
+  let currentOrganizationId = '';
 
   let emulationUid = '';
   let windowHandle: Window | null = null;
@@ -107,10 +100,15 @@
   {#if $organizations}
     <div class="paper">
       <h2>Organizations:</h2>
-      <table class="org-table">
+      <table class="table-fixed">
         <tr>
-          <th>Name</th>
-          <th>Actions</th>
+          <th class="w-28">Name</th>
+          <th class="w-28">Active</th>
+          <th class="w-28">Seats</th>
+          <th class="w-28">Paid</th>
+          <th class="w-36">Term Start</th>
+          <th class="w-36">Term End</th>
+          <th class="w-28">Actions</th>
         </tr>
         {#each Object.entries($organizations) as [orgId, org]}
           <tr>
@@ -118,12 +116,32 @@
               <a href={`/organization/${orgId}`}>{org.public.name}</a>
             </td>
             <td>
-              <button class="btn btn-red btn-small">Delete</button>
+              {org.locked.active ? 'Yes' : 'No'}
+            </td>
+            <td>
+              {Object.keys(org.private?.members ?? {}).length}/{org.locked.seats}
+            </td>
+            <td>
+              {org.locked.isLicensed ? 'Yes' : 'No'}
+            </td>
+            <td>
+              {org.locked.termStart ? new Date(org.locked.termStart).toLocaleDateString('en-US', { timeZone: 'UTC' }) : 'N/A'}
+            </td>
+            <td>
+              {org.locked.termEnd ? new Date(org.locked.termEnd).toLocaleDateString('en-US', { timeZone: 'UTC' }) : 'N/A'}
+            </td>
+            <td>
+              <button
+                class="btn btn-red btn-small"
+                on:click={() => {
+                  currentOrganizationId = orgId;
+                  showAddOrganizationModal = true;
+                }}>Edit</button>
             </td>
           </tr>
         {/each}
         <tr>
-          <td colspan="2">
+          <td colspan="7">
             <button style="width: 100%; margin: 1rem 0 0 0" class="btn btn-green" on:click={() => (showAddOrganizationModal = true)}>Create</button>
           </td>
         </tr>
@@ -233,30 +251,17 @@
   </div>
 </div>
 
-<Modal bind:showModal={showAddOrganizationModal}>
-  <h2 slot="header">Create a new Organization</h2>
-  <form on:submit|preventDefault={createOrganization}>
-    <label>
-      Name
-      <input required type="text" bind:value={newOrgName} />
-    </label>
-    <label>
-      Number of Seats
-      <input required type="number" bind:value={newOrgSeats} />
-    </label>
-    <button type="submit" class="btn btn-green" style="margin: 2rem auto 0 auto" on:click={createOrganization}>Create</button>
-  </form>
-</Modal>
+<OrganizationEditModal
+  bind:show={showAddOrganizationModal}
+  organization={JSON.parse(JSON.stringify($organizations?.[currentOrganizationId] ?? emptyOrganization))}
+  onSave={(organization) => {
+    if ($organizations) {
+      const id = currentOrganizationId || generatePushID();
+      $organizations[id] = organization;
+    }
+  }} />
 
 <style>
-  .org-table {
-    text-align: left;
-    border-spacing: 30px 0;
-    /* min-width: 50vw; */
-  }
-  .org-table th {
-    font-size: 1.2rem;
-  }
   .paper {
     min-width: 20rem;
     display: flex;

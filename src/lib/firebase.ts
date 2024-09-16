@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth, type User } from 'firebase/auth';
 import { getDatabase, ref, get, set as fbSet, child, connectDatabaseEmulator, onValue } from 'firebase/database';
 import { signOut as firebaseSignOut } from 'firebase/auth';
-import { readable, writable } from 'svelte/store';
+import { readable, writable, type Writable } from 'svelte/store';
 import { browser, dev } from '$app/environment';
 import { PUBLIC_DEPLOY_CONTEXT } from '$env/static/public';
 
@@ -66,7 +66,7 @@ export const createWritableStore = <T>(path: string) => {
     set: (newValue: T) => {
       fbSet(ref(database, path), newValue);
     },
-  };
+  } as Writable<null | T>;
 };
 
 export const user = readable(auth.currentUser, (set) => {

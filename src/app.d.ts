@@ -201,6 +201,7 @@ declare global {
         seats: number;
         termEnd?: number;
         termStart?: number;
+        isLicensed?: boolean; // This means the org is paying for member subscriptions. If false, the org is a Team and members provide their own subscriptions.
       }
     }
     interface Organization {
