@@ -166,166 +166,192 @@
 <div class="content" style="overflow-x: auto;">
   {#if $organization}
     <div class="row flex-center my-4 max-md:flex-wrap" style="gap: 1rem; align-items: center;">
-      <div class="relative !w-[500px] grow">
-        <div class="card h-fit w-fit sm:!m-0 sm:!ml-auto">
-          Seats Used: {Object.keys($organization.private?.members ?? {}).length}/{$organization.locked.seats}
-        </div>
+      <!-- Below is a spacer to keep the org name centered -->
+      <div
+        class={`!m-0 ${isUpdatingLogo ? `${isLogoFileTooBig || isLogoWrongSize ? 'h-48' : 'h-40'} w-96` : 'h-24 w-24'} !max-w-sm transition-all duration-500 max-sm:!mx-auto`}>
       </div>
+
       <h1 class="mb-0">{$organization.public.name}</h1>
-      <div class="!w-[500px] grow">
-        <div
-          class={`card !m-0 ${isUpdatingLogo ? `${isLogoFileTooBig || isLogoWrongSize ? 'h-48' : 'h-40'} w-96` : 'h-24 w-24'} !max-w-sm transition-all duration-500 max-sm:!mx-auto`}>
-          {#if !isUpdatingLogo}
-            <img src={$organization.public.logoUrl} class="mx-auto" width="64" height="64" alt="Organization Logo" />
-            <button
-              class="btn btn-small !mx-auto !border-gray-500 !text-gray-600"
-              on:click={() => {
-                isUpdatingLogo = true;
-              }}>Change Logo</button>
-          {:else}
-            <form
-              class="flex flex-col items-center gap-1 text-nowrap text-sm"
-              in:fade={{ delay: 150 }}
-              method="POST"
-              use:enhance
-              action="?/updateLogo"
-              enctype="multipart/form-data"
-              on:submit={() => {
-                isUpdatingLogo = false;
-                return true;
-              }}>
-              <label for="logo" class="text-lg"> Upload a Logo</label>
-              <div class="text-center">
-                <p>
-                  This logo will appear as a small badge in the Blend app. <br />
-                  If you need help resizing your image, please email it to <br />
-                  <a href="mailto:support@blendreading.com">support@blendreading.com</a>
-                </p>
-                {#if isLogoFileTooBig}
-                  <p class="!w-full text-red-600">File size must be less than 5MB</p>
-                {:else if isLogoWrongSize}
-                  <p class="!w-full text-red-600">Image must be square and less than 128x128 pixels</p>
-                {/if}
-              </div>
-              <input
-                id="logo"
-                class="my-1 block w-full max-w-[200px] rounded-lg border border-gray-100 text-sm file:rounded-lg file:border-transparent file:bg-blue-50 focus:outline-none"
-                bind:files={logoFileList}
-                name="logo"
-                type="file"
-                accept=".jpg,.jpeg,.png,.gif,.webp"
-                required />
-              <div class="flex flex-row gap-1">
-                <button disabled={isLogoFileTooBig} class="btn btn-small btn-gray w-fit !px-5" style="margin: 0">Upload</button>
-                {#if $organization.public.logoUrl}
-                  <button
-                    class="btn btn-small btn-gray w-fit !px-5"
-                    style="margin: 0"
-                    type="button"
-                    on:click={() => {
-                      isUpdatingLogo = false;
-                    }}
-                    >Cancel
-                  </button>
-                {/if}
-              </div>
-            </form>
-          {/if}
-        </div>
+      <div
+        class={`card !m-0 ${isUpdatingLogo ? `${isLogoFileTooBig || isLogoWrongSize ? 'h-48' : 'h-40'} w-96` : 'h-24 w-24'} !max-w-sm transition-all duration-500 max-sm:!mx-auto`}>
+        {#if !isUpdatingLogo}
+          <img src={$organization.public.logoUrl} class="mx-auto" width="64" height="64" alt="Organization Logo" />
+          <button
+            class="btn btn-small !mx-auto !border-gray-500 !text-gray-600"
+            on:click={() => {
+              isUpdatingLogo = true;
+            }}>Change Logo</button>
+        {:else}
+          <form
+            class="flex flex-col items-center gap-1 text-nowrap text-sm"
+            in:fade={{ delay: 150 }}
+            method="POST"
+            use:enhance
+            action="?/updateLogo"
+            enctype="multipart/form-data"
+            on:submit={() => {
+              isUpdatingLogo = false;
+              return true;
+            }}>
+            <label for="logo" class="text-lg"> Upload a Logo</label>
+            <div class="text-center">
+              <p>
+                This logo will appear as a small badge in the Blend app. <br />
+                If you need help resizing your image, please email it to <br />
+                <a href="mailto:support@blendreading.com">support@blendreading.com</a>
+              </p>
+              {#if isLogoFileTooBig}
+                <p class="!w-full text-red-600">File size must be less than 5MB</p>
+              {:else if isLogoWrongSize}
+                <p class="!w-full text-red-600">Image must be square and less than 128x128 pixels</p>
+              {/if}
+            </div>
+            <input
+              id="logo"
+              class="my-1 block w-full max-w-[200px] rounded-lg border border-gray-100 text-sm file:rounded-lg file:border-transparent file:bg-blue-50 focus:outline-none"
+              bind:files={logoFileList}
+              name="logo"
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif,.webp"
+              required />
+            <div class="flex flex-row gap-1">
+              <button disabled={isLogoFileTooBig} class="btn btn-small btn-gray w-fit !px-5" style="margin: 0">Upload</button>
+              {#if $organization.public.logoUrl}
+                <button
+                  class="btn btn-small btn-gray w-fit !px-5"
+                  style="margin: 0"
+                  type="button"
+                  on:click={() => {
+                    isUpdatingLogo = false;
+                  }}
+                  >Cancel
+                </button>
+              {/if}
+            </div>
+          </form>
+        {/if}
       </div>
     </div>
-    <div class="row flex-wrap">
-      <section class="card md:w-[45%]">
-        <h2>Members</h2>
-        <table class="member-table" style="font-size: medium;">
-          <tr>
-            <th>Name</th>
-            <th style="width: 50%">Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-          {#each invites as { id, inviteeEmail, displayName } (id)}
-            <tr class="bottom-border">
-              <td>{displayName ?? 'New Blend User'}</td>
-              <td>{inviteeEmail}</td>
-              <td>Invite Sent</td>
-              <td style="padding-right: 0">
-                <span>
-                  <button class="btn btn-small btn-red" style="margin: 0" on:click={() => cancelInvite(id)}>Cancel</button>
-                </span>
-              </td>
-            </tr>
-          {/each}
-          {#each members as { displayName, email, uid, role } (uid)}
-            <tr class="bottom-border">
-              <td>{displayName}</td>
-              <td>{email}</td>
-              <td>{role}</td>
-              <td style="padding-right: 0">
-                <span>
-                  <button disabled={uid === $user?.uid} class="btn btn-small btn-red" style="margin: 0" on:click={() => removeMember(uid)}
-                    >Remove</button>
-                  <button
-                    class="btn btn-small btn-gray"
-                    style="margin: 0; "
-                    on:click={() => (role === 'admin' ? demoteMember(uid) : promoteMember(uid))}>
-                    {role === 'admin' ? 'Demote' : 'Promote'}
-                  </button>
-                </span>
-              </td>
-            </tr>
-          {/each}
-          <tr>
-            <td colspan="4" style="text-align: center; padding: 0">
-              <button
-                class="btn add-button btn-green"
-                on:click={() => {
-                  showMemberAddModal = true;
-                }}>Add</button>
-            </td>
-          </tr>
-        </table>
-        <InviteModal bind:showModal={showMemberAddModal} organization={$organization} orgId={$page.params.organizationId} />
-      </section>
-      <section class="card md:w-[45%]">
-        <h2>Invite Requests</h2>
-        <p style="font-size: medium;">Requests that Blend users have made to join your oganization will appear here.</p>
-        <table style="list-style: none; width: 100%; font-size: medium;">
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Message</th>
-            <th>Actions</th>
-          </tr>
-          {#each inviteRequests as { uid, timestamp, message, displayName } (uid)}
+    <div class="grid grid-flow-row grid-cols-6 gap-4">
+      <div class="card col-span-2">
+        <h2>License End</h2>
+        {$organization.locked.termEnd ? new Date($organization.locked.termEnd).toLocaleDateString() : 'N/A'}
+        <p style="font-size: medium;">
+          To renew or modify your license duration, please email <a href="mailto:support@blendreading.com">support@blendreading.com</a>
+        </p>
+      </div>
+      <div class="card col-span-2">
+        <h2>Seats Used</h2>
+        {Object.keys($organization.private?.members ?? {}).length}/{$organization.locked.seats}
+        <p style="font-size: medium;">
+          To modify your seat limit, please email <a href="mailto:support@blendreading.com">support@blendreading.com</a>
+        </p>
+      </div>
+      <div class="card col-span-2 flex-col">
+        <h2>Invite Link</h2>
+        <div class="my-2 flex">
+          <input class="flex-grow rounded-lg border-2 border-white px-2" value={`https://blendreading.com/join/${organizationId}`} readonly />
+          <button
+            class="btn btn-small btn-blurple"
+            on:click={() => {
+              navigator.clipboard.writeText(`https://blendreading.com/join/${organizationId}`);
+            }}>Copy</button>
+        </div>
+        <p style="font-size: medium;">Send this link to users who want to join your organization.</p>
+      </div>
+      <div class="col-span-6 flex gap-4">
+        <div class="card flex-1 p-4">
+          <h2>Members</h2>
+          <table class="member-table" style="font-size: medium;">
             <tr>
-              <td style="vertical-align: top;">{displayName}</td>
-              <td style="vertical-align: top;">{new Date(timestamp).toLocaleDateString()}</td>
-              <td style="vertical-align: top; max-width: 10rem;">
-                <p style="margin: 0; overflow-y: auto; max-height: 4rem; scrollbar-width: thin; scrollbar-color: black transparent;">{message}</p>
-              </td>
-              <td style="vertical-align: top;">
-                <div class="row flex-center" style="gap: 3px;">
-                  <button
-                    class="btn btn-small btn-green"
-                    style="margin: 0;"
-                    disabled={inviteRequestsProcessing.includes(uid)}
-                    on:click={(e) => {
-                      approveInviteRequest(uid);
-                    }}>Approve</button>
-                  <button
-                    class="btn btn-small btn-red"
-                    style="margin: 0;"
-                    disabled={inviteRequestsProcessing.includes(uid)}
-                    on:click={() => {
-                      denyInviteRequest(uid);
-                    }}>Deny</button>
-                </div>
+              <th>Name</th>
+              <th style="width: 50%">Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+            {#each invites as { id, inviteeEmail, displayName } (id)}
+              <tr class="bottom-border">
+                <td>{displayName ?? 'New Blend User'}</td>
+                <td>{inviteeEmail}</td>
+                <td>Invite Sent</td>
+                <td style="padding-right: 0">
+                  <span>
+                    <button class="btn btn-small btn-red" style="margin: 0" on:click={() => cancelInvite(id)}>Cancel</button>
+                  </span>
+                </td>
+              </tr>
+            {/each}
+            {#each members as { displayName, email, uid, role } (uid)}
+              <tr class="bottom-border">
+                <td>{displayName}</td>
+                <td>{email}</td>
+                <td>{role}</td>
+                <td style="padding-right: 0">
+                  <span>
+                    <button disabled={uid === $user?.uid} class="btn btn-small btn-red" style="margin: 0" on:click={() => removeMember(uid)}
+                      >Remove</button>
+                    <button
+                      class="btn btn-small btn-gray"
+                      style="margin: 0; "
+                      on:click={() => (role === 'admin' ? demoteMember(uid) : promoteMember(uid))}>
+                      {role === 'admin' ? 'Demote' : 'Promote'}
+                    </button>
+                  </span>
+                </td>
+              </tr>
+            {/each}
+            <tr>
+              <td colspan="4" style="text-align: center; padding: 0">
+                <button
+                  class="btn add-button btn-green"
+                  on:click={() => {
+                    showMemberAddModal = true;
+                  }}>Add</button>
               </td>
             </tr>
-          {/each}
-        </table>
-      </section>
+          </table>
+          <InviteModal bind:showModal={showMemberAddModal} organization={$organization} orgId={$page.params.organizationId} />
+        </div>
+        <div class="card flex-1 p-4">
+          <h2>Invite Requests</h2>
+          <p style="font-size: medium;">Requests that Blend users have made to join your oganization will appear here.</p>
+          <table style="list-style: none; width: 100%; font-size: medium;">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Message</th>
+              <th>Actions</th>
+            </tr>
+            {#each inviteRequests as { uid, timestamp, message, displayName } (uid)}
+              <tr>
+                <td style="vertical-align: top;">{displayName}</td>
+                <td style="vertical-align: top;">{new Date(timestamp).toLocaleDateString()}</td>
+                <td style="vertical-align: top; max-width: 10rem;">
+                  <p style="margin: 0; overflow-y: auto; max-height: 4rem; scrollbar-width: thin; scrollbar-color: black transparent;">{message}</p>
+                </td>
+                <td style="vertical-align: top;">
+                  <div class="row flex-center" style="gap: 3px;">
+                    <button
+                      class="btn btn-small btn-green"
+                      style="margin: 0;"
+                      disabled={inviteRequestsProcessing.includes(uid)}
+                      on:click={(e) => {
+                        approveInviteRequest(uid);
+                      }}>Approve</button>
+                    <button
+                      class="btn btn-small btn-red"
+                      style="margin: 0;"
+                      disabled={inviteRequestsProcessing.includes(uid)}
+                      on:click={() => {
+                        denyInviteRequest(uid);
+                      }}>Deny</button>
+                  </div>
+                </td>
+              </tr>
+            {/each}
+          </table>
+        </div>
+      </div>
     </div>
 
     <section class="card">
@@ -426,6 +452,6 @@
     border-radius: 1rem;
     padding: 1rem;
     max-width: 60rem;
-    margin: 1rem auto;
+    margin: 1rem 0;
   }
 </style>
