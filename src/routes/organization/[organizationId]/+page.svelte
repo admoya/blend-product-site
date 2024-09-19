@@ -250,11 +250,14 @@
       <div class="card col-span-2 flex-col">
         <h2>Invite Link</h2>
         <div class="my-2 flex">
-          <input class="flex-grow rounded-lg border-2 border-white px-2" value={`https://blendreading.com/join/${organizationId}`} readonly />
+          <input
+            class="flex-grow rounded-lg border-2 border-white px-2"
+            value={`https://blendreading.com/organization/join/${organizationId}`}
+            readonly />
           <button
             class="btn btn-small btn-blurple"
             on:click={() => {
-              navigator.clipboard.writeText(`https://blendreading.com/join/${organizationId}`);
+              navigator.clipboard.writeText(`https://blendreading.com/organization/join/${organizationId}`);
             }}>Copy</button>
         </div>
         <p style="font-size: medium;">Send this link to users who want to join your organization.</p>
