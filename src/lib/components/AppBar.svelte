@@ -2,10 +2,29 @@
   import { browser } from '$app/environment';
   import { user } from '$lib/firebase';
   import { appUrl } from '$lib/utils';
+  import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
+  import { linear } from 'svelte/easing';
+
   var isMenuopen = false;
   $: isLoggedIn = browser && $user;
   const toggleMenu = () => {
     isMenuopen = false;
+  };
+
+  let bannerAlertsDismissed: Set<string>;
+  let showBanner = false;
+  const bannerText = `The price of Blend Pro is increasing on October 7. <a href="/account?action=upgrade"><u>Upgrade now</u></a> to lock in at $3 per month! <a href="https://communications.blendreading.com/campaign/43b19897-1d72-48d1-bdbf-9e180683068a/b5a40116-958e-4534-851c-e2974a48c70d" target="_blank" rel="noopener noreferrer"><u>Learn more here.</u></a>`;
+  const currentBannerFlag = 'bannerAlertsDismissed';
+  onMount(() => {
+    bannerAlertsDismissed = new Set(JSON.parse(localStorage.getItem(currentBannerFlag) || '[]'));
+    showBanner = !bannerAlertsDismissed.has(bannerText);
+  });
+
+  const onBannerAlertClose = () => {
+    bannerAlertsDismissed.add(bannerText);
+    localStorage.setItem(currentBannerFlag, JSON.stringify(Array.from(bannerAlertsDismissed)));
+    showBanner = false;
   };
 </script>
 
@@ -59,14 +78,45 @@
       {/if}
     </button>
   </nav>
+  {#if showBanner}
+    <div in:slide={{ delay: 250, duration: 400, easing: linear }} out:slide={{ delay: 0, duration: 400, easing: linear }} id="banner-alert">
+      <p id="banner-alert-text">
+        {@html bannerText}
+      </p>
+      <button on:click={onBannerAlertClose} id="banner-close-button">
+        <span class="material-symbols-rounded"> close </span>
+      </button>
+    </div>
+  {/if}
 </div>
 
 <style>
-  @media (max-width: 480px) {
-    a#app {
-      border: none !important;
-      padding: 0 !important;
-    }
+  #banner-alert {
+    width: 100%;
+    /* background-color: #006d74; */
+    background: linear-gradient(52.71deg, #fffaa0 -7.68%, #f4ba9e 41.11%, #eea7fa 91.67%);
+    text-align: center;
+    position: relative;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+  #banner-alert-text {
+    font-family: 'Heebo';
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    /* color: white; */
+  }
+  #banner-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    margin: 0.7rem 0.5rem;
+    height: 1.2rem;
+    padding: 0;
+    /* color: white; */
   }
 
   .app-bar {
@@ -143,6 +193,18 @@
   }
 
   @media (max-width: 640px) {
+    a#app {
+      border: none !important;
+      padding: 0 !important;
+    }
+    #banner-alert-text {
+      padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+      margin: 0;
+      font-size: 1rem;
+    }
+    #banner-close-button {
+      margin: 0.5rem 0.2rem;
+    }
     .hide-menu {
       opacity: 0;
       visibility: hidden;
