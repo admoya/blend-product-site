@@ -5,11 +5,11 @@
   import type { PageData } from './$types';
 
   export let data: PageData;
-  const { isSubscribedToBlendPro, subscriptionPendingCancellation, subscriptionPeriodEnd, organizations, hasOrganizationMembership } = data;
+  const { isSubscribedToBlendPro, subscriptionPendingCancellation, subscriptionPeriodEnd, organizations, hasLicensedOrgMembership } = data;
   // Remove query params because they are handled on the server and any relevant state should be passed as a prop
   window.history.replaceState({}, document.title, window.location.toString().replace(window.location.search, ''));
 
-  let orgDetails: { id: string; name: string; role: string | null }[] = JSON.parse(organizations);
+  let orgDetails = organizations;
   let selectedOrgId: string;
   $: showOrgLeaveConfirmation = false;
 
@@ -148,7 +148,7 @@
             <p>Your subscription is active.</p>
           {/if}
         </div>
-      {:else if hasOrganizationMembership}
+      {:else if hasLicensedOrgMembership}
         <p>Blend Pro - Group License</p>
         <p class="text-sm">You have Blend Pro access through your organization membership(s).</p>
         <br />

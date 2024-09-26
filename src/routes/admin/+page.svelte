@@ -102,13 +102,13 @@
       <h2>Organizations:</h2>
       <table class="table-fixed">
         <tr>
-          <th class="w-28">Name</th>
+          <th class="w-52">Name</th>
           <th class="w-28">Active</th>
           <th class="w-28">Seats</th>
-          <th class="w-28">Paid</th>
+          <th class="w-28" title="Whether or not this is a licensed organization that provides Blend Pro to its members">Licensed</th>
           <th class="w-36">Term Start</th>
           <th class="w-36">Term End</th>
-          <th class="w-28">Actions</th>
+          <th class="w-20 text-right">Actions</th>
         </tr>
         {#each Object.entries($organizations) as [orgId, org]}
           <tr>
@@ -130,9 +130,9 @@
             <td>
               {org.locked.termEnd ? new Date(org.locked.termEnd).toLocaleDateString('en-US', { timeZone: 'UTC' }) : 'N/A'}
             </td>
-            <td>
+            <td class="flex flex-col items-end">
               <button
-                class="btn btn-red btn-small"
+                class="btn btn-red btn-small !mr-0"
                 on:click={() => {
                   currentOrganizationId = orgId;
                   showAddOrganizationModal = true;

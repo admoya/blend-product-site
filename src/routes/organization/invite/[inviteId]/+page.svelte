@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
-  import { user } from "$lib/firebase";
-  import type { PageData } from "./$types";
+  import { enhance } from '$app/forms';
+  import ProBadgeWrapper from '$lib/components/ProBadgeWrapper.svelte';
+  import { user } from '$lib/firebase';
+  import type { PageData } from './$types';
 
   export let data: PageData;
 </script>
@@ -11,18 +12,28 @@
 </svelte:head>
 
 <div class="content">
-  <h1>Join {`${data.organizationName}` ?? 'unknown organization'}</h1>
+  <h1>Join {data.organizationName}</h1>
   <form method="post" use:enhance>
-    <p>You have been invited to join the organization for</p> 
-    <p style="font-weight: bold;">{`${data.organizationName}` ?? 'unknown organization'}</p>
+    <p>You have been invited to join</p>
+    <p style="font-weight: bold;">{data.organizationName}</p>
     <p>Would you like to join?</p>
     <div class="side-by-side">
       <fieldset>
         <input type="hidden" name="uid" value={$user?.uid} />
         <button formaction="?/decline" class="btn btn-red">Decline</button>
-        <button formaction="?/accept" type="submit" class="btn btn-green">Accept</button>
+        {#if data.isPro || data.isOrganizationLicensed}
+          <button formaction="?/accept" type="submit" class="btn btn-green">Accept</button>
+        {:else}
+          <ProBadgeWrapper>
+            <button formaction="?/accept" type="submit" class="btn" disabled>Accept</button>
+          </ProBadgeWrapper>
+        {/if}
       </fieldset>
     </div>
+    {#if !data.isPro && !data.isOrganizationLicensed}
+      <p style="font-weight: bold;">You must be a Blend Pro subscriber to join this Team.</p>
+      <a href="/account?action=upgrade" class="btn btn-purple">Upgrade Now</a>
+    {/if}
   </form>
 </div>
 
@@ -37,7 +48,7 @@
     border: none;
     padding: 0;
     display: flex;
-    flex-wrap:wrap-reverse;
-    justify-content:center;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
   }
 </style>

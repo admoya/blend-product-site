@@ -2,7 +2,7 @@ import marketplaceDecks from '$lib/data/library/marketplaceDecks';
 import { checkSessionAuth, readPath, writePath } from '$lib/server/firebaseUtils';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { isOrganizationMember, isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { isProUser } from '$lib/server/subscriptionUtils';
 
 export const load = (async ({ params: { marketplaceDeckId } }) => {
   const deckMetadata = marketplaceDecks.items.find((deck: BlendLibrary.Item) => deck.id === marketplaceDeckId);
@@ -16,12 +16,10 @@ export const actions: Actions = {
   accept: async (event) => {
     const {
       params: { marketplaceDeckId },
-      request,
+      request: { url },
     } = event;
-    const uid = (await checkSessionAuth(event.cookies, { loginRedirect: event.request.url })).uid;
-    const isPro = await isSubscribedToBlendPro(uid);
-    const isOrgMember = await isOrganizationMember(uid);
-    if (isPro || isOrgMember) {
+    const uid = (await checkSessionAuth(event.cookies, { loginRedirect: url })).uid;
+    if (await isProUser(uid)) {
       const deck = await readPath(`/decks/marketplace/${marketplaceDeckId}/deck`);
 
       // Update deck metadata to create a new copy of the deck on the user's library

@@ -16,61 +16,55 @@ test('GET method with no filters returns all library playlist data', async () =>
   } as unknown as RequestEvent;
   const response = await GET(mockRequestEvent);
   expect(await response.json()).toMatchInlineSnapshot(`
-  [
-    {
-      "created_ts": "2024-05-22T10:36:17",
-      "is_editable": false,
-      "linked_deck_id": 113822357,
-      "modified_ts": "2024-05-22T10:36:17",
-      "name": "Library Playlist CVC",
-      "position": -1,
-      "refId": 2808579789,
-      "words": [
-        [
-          "b",
-          null,
-          "a",
-          "n",
-          null,
+    [
+      {
+        "created_ts": "2024-05-22T10:36:17",
+        "is_editable": false,
+        "linked_deck_id": 113822357,
+        "modified_ts": "2024-05-22T10:36:17",
+        "name": "Library Playlist CVC",
+        "position": -1,
+        "refId": 2808579789,
+        "words": [
+          [
+            "b",
+            null,
+            "a",
+            "n",
+          ],
+          [
+            "f",
+            null,
+            "a",
+            "n",
+          ],
+          [
+            "f",
+            null,
+            "u",
+            "n",
+          ],
+          [
+            "f",
+            null,
+            "i",
+            "n",
+          ],
+          [
+            "t",
+            null,
+            "i",
+            "n",
+          ],
+          [
+            "t",
+            null,
+            "i",
+            "p",
+          ],
         ],
-        [
-          "f",
-          null,
-          "a",
-          "n",
-          null,
-        ],
-        [
-          "f",
-          null,
-          "u",
-          "n",
-          null,
-        ],
-        [
-          "f",
-          null,
-          "i",
-          "n",
-          null,
-        ],
-        [
-          "t",
-          null,
-          "i",
-          "n",
-          null,
-        ],
-        [
-          "t",
-          null,
-          "i",
-          "p",
-          null,
-        ],
-      ],
-    },
-  ]
+      },
+    ]
   `);
 });
 

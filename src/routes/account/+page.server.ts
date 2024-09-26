@@ -5,9 +5,9 @@ import {
   getBlendProSubscription,
   getCustomerPortalSession,
   createStripeSession,
-  isCustomerSubscribedToBlendPro,
   isOrganizationMember,
   isSubscribedToBlendPro,
+  isProUser,
 } from '$lib/server/subscriptionUtils';
 import { auth, checkSessionAuth, getUserData, getUserOrganizations, isUserGlobalAdmin, readPath, writePath } from '$lib/server/firebaseUtils';
 
@@ -38,7 +38,7 @@ export const load = (async ({ url, cookies }) => {
   const customer = await getStripeCustomerWithSubscriptions(uid);
 
   // Redirect to Stripe Checkout if necessary
-  if (actionParam && !isCustomerSubscribedToBlendPro(customer) && !(await isOrganizationMember(uid))) {
+  if (actionParam && !(await isProUser(uid))) {
     const newParams = new URLSearchParams(url.search);
     newParams.delete('action');
 
@@ -68,10 +68,10 @@ export const load = (async ({ url, cookies }) => {
 
   return {
     isSubscribedToBlendPro: await isSubscribedToBlendPro(uid),
-    hasOrganizationMembership: organizations.length > 0,
+    hasLicensedOrgMembership: await isOrganizationMember(uid, true),
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
     subscriptionPendingCancellation: subscription?.cancel_at_period_end ?? false,
-    organizations: JSON.stringify(organizations),
+    organizations: organizations,
   };
 }) satisfies PageServerLoad;
 

@@ -64,14 +64,22 @@ export const getBlendProSubscription = (customer: Stripe.Customer) =>
     subscription.items.data.find(({ plan: { product, active } }) => active && product === STRIPE_BLEND_PRO_PRODUCT_CODE),
   );
 
-export const isOrganizationMember = async (uid: string) => {
+/**
+ * Check if a user is a member of any organization. Optionally, only check for organizations that are licensed.
+ * @param uid firebese uid
+ * @param licensedOnly whether to only check for organizations that are licensed
+ * @returns whether the user is a member of any (licensed) organization
+ */
+export const isOrganizationMember = async (uid: string, licensedOnly = false) => {
   const userOrgs = await readPath<Database.User.Protected['organizations']>(`users/${uid}/protected/organizations`);
   if (!userOrgs) return false;
   try {
     return await Promise.any(
       userOrgs.map(async (orgId) => {
-        const membership = await readPath(`organizations/${orgId}/private/members/${uid}`);
-        if (membership) return true;
+        const membershipPromise = readPath(`organizations/${orgId}/private/members/${uid}`);
+        const licensedPromise = licensedOnly ? readPath<boolean>(`organizations/${orgId}/locked/isLicensed`) : true;
+        const [membership, isLicensed] = await Promise.all([membershipPromise, licensedPromise]);
+        if (membership && isLicensed) return true;
         throw false;
       }),
     );
@@ -96,6 +104,15 @@ export const isSubscribedToBlendPro = async (uid: string) => {
     await writePath(`users/${uid}/protected/isSubscribedToBlendPro`, isSubscribed);
   }
   return isSubscribed;
+};
+
+/**
+ * Check if a user is a Blend Pro user. This function checks if the user is subscribed to Blend Pro or is a member of an organization that is licensed.
+ * @param uid firebase uid
+ * @returns whether the user is a Blend Pro user
+ */
+export const isProUser = async (uid: string) => {
+  return (await isSubscribedToBlendPro(uid)) || (await isOrganizationMember(uid, true));
 };
 
 export const isCustomerSubscribedToBlendPro = (customer: Stripe.Customer | Stripe.DeletedCustomer | null) =>

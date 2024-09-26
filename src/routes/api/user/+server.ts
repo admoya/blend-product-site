@@ -1,5 +1,5 @@
 import { authenticate, getOrganizationInfo, getUserData, getUserOrganizations } from '$lib/server/firebaseUtils';
-import { isSubscribedToBlendPro } from '$lib/server/subscriptionUtils';
+import { isProUser } from '$lib/server/subscriptionUtils';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
@@ -8,9 +8,9 @@ export const GET = (async (event) => {
   const { uid } = await authenticate(event);
   const authenticateTime = Date.now();
   console.log(`Authenticated in ${authenticateTime - startTime}ms`);
-  const [firebaseUserData, isProSubscriber, organizationInfo] = await Promise.all([
+  const [firebaseUserData, isSubscribedToBlendPro, organizationInfo] = await Promise.all([
     getUserData(uid),
-    isSubscribedToBlendPro(uid),
+    isProUser(uid),
     getUserOrganizations(uid).then((orgs) =>
       Promise.all(
         orgs.map(async (orgId) => {
@@ -28,7 +28,7 @@ export const GET = (async (event) => {
   console.log(`Got user data in ${userDataTime - authenticateTime}ms`);
   const userData = {
     ...firebaseUserData,
-    isSubscribedToBlendPro: isProSubscriber || organizationInfo.length > 0,
+    isSubscribedToBlendPro, // TODO: Change this to `isProUser`, and handle that on the app
     organizationInfo,
   };
   console.log(`Total time: ${Date.now() - startTime}ms`);
