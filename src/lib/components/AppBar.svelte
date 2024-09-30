@@ -81,10 +81,16 @@
   {#if showBanner}
     <div in:slide={{ delay: 250, duration: 400, easing: linear }} out:slide={{ delay: 0, duration: 400, easing: linear }} id="banner-alert">
       <p id="banner-alert-text">
-        {@html bannerText}
+        The price of Blend Pro is increasing on October 7. <a href="/account?action=upgrade" on:click={() => window.gtag('event', 'click_upgrade')}
+          ><u>Upgrade now</u></a>
+        to lock in at $3 per month!
+        <a
+          href="https://communications.blendreading.com/campaign/43b19897-1d72-48d1-bdbf-9e180683068a/b5a40116-958e-4534-851c-e2974a48c70d"
+          target="_blank"
+          rel="noopener noreferrer"><u>Learn more here.</u></a>
       </p>
       <button on:click={onBannerAlertClose} id="banner-close-button">
-        <span class="material-symbols-rounded"> close </span>
+        <span class="material-symbols-rounded">close</span>
       </button>
     </div>
   {/if}
