@@ -170,6 +170,11 @@ a:hover {
   width: 100%;
 }
 
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
 .flex-around {
   justify-content: space-around;
 }

@@ -3,7 +3,14 @@
   import play from '$lib/assets/home/play.png';
   import edit from '$lib/assets/home/edit.png';
   import playlists from '$lib/assets/home/playlists-side-by-side.png';
+
+  import sageLogo from '$lib/assets/home/partner-logos/sage-logo.png';
+  import slantLogo from '$lib/assets/home/partner-logos/slant-logo.png';
+  import reedLogo from '$lib/assets/home/partner-logos/reed-logo.png';
+  import forestCityLogo from '$lib/assets/home/partner-logos/forest-city-logo.webp';
+
   import { appUrl } from '$lib/utils';
+  import PartnerCard from '$lib/components/PartnerCard.svelte';
 </script>
 
 <svelte:head>
@@ -110,6 +117,34 @@
     </div>
   </div>
 </section>
+<section id="partners" class="feature" style="background: #3b2e86;">
+  <div class="feature-title"><h1>Trusted by the best</h1></div>
+  <div class="inner-content">
+    <div class="short-description">
+      <p>
+        We are proud to partner with leading literacy programs, schools, and districts around the country to provide the absolute best phonics
+        experience for students and educators!
+      </p>
+    </div>
+    <div class="partner-logos">
+      <PartnerCard name="Sage Literacy" logo={sageLogo} url="https://www.sageliteracy.org/" />
+      <PartnerCard name="Slant System" logo={slantLogo} url="https://www.slantsystem.com/" />
+      <PartnerCard name="Reed Charitable Foundation" logo={reedLogo} url="https://reedcharitablefoundation.org/" />
+      <PartnerCard name="Forest City Elementary" logo={forestCityLogo} url="https://www.forestcity.k12.ia.us/home" />
+    </div>
+    <div class="short-description">
+      <h2 style="text-align: center;">Want to join the team?</h2>
+      <p>
+        If your organization is looking to enhance your phonics instruction, we'd love to work with you to empower your teachers and fast-track your
+        students!
+      </p>
+      <div class="row flex-center flex-wrap">
+        <a class="btn" href="/organization"><h2>learn more</h2></a>
+        <a class="btn" href="/organization#form"><h2>get an estimate</h2></a>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="epilogue">
   <h1>Ready to get started?</h1>
   <p>See our pricing plans and try Blend now!</p>
@@ -188,7 +223,7 @@
   }
 
   .description {
-    width: 30%;
+    max-width: 70rem;
     margin: 0px;
     text-align: justify;
     flex-basis: 40rem;
@@ -199,6 +234,27 @@
   h2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  .short-description {
+    max-width: 60rem;
+    margin: 0px;
+    text-align: justify;
+    text-align-last: center;
+  }
+
+  .side-by-side > .description {
+    width: 30%;
+  }
+
+  .partner-logos {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    margin: 2rem 0;
   }
 
   .feature {
