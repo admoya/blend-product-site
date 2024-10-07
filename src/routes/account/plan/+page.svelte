@@ -5,7 +5,7 @@
 
   const redirectParam = $page.url.searchParams.get('successRedirect');
   const selectBasic = async () => {
-    if (redirectParam && redirectParam === ('app' || 'previewApp')) {
+    if (redirectParam && (redirectParam === 'app' || redirectParam === 'previewApp')) {
       const appUrl = redirectParam === 'app' ? 'https://app.blendreading.com' : 'https://preview-app.blendreading.com';
       const url = `${appUrl}?jumpScene=${encodeURIComponent($page.url.searchParams.get('jumpScene') || 'none')}${
         $customLoginToken ? `&loginToken=${encodeURIComponent($customLoginToken)}` : ''
@@ -48,7 +48,7 @@
     <div class="plan">
       <div class="header pro">
         <h2>Blend Pro</h2>
-        <p>$3 / month</p>
+        <p>$10 / month</p>
       </div>
       <div class="features">
         <p>With Pro, you get all of the basic features, plus:</p>

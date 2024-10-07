@@ -4,6 +4,7 @@ import {
   STRIPE_BLEND_PRO_PRICE_CODE,
   STRIPE_BLEND_PRO_PRODUCT_CODE,
   STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE,
+  STRIPE_ANNUAL_DISCOUNT_ID,
 } from '$env/static/private';
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -22,10 +23,6 @@ const db = firebaseAdmin.database();
 
 export const stripeClient = stripe;
 export const firebaseDb = db;
-
-export const MONTHLY_PRICE_CODE = STRIPE_BLEND_PRO_PRICE_CODE;
-export const YEARLY_PRICE_CODE = STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE;
-export const PRODUCT_CODE = STRIPE_BLEND_PRO_PRODUCT_CODE;
 
 export const getStripeCustomerWithSubscriptions = async (uid: string) => {
   const startTime = Date.now();
@@ -134,7 +131,7 @@ export const createStripeSession = async (
   origin: string,
   options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string },
 ) => {
-  const priceCode = options?.subscriptionType === 'yearly' ? YEARLY_PRICE_CODE : MONTHLY_PRICE_CODE;
+  const priceCode = options?.subscriptionType === 'yearly' ? STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE : STRIPE_BLEND_PRO_PRICE_CODE;
   console.log(`Fetching Stripe customer ID for user ${uid}`);
   const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
 
@@ -163,7 +160,7 @@ export const createStripeSession = async (
     await cancelPreviouslyOpenedSessionsForCustomer(customer.id);
   }
 
-  const hadBlendProBefore = hasCustomerSubscribedBefore(allSubscriptions, PRODUCT_CODE);
+  const hadBlendProBefore = hasCustomerSubscribedBefore(allSubscriptions, STRIPE_BLEND_PRO_PRODUCT_CODE);
   if (!hadBlendProBefore) {
     subscriptionData = {
       trial_period_days: 7,
@@ -176,6 +173,19 @@ export const createStripeSession = async (
   // NOTE: If we use further restrictions on promo codes in the future besides first time customers only we probably need to validate it here. It is bullshit that the Stripe API doesn't allow us to take a customer and code and just return a boolean if it's valid.
   const promoCode = (await promoCodesPromise).data.filter((promoCode) => !hadBlendProBefore || !promoCode.restrictions.first_time_transaction).pop();
 
+  // Manually entered promo codes take precedence. Otherwise, yearly subscriptions get a 20% discount.
+  const discounts = promoCode
+    ? [{ promotion_code: promoCode.id }]
+    : options?.subscriptionType === 'yearly'
+      ? [{ coupon: STRIPE_ANNUAL_DISCOUNT_ID }]
+      : undefined;
+
+  // This is going to create a link to go to the yearly/monthly subscription checkout instead of the one we are currently on.
+  // If this session was created with a promo code **in the URL** then it will be applied to the other subscription page.
+  // If the user entered a promo code at checkout, it is ignored.
+  // Promo codes in the URL take precedence over the 20% discount for yearly subscriptions.
+  const message = `Prefer to pay ${options?.subscriptionType === 'yearly' ? 'monthly' : `yearly${!promoCode ? ' and get a 20% discount' : ''}`}? [Click here](${origin}/account?action=upgrade&subscriptionType=${options?.subscriptionType === 'yearly' ? 'monthly' : 'yearly'}${promoCode ? `&promoCode=${promoCode.code}` : ''})`;
+
   const session = await stripeClient.checkout.sessions.create({
     customer: customer.id,
     billing_address_collection: 'auto',
@@ -186,15 +196,13 @@ export const createStripeSession = async (
       },
     ],
     subscription_data: subscriptionData,
-    allow_promotion_codes: promoCode ? undefined : true,
-    discounts: promoCode ? [{ promotion_code: promoCode.id }] : undefined,
+    allow_promotion_codes: discounts ? undefined : true,
+    discounts,
     mode: 'subscription',
     success_url: `${options?.successUrl ?? `${origin}/blendPro/success?subscription_checkout_status=success?session_id={CHECKOUT_SESSION_ID}`}`,
     cancel_url: `${origin}/account/?subscription_checkout_status=cancel`,
     custom_text: {
-      submit: {
-        message: `Prefer to pay ${options?.subscriptionType === 'yearly' ? 'monthly' : 'yearly'}? [Click here](${origin}/account?action=upgrade&subscriptionType=${options?.subscriptionType === 'yearly' ? 'monthly' : 'yearly'})`,
-      },
+      submit: { message },
     },
     // Enable the below if we need to collect sales tax in the future
     // automatic_tax: { enabled: true },

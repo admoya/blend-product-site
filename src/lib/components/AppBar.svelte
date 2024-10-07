@@ -18,7 +18,8 @@
   const currentBannerFlag = 'bannerAlertsDismissed';
   onMount(() => {
     bannerAlertsDismissed = new Set(JSON.parse(localStorage.getItem(currentBannerFlag) || '[]'));
-    showBanner = !bannerAlertsDismissed.has(bannerText);
+    // Uncomment if you want to show a banner
+    // showBanner = !bannerAlertsDismissed.has(bannerText);
   });
 
   const onBannerAlertClose = () => {

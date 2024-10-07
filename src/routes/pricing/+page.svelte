@@ -58,7 +58,7 @@
     <div class="tier pro">
       <div class="section-title">
         <h2>Pro</h2>
-        <p>$3/month</p>
+        <p>$10/month</p>
         <a class="btn" style="color: black; border-color: black;" href="/account?action=upgrade" on:click={upgrade}>Upgrade</a>
       </div>
       <p class="caption">Elevate your phonics instruction with additional customization and tools to make lesson planning a breeze.</p>
