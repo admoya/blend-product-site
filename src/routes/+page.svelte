@@ -1,8 +1,12 @@
 <script lang="ts">
   import cards from '$lib/assets/cards.png';
-  import play from '$lib/assets/home/play.png';
-  import edit from '$lib/assets/home/edit.png';
-  import playlists from '$lib/assets/home/playlists-side-by-side.png';
+  import deck from '$lib/assets/home/deck.png';
+  import playlist from '$lib/assets/home/playlist.png';
+  import wordMat from '$lib/assets/home/word-mat.png';
+  import wordMat1 from '$lib/assets/home/word-mat-1.png';
+
+  import playlist1 from '$lib/assets/home/playlist-1.png';
+  import decks1 from '$lib/assets/home/deck-1.png';
 
   import sageLogo from '$lib/assets/home/partner-logos/sage-logo.png';
   import slantLogo from '$lib/assets/home/partner-logos/slant-logo.png';
@@ -17,107 +21,126 @@
   <title>Blend Reading</title>
 </svelte:head>
 
-<section class="banner">
-  <h1>Personalize, plan, and transform your phonics instruction</h1>
-  <div class="mb-4 mt-5 h-auto max-w-full">
-    <img width="726" height="313" src={cards} alt="cards spelling BLEND" />
-  </div>
-  <div class="side-by-side">
-    <a class="btn start-blending" href={$appUrl} target="_blank" rel="noopener noreferrer"><h2>start blending</h2></a>
-    <a class="btn" href="/login"><h2>sign up</h2></a>
-  </div>
-</section>
-
-<section id="play" class="feature" style="background: #3b2e86;">
+<div class="flex min-h-[calc(100vh-66px)] flex-col justify-around">
+  <section class="mx-auto mt-8 flex w-[90%] flex-wrap items-center justify-center py-4 text-center">
+    <div class="my-4 h-auto w-[28rem] max-w-full">
+      <img src={cards} alt="cards spelling BLEND" />
+    </div>
+    <div class="flex w-[100%] flex-col justify-center sm:w-[80%] lg:w-[60%]">
+      <h1>Meet your new favorite phonics tool.</h1>
+      <h2 class="!my-0">Personalize, plan, and transform your structured literacy lessons.</h2>
+      <div class="flex flex-wrap justify-center">
+        <a class="btn start-blending !mb-0" href={$appUrl} target="_blank" rel="noopener noreferrer"><h2>try the app</h2></a>
+        <a class="btn !mb-0" href="/login"><h2>sign up</h2></a>
+      </div>
+    </div>
+  </section>
+  <section class="features mx-2 mb-8 mt-2 flex flex-col rounded-lg border border-white bg-white/20 p-8 text-center sm:mx-4 lg:mx-[4rem]">
+    <h2 style="font-family: 'Contrail One';" class="text-center text-4xl">Explore the Blend toolkit</h2>
+    <div class="flex flex-wrap justify-center">
+      <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
+        <div class="flex flex-col items-center">
+          <img class="m-2 rounded-xl shadow-md" src={decks1} alt="Blend app showing a deck" />
+          <p style="font-family: 'Contrail One';" class="text-2xl">Decks</p>
+          <p>Blending board with adjustable graphemes</p>
+          <a href="#decks" class="btn !mt-1 w-2">learn more</a>
+        </div>
+      </div>
+      <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
+        <div class="flex flex-col items-center">
+          <img class="m-2 rounded-xl shadow-md" src={playlist} alt="Blend app showing a playlist" />
+          <p style="font-family: 'Contrail One';" class="text-2xl">Playlists</p>
+          <p>Custom, reusable word chains</p>
+          <a href="#playlists" class="btn !mt-1 w-2">learn more</a>
+        </div>
+      </div>
+      <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
+        <div class="flex flex-col items-center">
+          <img class="m-2 rounded-xl shadow-md" src={wordMat} alt="Blend app showing a word mat" />
+          <p style="font-family: 'Contrail One';" class="text-2xl">Word Mats</p>
+          <p>Spelling mat with tap-to-create Elkonin boxes</p>
+          <a href="#word-mats" class="btn !mt-1 w-2">learn more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<section id="decks" class="feature" style="background: #012a51;">
   <div class="feature-title"><h1>Building fluency has never been easier</h1></div>
   <div class="inner-content">
     <div class="side-by-side">
-      <img src={play} alt="blend play screen" />
+      <img src={deck} alt="blend play screen" />
       <div class="description">
         <p>
-          Welcome to <b>Blend</b> — a game-changing tool for teachers practicing phonics with their students.
-        </p>
-        <p>
-          Our play screen is aligned with traditional blending boards, making it easy to change, add, or remove sounds in a word to build students'
-          phonemic awareness and fluency.
+          With Blend, you have total control of the graphemes in your deck. You now have the freedom to save a customized deck that aligns and adjusts
+          perfectly with your class's scope and sequence, or to create multiple individualized decks for small groups or one-on-one intervention
+          students.
         </p>
 
         <h2>Key Features</h2>
         <ul class="list-disc pl-10">
-          <li><b>Elegant interface</b> inspired by physical blending boards</li>
+          <li><b>Versatile display</b> suitable for whole group classroom instruction, online learning, or one-on-one tutoring</li>
           <li>Automatic recognition and <b>color-coding of vowel sounds</b></li>
-          <li><b>Simple grapheme selection</b> with keyboard-like interface</li>
-          <li>Easily adjustable columns to <b>add or remove cards on the fly</b></li>
-          <li><b>Simplified cards-only view option</b> for faster drills</li>
-          <li><b>Versatile display</b> suitable for both whole group classroom instruction and online learning</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="feature" style="background: #006d74;">
-  <div class="feature-title"><h1>Decks for any skill and style</h1></div>
-  <div class="inner-content">
-    <div class="side-by-side">
-      <div class="description">
-        <p>
-          With <b>Blend</b>, you have total control of the graphemes in your deck. You now have the freedom to save a customized deck that aligns and
-          adjusts perfectly with your class's scope and sequence, or to create multiple individualized decks for small groups or one-on-one
-          intervention students.
-        </p>
-        <h2>Key Features</h2>
-        <ul class="list-disc pl-10">
+          <li>Support for <b>up to six columns</b>, which are adjustable during the drill</li>
+          <li>Create your own <b>custom grapheme cards</b> with up to 5 letters so you can build your perfect blending board</li>
           <li><b>Get started right away</b> with two premade boards available in your library to use and build on</li>
-          <li><b>Create unlimited custom decks</b> to align with any level or lesson that you're teaching*</li>
-          <li><b>Easily differentiate</b> by targeting the specific skills and needs of every group of students with each deck</li>
-          <li>Quickly edit as you go with our <b>flexible drag-and-drop interface</b></li>
-          <li><b>Organize your decks your way</b> with your custom card groupings, color-coding, and up to five card columns</li>
-          <li>Copy and refine existing decks to <b>effortlessly create new boards</b> with similar grapheme sets</li>
-          <li>Conveniently access decks from any device with <b>account syncing</b></li>
+          <li><b>Easily differentiate</b> by targeting the specific skills and needs of every group of students with custom decks</li>
         </ul>
-        <p class="footnote">
-          *Basic users can create up to one custom deck. Pro users can create unlimited custom decks. For Blend Pro pricing and features, see below.
-        </p>
       </div>
-      <img src={edit} alt="blend edit screen" />
     </div>
   </div>
 </section>
-<section id="playlists" class="feature" style="background: #012a51;">
+<section class="feature" style="background: #3b2e86;" id="playlists">
   <div class="feature-title"><h1>Revolutionize your lesson planning</h1></div>
-  <img src={playlists} alt="Blend Playlists screen showing the word 'quick' on the big cards" />
   <div class="inner-content">
-    <div class="side-by-side">
+    <div class="side-by-side !flex-wrap-reverse">
       <div class="description">
         <p>
           Save time with our <b>Playlists</b> feature by creating word chains ahead of your lessons and present them in our sleek interface designed to
-          minimize distractions.
+          minimize distractions. Craft playlists from scratch, integrate word lists from your school's structured literacy curriculum, or even export the
+          history of a completed blending drill and seamlessly turn it into a playlist.
         </p>
-        <p>
-          Craft playlists from scratch, integrate word lists from your school's structured literacy curriculum, or even export the history of a
-          completed blending drill and seamlessly turn it into a playlist. Then, when you're ready for your drill, flip through the words with the
-          click of a button!
-        </p>
-        <p>
-          With Playlists, you can reduce the prep work and devote more time to your kids, ensuring that they're equipped with vital literacy skills.
-        </p>
-      </div>
-      <div class="description">
         <h2>Key Features</h2>
         <ul class="list-disc pl-10">
           <li><b>Create and save word chains ahead of time</b>, ensuring your structured literacy lessons run smoothly</li>
           <li><b>Keep your lessons flowing just by clicking</b> forward - no more fumbling for the next grapheme card</li>
           <li><b>Integrate word lists from your school's structured literacy curriculum</b> and save them to use year after year</li>
           <li>
-            Experience a visually uncluttered interface that minimizes distractions, so you can <b
-              >focus on what matters most: empowering your students</b>
+            Experience a simplified interface that minimizes distractions, so you can <b>focus on being present with your students</b>
           </li>
+        </ul>
+      </div>
+      <img src={playlist1} alt="Blend Playlists screen showing the word 'quick' on the big cards" />
+    </div>
+  </div>
+</section>
+<section id="word-mats" class="feature" style="background: #006d74;">
+  <div class="feature-title"><h1>Boost confidence and engage your students</h1></div>
+  <div class="inner-content">
+    <div class="side-by-side">
+      <img src={wordMat1} alt="blend play screen" />
+      <div class="description">
+        <p>
+          Watch your students grow in confidence as they practice spelling with our unique <b>Word Mats</b>. Our mats feature a dynamic interface that
+          allows students to manipulate sounds, graphemes, and even syllables in each word, creating a tactile experience that reinforces phonemic
+          awareness.
+        </p>
+
+        <h2>Key Features</h2>
+        <ul class="list-disc pl-10">
+          <li><b>Built-in support for Elkonin boxes</b> with a tap-to-create gesture for a tactile experience that builds phonemic awareness</li>
+          <li>The only tool with built-in <b>syllable division</b> & separate syllable boxes</li>
+          <li>
+            <b>Two preloaded mats</b> that provide flexible options for your lessons, whether you need A-Z alphabet tiles or more advanced sounds
+          </li>
+          <li><b>Interactive layout</b> compatible with desktops, iPads and even smart boards, allowing students to engage on multiple platforms</li>
+          <li><b>Heart tile</b> that can be used to work on spelling irregular words</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
-<section id="partners" class="feature" style="background: #3b2e86;">
+<section id="partners" class="feature" style="background: #012a51;">
   <div class="feature-title"><h1>Trusted by the best</h1></div>
   <div class="inner-content">
     <div class="short-description">
@@ -149,7 +172,7 @@
   <h1>Ready to get started?</h1>
   <p>See our pricing plans and try Blend now!</p>
   <div class="side-by-side">
-    <a class="btn" href="/pricing"><h2>pricing plans</h2></a>
+    <a class="btn" href="/pricing#plans"><h2>pricing plans</h2></a>
     <a class="btn" href={$appUrl} target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}><h2>try the app</h2></a>
   </div>
   <div class="footnote">
@@ -166,9 +189,6 @@
 </section>
 
 <style>
-  .btn {
-    border-width: 2px;
-  }
   .start-blending {
     background: rgba(127, 113, 210, 0.5);
     border-color: #7f71d2;
@@ -194,21 +214,6 @@
   .footnote p,
   h6 {
     margin: 0;
-  }
-
-  #playlists img {
-    padding-top: 2rem;
-    width: 65%;
-    min-width: 20rem;
-  }
-
-  .banner {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5%;
   }
 
   .btn:hover {
