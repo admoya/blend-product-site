@@ -163,7 +163,7 @@
       </p>
       <div class="row flex-center flex-wrap">
         <a class="btn" href="/organization"><h2>learn more</h2></a>
-        <a class="btn" href="/organization#form"><h2>get an estimate</h2></a>
+        <a class="btn" href="/organization#form" rel="external"><h2>get an estimate</h2></a>
       </div>
     </div>
   </div>
@@ -172,7 +172,7 @@
   <h1>Ready to get started?</h1>
   <p>See our pricing plans and try Blend now!</p>
   <div class="side-by-side">
-    <a class="btn" href="/pricing#plans"><h2>pricing plans</h2></a>
+    <a class="btn" href="/pricing#plans" rel="external"><h2>pricing plans</h2></a>
     <a class="btn" href={$appUrl} target="_blank" rel="noopener noreferrer" on:click={() => window.gtag('event', 'open_app')}><h2>try the app</h2></a>
   </div>
   <div class="footnote">
