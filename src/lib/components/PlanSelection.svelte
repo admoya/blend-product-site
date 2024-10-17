@@ -77,6 +77,7 @@
       --text-color="white"
       planName="Organization"
       subtitle="For groups"
+      note="<a class='underline text-[#00407c]' href='/organization'>Learn More</a>"
       price="Contact for Pricing"
       features={[
         'Pro Access for All Members',

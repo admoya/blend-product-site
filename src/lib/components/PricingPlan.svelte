@@ -15,7 +15,7 @@
   </div>
   <div class="flex flex-col rounded-b-lg p-4 text-center">
     {#if note}
-      <p class="text-lg">{note}</p>
+      <p class="text-lg">{@html note}</p>
     {:else}
       <br />
     {/if}
