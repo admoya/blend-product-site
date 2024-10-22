@@ -10,3 +10,4 @@ node_modules
 coverage/
 # Sentry Config File
 .sentryclirc
+static/app/themes/manifest.json
