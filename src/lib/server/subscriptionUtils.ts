@@ -129,7 +129,7 @@ export const createStripeSession = async (
   email: string,
   name: string,
   origin: string,
-  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string },
+  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string; skipTrial?: boolean },
 ) => {
   const priceCode = options?.subscriptionType === 'yearly' ? STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE : STRIPE_BLEND_PRO_PRICE_CODE;
   console.log(`Fetching Stripe customer ID for user ${uid}`);
@@ -161,7 +161,7 @@ export const createStripeSession = async (
   }
 
   const hadBlendProBefore = hasCustomerSubscribedBefore(allSubscriptions, STRIPE_BLEND_PRO_PRODUCT_CODE);
-  if (!hadBlendProBefore) {
+  if (!options?.skipTrial && !hadBlendProBefore) {
     subscriptionData = {
       trial_period_days: 7,
     };

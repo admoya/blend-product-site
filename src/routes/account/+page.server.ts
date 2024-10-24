@@ -56,6 +56,7 @@ export const load = (async ({ url, cookies }) => {
           successUrl,
           subscriptionType: newParams.get('subscriptionType') === 'yearly' ? 'yearly' : 'monthly',
           promoCode: newParams.get('promoCode') ?? undefined,
+          skipTrial: newParams.has('skipTrial') ?? false,
         });
         throw redirect(303, stripeSession.url!);
       }
