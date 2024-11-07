@@ -8,6 +8,7 @@
   import bannerImg from '$lib/assets/library-banner.png';
   import LibraryCarousel from '$lib/components/LibraryCarousel.svelte';
   import rControlledVowels from '$lib/data/library/playlists/rControlledVowels';
+  import longVowelTeams from '$lib/data/library/playlists/longVowelTeams';
 </script>
 
 <svelte:head>
@@ -60,6 +61,7 @@
     <LibraryCarousel section={silentE} />
     <LibraryCarousel section={suffixes} />
     <LibraryCarousel section={rControlledVowels} />
+    <LibraryCarousel section={longVowelTeams} />
   </section>
 </main>
 
