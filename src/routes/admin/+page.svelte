@@ -48,17 +48,38 @@
   let userSearchResults: UserSearchResult[] = [];
   let userSearchUid = '';
   let userSearchEmail = '';
+  let searching = false;
   const handleUserSearch = async () => {
+    searching = true;
     const response = await fetch(`/api/admin/userData?uid=${userSearchUid}&email=${encodeURIComponent(userSearchEmail)}`);
     userSearchResults = await response.json();
     userSearchEmail = '';
     userSearchUid = '';
+    searching = false;
   };
 
   const deleteUser = async (uid: string) => {
     if (!confirm('Are you sure you want to delete this user?')) return;
     await fetch(`/api/admin/userData?uid=${uid}`, { method: 'DELETE' });
     userSearchResults = userSearchResults.filter((user) => user.uid !== uid);
+  };
+
+  const editEmail = async (uid: string, existingEmail: string, willChangeLoginEmail: boolean) => {
+    const newEmail = prompt(
+      `Enter a new email address below. ${willChangeLoginEmail ? 'This will also change the login email.' : 'This will NOT change the login email, because the user is using a third-party login provider.'}`,
+      existingEmail,
+    );
+    if (!newEmail) return;
+    await fetch(`/api/admin/userData?uid=${uid}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: newEmail }),
+    });
+    userSearchResults = [];
+    userSearchUid = uid;
+    handleUserSearch();
   };
 
   const downloadAllUserDetails = async () => {
@@ -181,7 +202,7 @@
           <input bind:value={userSearchEmail} type="text" />
         </label>
       </div>
-      <button style="margin: 1rem auto; width: 90%" class="btn btn-green">Search</button>
+      <button style="margin: 1rem auto; width: 90%" class="btn btn-green" disabled={searching}>Search</button>
     </form>
     {#if userSearchResults.length > 0}
       <h3 style="margin-bottom: 0;">Results</h3>
@@ -198,8 +219,16 @@
           <dl style="display: grid; grid-template-columns: auto auto; column-gap: 1rem;">
             <dt>UID:</dt>
             <dd style="margin-left: 0;">{userSearchResult.uid}</dd>
+            <dd>Account Provider:</dd>
+            <dt>{userSearchResult.accountProvider}</dt>
             <dt>Email:</dt>
-            <dd style="margin-left: 0;">{userSearchResult.email}</dd>
+            <span class="inline-flex gap-2">
+              <dd style="margin-left: 0;">{userSearchResult.email}</dd>
+              <button
+                class="btn btn-small btn-red"
+                on:click={() => editEmail(userSearchResult.uid, userSearchResult.email, !userSearchResult.accountProvider.includes('google'))}
+                >Edit</button>
+            </span>
             <dt>Blend Pro Subscriber:</dt>
             <dd style="margin-left: 0;">{userSearchResult.isSubscribedToBlendPro}</dd>
             <dt>Account Created:</dt>

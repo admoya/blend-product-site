@@ -9,6 +9,7 @@ import {
   isUserGlobalAdmin,
   listAllUsers,
   readPath,
+  auth,
 } from '$lib/server/firebaseUtils';
 import {
   deleteStripeCustomer,
@@ -21,6 +22,7 @@ import type { UserRecord } from 'firebase-admin/auth';
 
 export interface UserSearchResult {
   displayName: string;
+  accountProvider: string;
   email: string;
   uid: string;
   isSubscribedToBlendPro: boolean;
@@ -59,6 +61,7 @@ const getUserSearchResult = async (user: UserRecord) => {
   );
   const userSearchResult: UserSearchResult = {
     displayName: user.displayName ?? 'N/A',
+    accountProvider: user.providerData.map((provider) => provider.providerId).join(', '),
     email: user.email ?? 'N/A',
     uid: user.uid,
     isSubscribedToBlendPro: isCustomerSubscribedToBlendPro(stripeCustomer),
@@ -147,4 +150,14 @@ export const DELETE = async ({ cookies, url }) => {
     console.error(`Unable to delete user, error: ${err}`);
     throw error(500);
   }
+};
+
+export const PATCH = async ({ cookies, url, request }) => {
+  await checkSessionAuth(cookies, { authFunction: ({ uid }) => isUserGlobalAdmin(uid) });
+  const uid = url.searchParams.get('uid');
+  const newData = await request.json();
+  if (!uid) throw error(400, 'Missing required parameter: uid');
+  if (!newData) throw error(400, 'Missing required body');
+  auth.updateUser(uid, newData);
+  return new Response('User updated', { status: 200 });
 };
