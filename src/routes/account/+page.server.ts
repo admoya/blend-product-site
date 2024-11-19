@@ -20,6 +20,7 @@ export const load = (async ({ url, cookies }) => {
 
   const actionParam = url.searchParams.get('action') ?? '';
   const redirectParam = url.searchParams.get('successRedirect') ?? '';
+  const partnerId = url.searchParams.get('partnerId') ?? '';
   const userData = await getUserData(uid);
   const email = userData.email!;
   const name = userData.displayName ?? 'Blend User';
@@ -57,6 +58,7 @@ export const load = (async ({ url, cookies }) => {
           subscriptionType: newParams.get('subscriptionType') === 'yearly' ? 'yearly' : 'monthly',
           promoCode: newParams.get('promoCode') ?? undefined,
           skipTrial: newParams.has('skipTrial') ?? false,
+          partnerId,
         });
         throw redirect(303, stripeSession.url!);
       }

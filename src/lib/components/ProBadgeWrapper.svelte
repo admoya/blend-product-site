@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { upgradeUrl } from '$lib/utils';
   import ProBadge from './ProBadge.svelte';
 </script>
 
 <div class="btn-pro">
-  <a href="/account?action=upgrade">
+  <a href={$upgradeUrl}>
     <div class="badge"><ProBadge /></div>
   </a>
   <slot />

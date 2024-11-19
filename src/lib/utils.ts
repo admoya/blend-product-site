@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { PUBLIC_APP_URL } from '$env/static/public';
-import { readable } from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 import { customLoginToken } from './firebase';
 
 export function isEmbeddedBrowser() {
@@ -21,6 +21,23 @@ export const appUrl = readable<string>(PUBLIC_APP_URL, (set) => {
     }
   });
 });
+
+/** Used to ensure that any link to an upgrade includes the partner ID if it is set */
+export const upgradeUrl = readable<string>('/account?action=upgrade', (set) => {
+  partnerData.subscribe((partnerData) => {
+    if (partnerData?.id) {
+      set(`/account?action=upgrade&partnerId=${partnerData.id}`);
+    } else {
+      set('/account?action=upgrade');
+    }
+  });
+});
+
+/**
+ * Used to store the public info of an affiliate partner.
+ * If this is set at the time a checkout session is created, the partner's terms will be applied to that checkout.
+ */
+export const partnerData = writable<{ id: string; displayName: string } | null>(null);
 
 export const filterAttributes = (attributes: string[], input: object | object[]) => {
   const filter = (obj: object) => Object.fromEntries(Object.entries(obj).filter(([key]) => attributes.includes(key)));

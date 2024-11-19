@@ -1,5 +1,8 @@
 {
   "rules": {
+    // Admins can read and write all data
+    ".read": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).exists()",
+    ".write": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
     "users": {
       "$uid": {
         ".read": "$uid === auth.uid",
@@ -18,17 +21,21 @@
         }
       },
       "organization": {
-        ".read": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).exists()",
-        ".write": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
         "$orgId": {
           ".read": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).exists()",
           ".write": "root.child('organizations').child($orgId).child('private').child('members').child(auth.uid).child('role').val() == 'admin'"
         }
       }
     },
+    "partners": {
+      "$partnerId": {
+        "public": {
+          ".read": true,
+          ".write": false
+        }
+      }
+    },
     "playlists": {
-      ".read": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).exists()",
-      ".write": "root.child('organizations').child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
       "user": {
         "$uid": {
           ".read": "$uid === auth.uid",
@@ -43,8 +50,6 @@
       }
     },
     "organizations": {
-      ".read": "data.child('0000').child('private').child('members').child(auth.uid).exists()",
-      ".write": "data.child('0000').child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
       "$orgId": {
         ".read": "data.child('private').child('members').child(auth.uid).child('role').val() == 'admin'",
         "private": {

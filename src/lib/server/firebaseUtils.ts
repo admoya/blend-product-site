@@ -178,6 +178,21 @@ export const deleteUser = async (uid: string) => {
   ]);
 };
 
+/**
+ * Uploads a file to the storage bucket
+ * @param path The storage path to upload the file to
+ * @param file The file to upload
+ * @param addCacheBuster Whether to add a cache buster query param to the returned URL
+ * @returns The download URL of the uploaded file
+ */
+export const uploadFile = async (path: string, file: File | Blob, addCacheBuster = true) => {
+  await storageBucket.file(path).save(Buffer.from(await file.arrayBuffer()), {
+    metadata: { contentType: file.type, cacheControl: 'public, max-age=604800' },
+    public: true,
+  });
+  return `${storageBucket.file(path).publicUrl()}${addCacheBuster ? `?cb=${Date.now()}` : ''}`;
+};
+
 export const readPath = async <T = any>(path: string, defaultValue: T | null = null) => {
   const ref = db.ref(path);
   const data = await ref.get();

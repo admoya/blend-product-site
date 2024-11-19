@@ -1,5 +1,6 @@
 <script lang="ts">
   import ProBadge from '$lib/components/ProBadge.svelte';
+  import { upgradeUrl } from '$lib/utils';
 </script>
 
 <svelte:head>
@@ -13,7 +14,7 @@
   </div>
   <p class="subtitle">Importing from our Deck Library is available to Blend Pro users. Upgrade to Blend Pro to get access to this deck!</p>
   <div class="side-by-side">
-    <a href="/account?action=upgrade" class="btn btn-purple">Upgrade</a>
+    <a href={$upgradeUrl} class="btn btn-purple">Upgrade</a>
     <a href="/library" class="btn">Back to Library</a>
   </div>
 </div>

@@ -204,6 +204,38 @@ declare global {
         isLicensed?: boolean; // This means the org is paying for member subscriptions. If false, the org is a Team and members provide their own subscriptions.
       }
     }
+
+    interface Partners {
+      [partnerId: string]: Partner;
+    }
+
+    interface Partner {
+      public: {
+        displayName: string;
+        socialUrl: string;
+        stripePromoCodeId?: string;
+        logoUrl?: string;
+        urlSlug?: string;
+        blendMessage: string;
+        partnerMessage?: string;
+      };
+      locked?: {
+        redemptions?: {
+          [uid: string]: Partner.Redemption;
+        };
+      };
+    }
+
+    namespace Partner {
+      interface Redemption {
+        checkoutTimestamp: number;
+        convertedAfterTrial: boolean;
+        subscriptionId: string;
+        firstPaymentAmount?: number;
+        partnerOwedAmount?: number;
+        paymentDistributedToPartner?: boolean;
+      }
+    }
     interface Organization {
       public: Organization.Public;
       private?: Organization.Private;
@@ -212,6 +244,7 @@ declare global {
 
     namespace User {
       interface Protected {
+        isSubscribedToBlendPro: boolean;
         organizations?: string[];
       }
       interface Private {

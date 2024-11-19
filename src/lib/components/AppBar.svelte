@@ -1,10 +1,11 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { user } from '$lib/firebase';
-  import { appUrl } from '$lib/utils';
+  import { appUrl, upgradeUrl } from '$lib/utils';
   import { onMount } from 'svelte';
-  import { slide } from 'svelte/transition';
+  import { fly, slide } from 'svelte/transition';
   import { linear } from 'svelte/easing';
+  import { partnerData } from '$lib/utils';
 
   var isMenuopen = false;
   $: isLoggedIn = browser && $user;
@@ -27,6 +28,8 @@
     localStorage.setItem(currentBannerFlag, JSON.stringify(Array.from(bannerAlertsDismissed)));
     showBanner = false;
   };
+
+  let disableCheckoutBtn = false;
 </script>
 
 <div>
@@ -34,6 +37,21 @@
     <a class="branding" href="/">
       <h1>BLEND</h1>
     </a>
+    {#if $partnerData}
+      <div class="grow-[10] max-md:mx-2">
+        <div
+          transition:fly={{ y: -100 }}
+          class="mx-auto flex w-fit flex-row items-center gap-2 rounded rounded-t-none bg-green-400 p-2 font-['Contrail_One',sans-serif] text-base lg:text-lg">
+          <p>{$partnerData.displayName} coupon applied!</p>
+          <a
+            href={$upgradeUrl}
+            on:click={() => {
+              disableCheckoutBtn = true;
+            }}
+            class={`btn-sm btn-blurple rounded p-1 text-white ${disableCheckoutBtn ? 'pointer-events-none ' : ''}`}>Checkout</a>
+        </div>
+      </div>
+    {/if}
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <ul class={`nav-links ${isMenuopen ? '' : 'hide-menu'}`} on:click={toggleMenu} on:keypress={toggleMenu}>
       <li>

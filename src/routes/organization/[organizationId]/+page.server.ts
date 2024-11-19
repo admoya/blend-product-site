@@ -5,7 +5,7 @@ import {
   getOrganizationMemberDetails,
   isUserOrganizationAdmin,
   readPath,
-  storageBucket,
+  uploadFile,
   writePath,
 } from '$lib/server/firebaseUtils.js';
 import { error } from '@sveltejs/kit';
@@ -34,14 +34,8 @@ export const actions: Actions = {
     });
     const logo = (await request.formData()).get('logo');
     if (!logo || !(logo instanceof File)) throw error(400, 'No logo provided');
-    await storageBucket.file(`/organization/${organizationId}/logo`).save(Buffer.from(await logo.arrayBuffer()), {
-      metadata: { contentType: logo.type, cacheControl: 'public, max-age=604800' },
-      public: true,
-    });
-    await writePath(
-      `/organizations/${organizationId}/public/logoUrl`,
-      `${storageBucket.file(`/organization/${organizationId}/logo`).publicUrl()}?cb=${Date.now()}`,
-    );
+    const publicUrl = await uploadFile(`organization/${organizationId}/logo`, logo);
+    await writePath(`/organizations/${organizationId}/public/logoUrl`, publicUrl);
     return { status: 201 };
   },
 };

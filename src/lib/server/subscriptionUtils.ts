@@ -35,6 +35,27 @@ export const getStripeCustomerWithSubscriptions = async (uid: string) => {
   return data;
 };
 
+/**
+ * Fetch subscription data from Stripe for a given subscription ID
+ * @param subscriptionId Stripe subscription ID
+ * @returns The subscription object from Stripe, or null if the subscription is not found
+ */
+export const getSubscription = async (subscriptionId: string) => {
+  try {
+    return stripe.subscriptions.retrieve(subscriptionId, {
+      expand: ['customer'],
+    });
+  } catch (error) {
+    if (error instanceof Stripe.errors.StripeError && error.code === 'resource_missing') {
+      // Handle resource not found (invalid subscription ID)
+      console.error(`Subscription with ID ${subscriptionId} not found.`);
+      return null; // or return an error message or code
+    } else {
+      throw error;
+    }
+  }
+};
+
 export const getAllCustomersWithSubscriptions = async (): Promise<{ [uid: string]: Stripe.Customer }> => {
   return (
     await stripe.customers.list({
@@ -129,15 +150,25 @@ export const createStripeSession = async (
   email: string,
   name: string,
   origin: string,
-  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string; skipTrial?: boolean },
+  options?: { successUrl?: string; subscriptionType?: 'yearly' | 'monthly'; promoCode?: string; skipTrial?: boolean; partnerId?: string },
 ) => {
   const priceCode = options?.subscriptionType === 'yearly' ? STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE : STRIPE_BLEND_PRO_PRICE_CODE;
   console.log(`Fetching Stripe customer ID for user ${uid}`);
   const stripeCustomerIdRef = firebaseDb.ref(`/users/${uid}/private/stripeCustomerId`);
 
+  let partnerCouponPromise =
+    !!options?.partnerId &&
+    readPath(`/partners/${options.partnerId}/public/stripePromoCodeId`)
+      .then((id) => stripeClient.promotionCodes.retrieve(id))
+      .catch((err) => {
+        console.error(`Error fetching promo code for partner ${options.partnerId}: ${err}`);
+        return null;
+      });
+
   const promoCodesPromise = options?.promoCode
     ? stripeClient.promotionCodes.list({ code: options.promoCode, active: true })
     : Promise.resolve({ data: [] });
+
   let [customer, allSubscriptions] = await Promise.all([getStripeCustomerWithSubscriptions(uid), getAllCustomerSubscriptions(uid)]);
 
   let subscriptionData: Stripe.Checkout.SessionCreateParams.SubscriptionData = {};
@@ -171,7 +202,9 @@ export const createStripeSession = async (
   console.log('Creating Stripe session');
 
   // NOTE: If we use further restrictions on promo codes in the future besides first time customers only we probably need to validate it here. It is bullshit that the Stripe API doesn't allow us to take a customer and code and just return a boolean if it's valid.
-  const promoCode = (await promoCodesPromise).data.filter((promoCode) => !hadBlendProBefore || !promoCode.restrictions.first_time_transaction).pop();
+  const promoCode =
+    (await partnerCouponPromise) ||
+    (await promoCodesPromise).data.filter((promoCode) => !hadBlendProBefore || !promoCode.restrictions.first_time_transaction).pop();
 
   // Manually entered promo codes take precedence. Otherwise, yearly subscriptions get a 20% discount.
   const discounts = promoCode

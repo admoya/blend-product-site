@@ -2,6 +2,7 @@
   import { enhance } from '$app/forms';
   import ProBadgeWrapper from '$lib/components/ProBadgeWrapper.svelte';
   import { user } from '$lib/firebase';
+  import { upgradeUrl } from '$lib/utils';
   import type { PageData } from './$types';
 
   export let data: PageData;
@@ -32,7 +33,7 @@
     </div>
     {#if !data.isPro && !data.isOrganizationLicensed}
       <p style="font-weight: bold;">You must be a Blend Pro subscriber to join this Team.</p>
-      <a href="/account?action=upgrade" class="btn btn-purple">Upgrade Now</a>
+      <a href={$upgradeUrl} class="btn btn-purple">Upgrade Now</a>
     {/if}
   </form>
 </div>

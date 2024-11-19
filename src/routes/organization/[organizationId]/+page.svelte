@@ -8,7 +8,6 @@
   import Modal from '$lib/components/Modal.svelte';
   import OrganizationItemTable from './OrganizationItemTable.svelte';
   import { enhance } from '$app/forms';
-  import { afterUpdate } from 'svelte';
   import { fade } from 'svelte/transition';
   export let data: PageData;
   const { organizationId } = $page.params;
