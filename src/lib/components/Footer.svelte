@@ -13,7 +13,7 @@
     </div>
     <div class="footer-section">
       <h2>BLEND READING</h2>
-      <p>Blend Reading was created by CSMA Technology in partnership with Sage Literacy.</p>
+      <a class="text-sm" href="mailto:support@blendreading.com">support@blendreading.com</a>
       <p style="font-size: 0.8rem; margin-top: 0.4rem;">© Blend Reading 2023</p>
     </div>
     <div class="footer-section">
@@ -21,7 +21,6 @@
       <ul>
         <li><a href="/help/report-an-issue">Report an Issue</a></li>
         <li><a href="/help/feedback">Submit Feedback</a></li>
-        <li><a href="/info/privacy-policy">Privacy Policy</a></li>
         <li><a href="/info/data-deletion">Data Deletion Request</a></li>
       </ul>
     </div>
@@ -33,14 +32,9 @@
           <a href="/about">Meet the Team</a>
         </li>
         <li>
-          <a href="mailto:support@blendreading.com">Contact Us</a>
+          <a href="/partners">Partner Program</a>
         </li>
-        <li>
-          <a href="https://csma.technology" target="_blank" rel="noopener noreferrer">CSMA Technology</a>
-        </li>
-        <li>
-          <a href="https://sageliteracy.org" target="_blank" rel="noopener noreferrer">Sage Literacy</a>
-        </li>
+        <li><a href="/info/privacy-policy">Privacy Policy</a></li>
       </ul>
     </div>
     <div class="footer-section">
