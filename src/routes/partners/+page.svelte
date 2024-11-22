@@ -27,8 +27,8 @@
     <h1>How it works</h1>
     <ul class="ml-5 list-disc space-y-2.5">
       <li>We'll set up a Partner Page for you on our website</li>
-      <li>You get your own unique Partner Link that gives users 20% off of Blend Pro</li>
-      <li>Gain free access to Blend Pro so you can use the app in your lessons</li>
+      <li>You'll get your own unique Partner Link that gives users 20% off of Blend Pro</li>
+      <li>Get free access to Blend Pro so you can use the app in your lessons</li>
       <li>Promote the Blend app and share your link to drive new users to your page</li>
       <li>Post when you want to - we don't require you to post on a certain schedule</li>
     </ul>
@@ -108,5 +108,12 @@
       </label>
       <button type="submit" class="btn btn-purple !mx-auto !mt-0" style="auto 0 auto">Submit</button>
     </form>
+    <p class="text-center text-sm">
+      By signing up, you agree to the <a
+        class="underline"
+        href="https://drive.google.com/file/d/13jBp14n7Z9FILltyDTNgFAquYTQ-k3ux/view?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer">Terms of our Partner Program</a>
+    </p>
   </div>
 </div>
