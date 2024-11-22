@@ -61,7 +61,7 @@
             <dt>UID:</dt>
             <dd class="col-span-2">{uid}</dd>
             <dt>Checkout Time:</dt>
-            <dd class="col-span-2">{new Date(promoCodeRedemption.checkoutTimestamp).toLocaleString()}</dd>
+            <dd class="col-span-2">{new Date(promoCodeRedemption.checkoutTimestamp * 1000).toLocaleString()}</dd>
             <dt>Stripe Subscription</dt>
             <dd class="col-span-2">
               {promoCodeRedemption.subscriptionId}

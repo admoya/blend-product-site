@@ -198,6 +198,12 @@ export const createStripeSession = async (
     };
   }
 
+  if (options?.partnerId) {
+    subscriptionData.metadata = {
+      partnerId: options.partnerId,
+    };
+  }
+
   console.log(`Customer is ${subscriptionData.trial_period_days ? '' : 'not '}eligible for a free trial.`);
   console.log('Creating Stripe session');
 
