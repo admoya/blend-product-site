@@ -5,7 +5,6 @@
   import consonantDigraphs from '$lib/data/library/playlists/consonantDigraphs';
   import silentE from '$lib/data/library/playlists/silentE';
   import suffixes from '$lib/data/library/playlists/suffixes';
-  import bannerImg from '$lib/assets/library-banner.png';
   import LibraryCarousel from '$lib/components/LibraryCarousel.svelte';
   import rControlledVowels from '$lib/data/library/playlists/rControlledVowels';
   import longVowelTeams from '$lib/data/library/playlists/longVowelTeams';
@@ -18,7 +17,9 @@
 
 <main>
   <section class="banner">
-    <img src={bannerImg} alt="Blend Library Graphic" />
+    <div class="max-w-full basis-[36rem] rounded xl:max-w-[40%] xl:grow">
+      <enhanced:img src="$lib/assets/library-banner.png" alt="Blend Library Graphic" />
+    </div>
     <div class="blurb">
       <div>
         <div class="side-by-side heading">
@@ -77,12 +78,6 @@
     background-color: #f5f5ef;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  }
-  .banner img {
-    width: 40%;
-    flex-basis: 36rem;
-    border-radius: 10px;
-    object-fit: contain;
   }
   .blurb {
     flex-basis: 32rem;

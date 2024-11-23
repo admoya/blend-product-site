@@ -1,13 +1,4 @@
 <script lang="ts">
-  import cards from '$lib/assets/cards.png';
-  import deck from '$lib/assets/home/deck.png';
-  import playlist from '$lib/assets/home/playlist.png';
-  import wordMat from '$lib/assets/home/word-mat.png';
-  import wordMat1 from '$lib/assets/home/word-mat-1.png';
-
-  import playlist1 from '$lib/assets/home/playlist-1.png';
-  import decks1 from '$lib/assets/home/deck-1.png';
-
   import sageLogo from '$lib/assets/home/partner-logos/sage-logo.png';
   import slantLogo from '$lib/assets/home/partner-logos/slant-logo.png';
   import reedLogo from '$lib/assets/home/partner-logos/reed-logo.png';
@@ -24,7 +15,7 @@
 <div class="flex min-h-[calc(100vh-66px)] flex-col justify-around">
   <section class="mx-auto mt-8 flex w-[90%] flex-wrap items-center justify-center py-4 text-center">
     <div class="my-4 h-auto w-[28rem] max-w-full">
-      <img src={cards} alt="cards spelling BLEND" />
+      <enhanced:img src="$lib/assets/cards.png" alt="cards spelling BLEND" />
     </div>
     <div class="flex w-[100%] flex-col justify-center sm:w-[80%] lg:w-[60%]">
       <h1>Meet your new favorite phonics tool.</h1>
@@ -40,7 +31,7 @@
     <div class="flex flex-wrap justify-center">
       <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
         <div class="flex flex-col items-center">
-          <img class="m-2 rounded-xl shadow-md" src={decks1} alt="Blend app showing a deck" />
+          <enhanced:img class="m-2 rounded-xl shadow-md" src="$lib/assets/home/deck-1.png" alt="Blend app showing a deck" />
           <p style="font-family: 'Contrail One';" class="text-2xl">Decks</p>
           <p>Blending board with adjustable graphemes</p>
           <a href="#decks" class="btn !mt-1 w-2">learn more</a>
@@ -48,7 +39,7 @@
       </div>
       <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
         <div class="flex flex-col items-center">
-          <img class="m-2 rounded-xl shadow-md" src={playlist} alt="Blend app showing a playlist" />
+          <enhanced:img class="m-2 rounded-xl shadow-md" src="$lib/assets/home/playlist.png" alt="Blend app showing a playlist" />
           <p style="font-family: 'Contrail One';" class="text-2xl">Playlists</p>
           <p>Custom, reusable word chains</p>
           <a href="#playlists" class="btn !mt-1 w-2">learn more</a>
@@ -56,7 +47,7 @@
       </div>
       <div class="w-full px-4 sm:w-1/2 lg:w-1/3">
         <div class="flex flex-col items-center">
-          <img class="m-2 rounded-xl shadow-md" src={wordMat} alt="Blend app showing a word mat" />
+          <enhanced:img class="m-2 rounded-xl shadow-md" src="$lib/assets/home/word-mat.png" alt="Blend app showing a word mat" />
           <p style="font-family: 'Contrail One';" class="text-2xl">Word Mats</p>
           <p>Spelling mat with tap-to-create Elkonin boxes</p>
           <a href="#word-mats" class="btn !mt-1 w-2">learn more</a>
@@ -69,7 +60,9 @@
   <div class="feature-title"><h1>Building fluency has never been easier</h1></div>
   <div class="inner-content">
     <div class="side-by-side">
-      <img src={deck} alt="blend play screen" />
+      <div class="my-auto w-1/2 min-w-[min(40rem,100%)]">
+        <enhanced:img src="$lib/assets/home/deck.png" alt="blend play screen" />
+      </div>
       <div class="description">
         <p>
           With Blend, you have total control of the graphemes in your deck. You now have the freedom to save a customized deck that aligns and adjusts
@@ -110,7 +103,9 @@
           </li>
         </ul>
       </div>
-      <img src={playlist1} alt="Blend Playlists screen showing the word 'quick' on the big cards" />
+      <div class="my-auto w-1/2 min-w-[min(40rem,100%)]">
+        <enhanced:img class="w-full" src="$lib/assets/home/playlist-1.png" alt="Blend Playlists screen showing the word 'quick' on the big cards" />
+      </div>
     </div>
   </div>
 </section>
@@ -118,7 +113,9 @@
   <div class="feature-title"><h1>Boost confidence and engage your students</h1></div>
   <div class="inner-content">
     <div class="side-by-side">
-      <img src={wordMat1} alt="blend play screen" />
+      <div class="my-auto w-1/2 min-w-[min(40rem,100%)]">
+        <enhanced:img class="w-full" src="$lib/assets/home/word-mat-1.png" alt="blend play screen" />
+      </div>
       <div class="description">
         <p>
           Watch your students grow in confidence as they practice spelling with our unique <b>Word Mats</b>. Our mats feature a dynamic interface that
@@ -267,12 +264,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .inner-content img {
-    width: 50%;
-    flex-basis: 40rem;
-    object-fit: contain;
   }
 
   .epilogue {

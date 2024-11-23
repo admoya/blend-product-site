@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { slide } from 'svelte/transition';
+
   export let faq: Help.Faq;
 
   let expanded = false;
@@ -15,7 +17,9 @@
   </button>
   <div>
     {#if expanded}
-      <div class="answer prose max-w-full px-4 pt-4 prose-headings:my-0 prose-p:my-4 prose-p:text-lg prose-a:font-bold">{@html faq.answer}</div>
+      <div transition:slide class="answer prose max-w-full px-4 pt-4 prose-headings:my-0 prose-p:my-4 prose-p:text-lg prose-a:font-bold">
+        {@html faq.answer}
+      </div>
     {/if}
   </div>
 </div>

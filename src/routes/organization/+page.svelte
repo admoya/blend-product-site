@@ -1,10 +1,3 @@
-<script lang="ts">
-  import banner from '$lib/assets/organization/organization-header-graphic.png';
-  import library from '$lib/assets/organization/shared-library-graphic.png';
-  import network from '$lib/assets/organization/members-graphic.png';
-  import form from '$lib/assets/organization/form-graphic.png';
-</script>
-
 <svelte:head>
   <title>Organizations - Blend</title>
   <meta name="description" content="Request a quote today for a Blend Organization License for your school or tutoring organization." />
@@ -29,14 +22,16 @@
             <a class="btn btn-outlined" href="/organization#features">Learn More</a>
           </div>
         </div>
-        <img src={banner} alt="playlists side by side" />
+        <div class="xl:w-[45%]">
+          <enhanced:img src="$lib/assets/organization/organization-header-graphic.png" alt="playlists side by side" />
+        </div>
       </div>
     </div>
     <div class="features" id="features">
       <div class="side-by-side">
         <div class="feature" id="sharing">
           <h2>Share resources, save time</h2>
-          <img src={library} alt="playlists side by side" />
+          <enhanced:img src="$lib/assets/organization/shared-library-graphic.png" alt="playlists side by side" />
           <p>
             With an organization, you can share your decks and playlists with the entire team at the touch of a button. Stay consistent with your
             curriculum by building all of your lessons ahead of time for any teacher to use throughout the year.
@@ -49,7 +44,7 @@
         </div>
         <div class="feature" id="members">
           <h2>The more the merrier</h2>
-          <img src={network} alt="playlists side by side" />
+          <enhanced:img src="$lib/assets/organization/members-graphic.png" alt="playlists side by side" />
           <p>
             We make it easy to get your team onboard and stay organized. With separate admin and member roles, you can make sure everyone has the
             right access without having too many cooks in the kitchen.
@@ -119,7 +114,7 @@
         <div class="quote-details">
           <h1>Interested?</h1>
           <p>Submit this form to request a quote for your organization.</p>
-          <img src={form} alt="playlists side by side" />
+          <enhanced:img class="mx-auto max-w-[80%]" src="$lib/assets/organization/form-graphic.png" alt="playlists side by side" />
         </div>
         <form name="organization-form" class="quote-form" action="/organization/request-a-quote" method="POST" data-netlify="true">
           <input type="hidden" name="form-name" value="organization-form" />
@@ -165,11 +160,7 @@
     font-weight: bolder;
     color: #588dff;
   }
-  .header img {
-    object-fit: contain;
-    flex-basis: 30rem;
-    width: 45%;
-  }
+
   .description {
     width: 45%;
     flex-basis: 35rem;
@@ -186,10 +177,7 @@
     font-size: 2.2rem;
     margin: 1rem;
   }
-  .feature img {
-    object-fit: contain;
-    width: 100%;
-  }
+
   .feature {
     box-sizing: content-box; /* Tailwind changes this default, which is fine but for the sake of keeping things the same for now I'm changing it back */
     flex-basis: 27rem;
@@ -256,9 +244,7 @@
     justify-content: center;
     align-items: center;
   }
-  .quote-details img {
-    max-width: 80%;
-  }
+
   .quote-form {
     display: flex;
     flex-direction: column;

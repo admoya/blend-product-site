@@ -76,11 +76,11 @@
         <a id="blog" href="/blog">blog</a>
       </li>
       {#if !isLoggedIn}
-        <li>
+        <li class="min-w-[70px]">
           <a id="login" href="/login">login</a>
         </li>
       {:else}
-        <li>
+        <li class="min-w-[70px]">
           <a id="account" href="/account">account</a>
         </li>
       {/if}
