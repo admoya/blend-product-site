@@ -4,7 +4,6 @@ import {
   STRIPE_BLEND_PRO_PRICE_CODE,
   STRIPE_BLEND_PRO_PRODUCT_CODE,
   STRIPE_BLEND_PRO_ANNUAL_PRICE_CODE,
-  STRIPE_ANNUAL_DISCOUNT_ID,
 } from '$env/static/private';
 const stripe = new Stripe(STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -145,6 +144,9 @@ export const getCustomerPortalSession = (customer: Stripe.Customer, returnUrl: s
 export const hasCustomerSubscribedBefore = (subscriptions: Stripe.Subscription[], productCode: string) =>
   subscriptions.some((subscription) => subscription.items.data.some((item) => item.price.product === productCode));
 
+/**
+ * This function is used to create a Stripe Checkout session and redirect to it. It is currently called from the /account page
+ */
 export const createStripeSession = async (
   uid: string,
   email: string,
@@ -212,12 +214,7 @@ export const createStripeSession = async (
     (await partnerCouponPromise) ||
     (await promoCodesPromise).data.filter((promoCode) => !hadBlendProBefore || !promoCode.restrictions.first_time_transaction).pop();
 
-  // Manually entered promo codes take precedence. Otherwise, yearly subscriptions get a 20% discount.
-  const discounts = promoCode
-    ? [{ promotion_code: promoCode.id }]
-    : options?.subscriptionType === 'yearly'
-      ? [{ coupon: STRIPE_ANNUAL_DISCOUNT_ID }]
-      : undefined;
+  const discounts = promoCode ? [{ promotion_code: promoCode.id }] : undefined;
 
   // This is going to create a link to go to the yearly/monthly subscription checkout instead of the one we are currently on.
   // If this session was created with a promo code **in the URL** then it will be applied to the other subscription page.
