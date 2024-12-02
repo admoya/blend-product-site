@@ -19,3 +19,18 @@ PUBLIC_APP_URL
 FIREBASE_STORAGE_EMULATOR_HOST
 STRIPE_ANNUAL_DISCOUNT_ID
 ```
+
+## How to run
+### Start the Firebase Emulator
+`npm run firebase-local`
+
+The emulator will be running on `localhost:4000`
+
+### Start the site
+`npm run dev`
+
+Note: If having issues with the port not being accessible, might have to run with the following options:
+`npm run dev -- --host`
+
+The site will be running on `localhost:5173`
+
