@@ -32,6 +32,8 @@
       <li>Promote the Blend app and share your link to drive new users to your page</li>
       <li>Post when you want to - we don't require you to post on a certain schedule</li>
     </ul>
+    <a href="https://drive.google.com/file/d/13jBp14n7Z9FILltyDTNgFAquYTQ-k3ux/view?usp=sharing" target="_blank" rel="noopener noreferrer"
+      ><p class="mt-5 text-center text-lg underline">Read the full terms of our Partner Program</p></a>
     <hr class="my-8 h-px border-0 bg-gray-700" />
     <div class="flex flex-col items-center text-center">
       <h2>Want to go for it?</h2>
