@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import type { PageData } from './$types.js';
   import { partnerData } from '$lib/utils.js';
-  let { displayName, logoUrl, blendMessage, partnerMessage, socialUrl } = $page.data as PageData;
+  let { displayName, logoUrl, blendMessage, partnerMessage, socialUrl, isAlreadypro } = $page.data as PageData;
 
   const addPartnerCode = () => {
     $partnerData = { id: $page.params.partnerId, displayName };
@@ -36,18 +36,25 @@
       <a href={socialUrl} target="_blank" rel="noopener noreferrer">{displayName}</a> + BLEND
     </h1>
     <p class="mt-2 text-lg md:text-2xl">{blendMessage}</p>
-    <div class="mt-5 flex flex-col justify-center">
-      <p class="text-sm md:text-lg">Click below to activate your special offer!</p>
-      <button class="btn btn-green transition-all" disabled={!!$partnerData} on:click={addPartnerCode}
-        >{$partnerData ? 'Activated ✅' : 'Activate'}</button>
-    </div>
-    <div class="flex items-center justify-around gap-5">
-      <a href="/"
-        ><div class="flex items-center justify-center gap-1">Learn More <span class="material-symbols-rounded"> arrow_right_alt </span></div></a>
-      <a
-        href={`/account?action=upgrade&partnerId=${$page.params.partnerId}`}
-        class="rounded-lg border-2 border-[#96aaff] px-3 py-1 hover:bg-[#96aaff] hover:text-white">Checkout</a>
-    </div>
+    {#if isAlreadypro}
+      <div class="mt-5 rounded-xl bg-[#a9b9ff]/80 p-4">
+        <p class="font-bold md:text-lg">Thank you for being Blend Pro user!</p>
+        <p class="">This offer is only available to new customers.</p>
+      </div>
+    {:else}
+      <div class="mt-5 flex flex-col justify-center">
+        <p class="text-sm md:text-lg">Click below to activate your special offer!</p>
+        <button class="btn btn-green transition-all" disabled={!!$partnerData} on:click={addPartnerCode}
+          >{$partnerData ? 'Activated ✅' : 'Activate'}</button>
+      </div>
+      <div class="flex items-center justify-around gap-5">
+        <a href="/"
+          ><div class="flex items-center justify-center gap-1">Learn More <span class="material-symbols-rounded"> arrow_right_alt </span></div></a>
+        <a
+          href={`/account?action=upgrade&partnerId=${$page.params.partnerId}`}
+          class="rounded-lg border-2 border-[#96aaff] px-3 py-1 hover:bg-[#96aaff] hover:text-white">Checkout</a>
+      </div>
+    {/if}
   </div>
 </div>
 

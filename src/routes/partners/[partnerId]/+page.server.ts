@@ -6,6 +6,7 @@ import { isProUser } from '$lib/server/subscriptionUtils';
 export const load: PageServerLoad = async ({ params: { partnerId }, cookies }) => {
   // Existing pro users are not eligible for partner redemptions
   const sessionCookie = cookies.get('session');
+  let isAlreadypro = false;
   if (sessionCookie) {
     let uid: string | undefined;
     try {
@@ -14,12 +15,12 @@ export const load: PageServerLoad = async ({ params: { partnerId }, cookies }) =
       console.error('Error validating session on partner page:', err);
     }
     if (uid && (await isProUser(uid))) {
-      throw redirect(302, '/');
+      isAlreadypro = true;
     }
   }
   const partnerPublicInfo = await readPath<Database.Partner['public']>(`/partners/${partnerId}/public`);
   if (!partnerPublicInfo) {
     throw error(404, 'Partner not found');
   }
-  return partnerPublicInfo;
+  return { ...partnerPublicInfo, isAlreadypro };
 };

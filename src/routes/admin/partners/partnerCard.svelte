@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import { createWritableStore, generatePushID } from '$lib/firebase';
   import AddRedemptionModal from './AddRedemptionModal.svelte';
 
@@ -31,7 +32,10 @@
   {#if onEditPressed}
     <button class="btn-small btn-gray absolute right-0 top-0 rounded" on:click={onEditPressed}>Edit</button>
   {/if}
-  <h3 class="text-xl font-bold">{$partner?.public.displayName} <span class="text-xs">({partnerId})</span></h3>
+  <h3 class="text-xl font-bold">
+    {$partner?.public.displayName}
+    <span class="text-xs">(<a target="_blank" href={`${$page.url.origin}/partners/${partnerId}`}>{partnerId}</a>)</span>
+  </h3>
   <dl class="grid grid-cols-2 gap-x-2 text-left text-sm [&>dt]:text-nowrap [&>dt]:font-bold">
     <dt>Converted Redemptions:</dt>
     <dd>{Object.values(redemptions).filter(({ convertedAfterTrial }) => convertedAfterTrial).length}/{Object.keys(redemptions).length}</dd>
