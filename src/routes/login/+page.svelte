@@ -8,6 +8,8 @@
   import { goto } from '$app/navigation';
   import { isEmbeddedBrowser } from '$lib/utils';
   import Alert from '$lib/components/Alert.svelte';
+  import { fly } from 'svelte/transition';
+  import messages from '$lib/messages';
 
   signOut(); // Make sure we're not logged in when we get here
 
@@ -19,6 +21,7 @@
   const searchParams = new URLSearchParams(decodeURIComponent($page.url.search));
   const redirectParam = searchParams.get('successRedirect') || '/';
   const actionParam = searchParams.get('action') || '';
+  const messageParam = searchParams.get('message') || '';
   const allOtherParams = Array.from(searchParams.entries())
     .filter(([key]) => key !== 'successRedirect' && key !== 'action')
     .map(([key, value]) => `${key}=${value}`)
@@ -27,6 +30,10 @@
   type RedirectBuilderFunc = (user: User, token?: string) => string;
   let redirectBuilder: RedirectBuilderFunc;
   let isAppRedirect = false;
+  let isMounted = false;
+
+  let message = messages[messageParam];
+
   switch (redirectParam) {
     case 'account':
     case '/':
@@ -62,6 +69,7 @@
       redirectBuilder = () => `${decodeURIComponent(redirectParam)}${allOtherParams ? `?${allOtherParams}` : ''}`;
   }
   onMount(() => {
+    isMounted = true;
     ui.start('#firebaseui-auth-container', {
       callbacks: {
         signInSuccessWithAuthResult(authResult, redirectUrl) {
@@ -130,6 +138,14 @@
   <title>Login - Blend</title>
 </svelte:head>
 
+{#if message && isMounted}
+  <div
+    in:fly|global={{ y: -50, duration: 750 }}
+    class="relative mx-6 -mb-8 mt-4 max-w-2xl rounded-xl border-2 border-black bg-white px-6 py-4 text-center shadow
+      sm:mx-auto">
+    {message}
+  </div>
+{/if}
 <div class="content">
   {#if !awaitingRedirect}
     <h1>Log in or Create Account</h1>

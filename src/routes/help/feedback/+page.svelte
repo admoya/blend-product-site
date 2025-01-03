@@ -10,7 +10,7 @@
 </svelte:head>
 
 {#if browser}
-  <AuthCheck />
+  <AuthCheck messageId="feedbackRedirect" />
 {/if}
 
 <div class="content">

@@ -24,8 +24,13 @@
    */
   export let defaultRedirect: string | null | ((user: User) => string) = null;
 
+  /**
+   * The message to display to the user when they are redirected to the login page. Shpuld be an ID of a message in $lib/messages.ts.
+   */
+  export let messageId: string = 'loginRedirect';
+
   $: {
-    if (!$user && !willAttemptLogin()) goto(`/login?successRedirect=${encodeURIComponent(loginRedirect)}`);
+    if (!$user && !willAttemptLogin()) goto(`/login?successRedirect=${encodeURIComponent(loginRedirect)}&message=${messageId}`);
     else if ($user && defaultRedirect) goto(typeof defaultRedirect === 'function' ? defaultRedirect($user) : defaultRedirect);
   }
 </script>

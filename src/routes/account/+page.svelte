@@ -29,7 +29,7 @@
   const onSignOutCLicked = async () => {
     disableSignOut = true;
     await signOut();
-    goto('/login');
+    goto('/login?message=signedOut');
   };
 
   const leaveOrganization = async (orgId: string) => {
