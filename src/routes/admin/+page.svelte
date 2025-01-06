@@ -46,6 +46,21 @@
     userSearchResults = userSearchResults.filter((user) => user.uid !== uid);
   };
 
+  const editDisplayName = async (uid: string, existingDisplayName: string) => {
+    const newDisplayName = prompt('Enter a new display name below.', existingDisplayName);
+    if (!newDisplayName) return;
+    await fetch(`/api/admin/userData?uid=${uid}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ displayName: newDisplayName }),
+    });
+    userSearchResults = [];
+    userSearchUid = uid;
+    handleUserSearch();
+  };
+
   const editEmail = async (uid: string, existingEmail: string, willChangeLoginEmail: boolean) => {
     const newEmail = prompt(
       `Enter a new email address below. ${willChangeLoginEmail ? 'This will also change the login email.' : 'This will NOT change the login email, because the user is using a third-party login provider.'}`,
@@ -136,7 +151,10 @@
     <h3 style="margin-bottom: 0;">Results</h3>
     {#each userSearchResults as userSearchResult}
       <div style="border-width: 2px; border-radius: 5px; border-style: solid; padding: 1rem;">
-        <h4 style="text-align: center; margin: 0;">{userSearchResult.displayName}</h4>
+        <div class="mx-auto flex w-fit gap-2">
+          <h4 style="text-align: center; margin: 0;">{userSearchResult.displayName}</h4>
+          <button class="btn btn-small btn-red" on:click={() => editDisplayName(userSearchResult.uid, userSearchResult.displayName)}>Edit</button>
+        </div>
         <div style="width: 100%; display: flex; flex-direction: row; justify-content: flex-end;">
           <button
             on:click={() => {
