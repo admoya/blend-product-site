@@ -23,7 +23,7 @@
   const actionParam = searchParams.get('action') || '';
   const messageParam = searchParams.get('message') || '';
   const allOtherParams = Array.from(searchParams.entries())
-    .filter(([key]) => key !== 'successRedirect' && key !== 'action')
+    .filter(([key]) => !['successRedirect', 'action', 'message'].includes(key))
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
 
