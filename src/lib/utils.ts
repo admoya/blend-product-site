@@ -12,6 +12,9 @@ export function isEmbeddedBrowser() {
   return isFacebookEmbedded;
 }
 
+/**
+ * Use this to ensure that you get the environment-appropriate URL for the app. Also appends the login token if the user is logged in.
+ */
 export const appUrl = readable<string>(PUBLIC_APP_URL, (set) => {
   customLoginToken.subscribe((token) => {
     if (token) {

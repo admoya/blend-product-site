@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import blendLogo from '$lib/assets/blend_logo.png';
+  import { PUBLIC_APP_URL } from '$env/static/public';
+  import { appUrl } from '$lib/utils';
 
   export let data: PageData;
 </script>
@@ -17,8 +19,9 @@
         <h1>{data.playlist.name}</h1>
       </div>
       <img src={data.playlist.image?.img.src ?? blendLogo} alt="Playlist Preview" />
-      <a href="https://app.blendreading.com/?jumpScene=res%3a%2f%2fScenes%2fHome%2fPlaylist%2fPlaylistView.tscn" class="btn btn-purple"
-        >Open in Blend</a>
+      <a
+        href={`${$appUrl.includes('?') ? `${$appUrl}&` : `${$appUrl}?`}jumpScene=res%3a%2f%2fScenes%2fHome%2fPlaylist%2fPlaylistHome.tscn`}
+        class="btn btn-purple">Open in Blend</a>
       <p>All playlists in the Blend Library are available right in the app!</p>
     </div>
   </div>
