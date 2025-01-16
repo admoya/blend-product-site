@@ -38,10 +38,13 @@
       <h1>BLEND</h1>
     </a>
     {#if $partnerData}
-      <div class="grow-[10] max-md:mx-2">
+      <div
+        class="grow-[10] max-md:mx-2
+         2xl:fixed 2xl:left-1/2 2xl:-translate-x-1/2">
         <div
           transition:fly={{ y: -100 }}
-          class="mx-auto flex w-fit flex-row items-center gap-2 rounded rounded-t-none bg-green-400 p-2 font-['Contrail_One',sans-serif] text-base lg:text-lg">
+          class="mx-auto flex w-fit flex-row items-center gap-2 rounded rounded-t-none bg-green-400 p-2 font-['Contrail_One',sans-serif] text-base
+          lg:text-lg">
           <p>{$partnerData.displayName} coupon applied!</p>
           <a
             href={$upgradeUrl}
