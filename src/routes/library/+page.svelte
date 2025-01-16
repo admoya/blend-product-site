@@ -7,7 +7,8 @@
   import suffixes from '$lib/data/library/playlists/suffixes';
   import LibraryCarousel from '$lib/components/LibraryCarousel.svelte';
   import rControlledVowels from '$lib/data/library/playlists/rControlledVowels';
-  import longVowelTeams from '$lib/data/library/playlists/longVowelTeams';
+  import vowelTeams from '$lib/data/library/playlists/vowelTeams';
+  import diphthongs from '$lib/data/library/playlists/diphthongs';
 </script>
 
 <svelte:head>
@@ -62,7 +63,8 @@
     <LibraryCarousel section={silentE} />
     <LibraryCarousel section={suffixes} />
     <LibraryCarousel section={rControlledVowels} />
-    <LibraryCarousel section={longVowelTeams} />
+    <LibraryCarousel section={vowelTeams} />
+    <LibraryCarousel section={diphthongs} />
   </section>
 </main>
 
