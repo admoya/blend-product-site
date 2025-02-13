@@ -83,6 +83,19 @@ export const getOrganizationMemberDetails = async (organization: Database.Organi
   })) as Database.Organization.MemberDetails[];
 };
 
+export const getOrganizationMemberMetadata = async (organization: Database.Organization) => {
+  const { members = {} } = organization.private ?? {};
+  const memberUids = Object.keys(members).map((uid) => ({ uid }));
+  const { users } = await getUsers(memberUids);
+  return users.map(({ uid, email = '', displayName = '', metadata }) => ({
+    uid,
+    email,
+    displayName,
+    lastRefreshTime: metadata.lastRefreshTime,
+    lastSignInTime: metadata.lastSignInTime,
+  }));
+};
+
 export const getOrganizationInviteDetails = async (organization: Database.Organization) => {
   const { invites = [] } = organization.private ?? {};
   return (
