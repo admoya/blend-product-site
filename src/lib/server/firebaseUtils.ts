@@ -91,8 +91,7 @@ export const getOrganizationMemberMetadata = async (organization: Database.Organ
     uid,
     email,
     displayName,
-    lastRefreshTime: metadata.lastRefreshTime,
-    lastSignInTime: metadata.lastSignInTime,
+    lastActiveTime: metadata.lastRefreshTime,
   }));
 };
 
