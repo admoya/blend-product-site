@@ -1,4 +1,4 @@
-import { checkSessionAuth, getOrganizationInfo, getOrganizationMemberMetadata, isUserGlobalAdmin, readPath } from '$lib/server/firebaseUtils';
+import { checkSessionAuth, getOrganizationPublicInfo, getOrganizationMemberMetadata, isUserGlobalAdmin, readPath } from '$lib/server/firebaseUtils';
 import { json, error } from '@sveltejs/kit';
 
 export const GET = async ({ cookies, params }) => {

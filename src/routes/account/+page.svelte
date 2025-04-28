@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
+  import { goto, invalidateAll } from '$app/navigation';
   import Modal from '$lib/components/Modal.svelte';
   import { user, signOut, customLoginToken } from '$lib/firebase';
   import type { PageData } from './$types';
+  import TeamCreationModal from './components/TeamCreationModal.svelte';
+  import TeamList from './components/TeamList.svelte';
 
+  // Do not destructure. Doing so will lose the reactivity when the data is reloaded, such as when we call invalidateAll() below. Just use data.*
   export let data: PageData;
-  const { isSubscribedToBlendPro, subscriptionPendingCancellation, subscriptionPeriodEnd, organizations, hasLicensedOrgMembership } = data;
-  // Remove query params because they are handled on the server and any relevant state should be passed as a prop
-  window.history.replaceState({}, document.title, window.location.toString().replace(window.location.search, ''));
 
-  let orgDetails = organizations;
+  const allOrganizations = [...data.licensedOrganizations, ...data.unlicensedOrganizations];
   let selectedOrgId: string;
   $: showOrgLeaveConfirmation = false;
 
@@ -40,7 +40,8 @@
       method: 'POST',
       body,
     });
-    orgDetails = orgDetails.filter(({ id }) => id !== orgId);
+    // orgDetails = orgDetails.filter(({ id }) => id !== orgId);
+    invalidateAll();
   };
 
   const onLeaveClicked = (orgId: string) => {
@@ -49,6 +50,8 @@
   };
 
   let isCreatingSubscriptionOrder = false;
+
+  let showTeamCreationModal = false;
 </script>
 
 <svelte:head>
@@ -70,8 +73,8 @@
     <Modal bind:showModal={showOrgLeaveConfirmation}>
       <h2 slot="header">Are you sure?</h2>
       <p class="p-4">
-        This will remove you from the {orgDetails.find(({ id }) => id === selectedOrgId)?.name} organization. You will need to be invited back in order
-        to re-join.
+        This will remove you from the {allOrganizations.find(({ id }) => id === selectedOrgId)?.name} organization. You will need to be invited back in
+        order to re-join.
       </p>
       <div slot="footer" class="row flex-around">
         <button
@@ -87,11 +90,11 @@
           }}>Leave Organization</button>
       </div>
     </Modal>
-    {#if orgDetails.length}
+    {#if data.licensedOrganizations.length}
       <div class="detail">
-        <h3 class="font-bold">Organizations</h3>
+        <h3 class="text-2xl font-bold">Organizations</h3>
         <ul class="organization-list">
-          {#each orgDetails as { id, name, role } ({ id })}
+          {#each data.licensedOrganizations as { id, name, role } ({ id })}
             <li class="organization-item">
               {name}
               <span>
@@ -114,6 +117,7 @@
         </p>
       </div>
     {/if}
+    <TeamList {data} />
     <div class="detail">
       <button disabled={disableSignOut} on:click={onSignOutCLicked} class="btn">Sign Out</button>
     </div>
@@ -122,13 +126,13 @@
     <h2>Subscription Information</h2>
     <div class="detail">
       <h3 class="font-bold">Your Blend Plan</h3>
-      {#if isSubscribedToBlendPro}
+      {#if data.isSubscribedToBlendPro}
         <p>Blend Pro</p>
         <div class="detail">
           <h3 class="font-bold">Billing</h3>
-          {#if subscriptionPendingCancellation}
+          {#if data.subscriptionPendingCancellation}
             <p>
-              Your subscription has been cancelled and will expire {new Date(subscriptionPeriodEnd * 1000).toLocaleDateString()}. You will not be
+              Your subscription has been cancelled and will expire {new Date(data.subscriptionPeriodEnd * 1000).toLocaleDateString()}. You will not be
               charged again.
             </p>
             <p>If you wish to reactivate your subscription, click the button below.</p>
@@ -136,9 +140,9 @@
               <input type="hidden" name="uid" value={$user?.uid} />
               <button id="checkout-and-portal-button" type="submit" class="btn">Manage Subscription</button>
             </form>
-          {:else if subscriptionPeriodEnd}
+          {:else if data.subscriptionPeriodEnd}
             <p>
-              Your next billing period starts on {new Date(subscriptionPeriodEnd * 1000).toLocaleDateString()}
+              Your next billing period starts on {new Date(data.subscriptionPeriodEnd * 1000).toLocaleDateString()}
             </p>
             <form action="?/redirectToCustomerPortal" method="POST">
               <input type="hidden" name="uid" value={$user?.uid} />
@@ -148,7 +152,7 @@
             <p>Your subscription is active.</p>
           {/if}
         </div>
-      {:else if hasLicensedOrgMembership}
+      {:else if data.hasLicensedOrgMembership}
         <p>Blend Pro - Group License</p>
         <p class="text-sm">You have Blend Pro access through your organization membership(s).</p>
         <br />
@@ -173,6 +177,8 @@
     </div>
   </section>
 </div>
+
+<TeamCreationModal bind:show={showTeamCreationModal} />
 
 <style>
   @media (max-width: 480px) {
@@ -199,7 +205,7 @@
     flex-direction: column;
     align-items: center;
   }
-  .detail {
+  :global(.detail) {
     display: flex;
     flex-direction: column;
     align-items: center;

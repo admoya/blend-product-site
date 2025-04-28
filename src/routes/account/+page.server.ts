@@ -9,7 +9,17 @@ import {
   isSubscribedToBlendPro,
   isProUser,
 } from '$lib/server/subscriptionUtils';
-import { auth, checkSessionAuth, getUserData, getUserOrganizations, isUserGlobalAdmin, readPath, writePath } from '$lib/server/firebaseUtils';
+import {
+  auth,
+  checkSessionAuth,
+  getUserData,
+  getOrganizationsByUserId,
+  isUserGlobalAdmin,
+  readPath,
+  writePath,
+  createOrganization,
+  addUserToOrganization,
+} from '$lib/server/firebaseUtils';
 
 export const load = (async ({ url, cookies }) => {
   const uid = (
@@ -24,18 +34,21 @@ export const load = (async ({ url, cookies }) => {
   const userData = await getUserData(uid);
   const email = userData.email!;
   const name = userData.displayName ?? 'Blend User';
-  const isGlobalAdmin = isUserGlobalAdmin(uid);
-  const orgIds = await getUserOrganizations(uid);
-  const organizations = await Promise.all(
-    orgIds.map(async (orgId) => {
-      const organization = await readPath<Database.Organization>(`/organizations/${orgId}`);
-      return {
-        id: orgId,
-        name: organization?.public.name,
-        role: (await isGlobalAdmin) ? 'admin' : organization?.private?.members?.[uid]?.role,
-      };
-    }),
-  );
+  const allOrganizations = await getOrganizationsByUserId(uid);
+  const licensedOrganizations = allOrganizations
+    .filter(({ organization }) => organization.locked?.isLicensed)
+    .map(({ organization, id }) => ({
+      id,
+      role: organization.private?.members?.[uid].role ?? 'member',
+      ...organization.public,
+    }));
+  const unlicensedOrganizations = allOrganizations
+    .filter(({ organization }) => !organization.locked?.isLicensed)
+    .map(({ organization, id }) => ({
+      id,
+      role: organization.private?.members?.[uid].role ?? 'member',
+      ...organization.public,
+    }));
   const customer = await getStripeCustomerWithSubscriptions(uid);
 
   // Redirect to Stripe Checkout if necessary
@@ -74,7 +87,8 @@ export const load = (async ({ url, cookies }) => {
     hasLicensedOrgMembership: await isOrganizationMember(uid, true),
     subscriptionPeriodEnd: subscription?.current_period_end ?? 0,
     subscriptionPendingCancellation: subscription?.cancel_at_period_end ?? false,
-    organizations: organizations,
+    licensedOrganizations,
+    unlicensedOrganizations,
   };
 }) satisfies PageServerLoad;
 
@@ -112,5 +126,22 @@ export const actions = {
       ...orgMembers,
       [uid]: null,
     });
+  },
+  createTeam: async ({ request, cookies }) => {
+    const uid = (await checkSessionAuth(cookies)).uid;
+    const data = await request.formData();
+    const name = data.get('name') as string;
+    const orgId = await createOrganization({
+      locked: {
+        isLicensed: false,
+        active: true,
+        seats: 256, //Arbitrary limit for teams
+      },
+      public: {
+        name,
+      },
+    });
+    await addUserToOrganization(uid, orgId, 'admin');
+    throw redirect(303, `/organization/${orgId}`);
   },
 } satisfies Actions;

@@ -3,12 +3,12 @@
     // add more generic rule sets here, such as:
     "eslint:recommended",
     "plugin:svelte/recommended",
-    "prettier"
+    "prettier",
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
-    "extraFileExtensions": [".svelte"] // This is a required setting in `@typescript-eslint/parser` v4.24.0.
+    "extraFileExtensions": [".svelte"], // This is a required setting in `@typescript-eslint/parser` v4.24.0.
   },
   "ignorePatterns": ["build/**", "node_modules/**", "*.config.*"],
   "overrides": [
@@ -17,9 +17,9 @@
       "parser": "svelte-eslint-parser",
       // Parse the `<script>` in `.svelte` as TypeScript by adding the following configuration.
       "parserOptions": {
-        "parser": "@typescript-eslint/parser"
-      }
-    }
+        "parser": "@typescript-eslint/parser",
+      },
+    },
     // ...
   ],
   "rules": {
@@ -27,6 +27,7 @@
     // 'svelte/rule-name': 'error'
     "svelte/no-at-html-tags": "warn",
     "no-undef": "off", // Typescript handles this
-    "no-unused-vars": "off" // Typescript handles this
-  }
+    "no-unused-vars": "off", // Typescript handles this
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 3 }],
+  },
 }

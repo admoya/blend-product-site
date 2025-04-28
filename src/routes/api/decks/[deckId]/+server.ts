@@ -1,4 +1,4 @@
-import { getUserOrganizations, readPath, weaklyAuthenticate } from '$lib/server/firebaseUtils';
+import { getUserOrganizationIds, readPath, weaklyAuthenticate } from '$lib/server/firebaseUtils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async (request) => {
@@ -9,7 +9,7 @@ export const GET: RequestHandler = async (request) => {
     if (user) {
       deck = await readPath<Database.Deck>(`/decks/user/${user.uid}/${deckId}`);
       if (!deck) {
-        const organizationIds = await getUserOrganizations(user.uid);
+        const organizationIds = await getUserOrganizationIds(user.uid);
         const orgDecks = await Promise.all(organizationIds.map((orgId) => readPath<Database.Deck>(`/decks/organization/${orgId}/${deckId}/deck`)));
         deck = orgDecks.find((deck) => deck) ?? null;
       }

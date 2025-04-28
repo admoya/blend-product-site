@@ -55,7 +55,7 @@ test('GET method returns user data for organization member', async () => {
           "orgName": "Illuminati",
         },
       ],
-      "uid": "orgMemberId",
+      "uid": "god",
     }
   `);
 });

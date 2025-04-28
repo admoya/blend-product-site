@@ -20,6 +20,12 @@ type CheckSessionAuthOptions = {
   loginRedirect?: string;
   authFunction?: (decodedToken: DecodedIdToken) => Promise<boolean> | boolean;
 };
+
+type OrganizationWithId = {
+  id: string;
+  organization: Database.Organization;
+};
+
 /**
  * Validates a request's session cookie and redirects to the login page if it is missing or invalid, or if the user fails an optional validator function.
  * @param cookies the "cookies" object passed to Sveltekit server-side functions
@@ -53,7 +59,29 @@ export const isUserGlobalAdmin = async (uid: string) => {
 export const isUserOrganizationAdmin = async (uid: string, organization: Database.Organization) =>
   organization.private?.members?.[uid]?.role === 'admin' || (await isUserGlobalAdmin(uid));
 
-export const getUserOrganizations = async (uid: string) => {
+/**
+ * Creates a new organization in the database.
+ * @param organization The full organization object
+ * @returns the orgId of the created organization
+ */
+export const createOrganization = (organization: Database.Organization) => pushPath('organizations', organization).then((ref) => ref.key!);
+
+export const addUserToOrganization = async (uid: string, organizationId: string, role: Database.Organization.Member['role']) => {
+  const org = await getOrganizationById(organizationId);
+  if (!org) throw error(404, 'Organization not found');
+  const { members = {} } = org.private ?? {};
+  if (members[uid]) throw error(400, 'User already in organization');
+  await writePath(`organizations/${organizationId}/private/members/${uid}`, { role });
+  return writePath(`users/${uid}/protected/organizations`, [
+    ...((await readPath<string[]>(`users/${uid}/protected/organizations`)) ?? []),
+    organizationId,
+  ]);
+};
+
+/**
+ * Retrieves the ids of all org ids (licensed + unlicensed) that the user is a part of
+ */
+export const getUserOrganizationIds = async (uid: string) => {
   if (await isUserGlobalAdmin(uid)) return Object.keys((await readPath('organizations')) ?? {});
   const orgList = (await readPath<string[]>(`users/${uid}/protected/organizations`)) ?? [];
   return (
@@ -66,7 +94,30 @@ export const getUserOrganizations = async (uid: string) => {
   ).filter((id): id is Exclude<string, null> => !!id);
 };
 
-export const getOrganizationInfo = async (organizationId: string) => readPath<Database.Organization.Public>(`organizations/${organizationId}/public`);
+/**
+ * Retrieves all organizations (licensed + unlicensed) that the user is a part of.
+ * This should never be passed on to the client directly, as it includes all the organization data.
+ */
+export const getOrganizationsByUserId = async (uid: string) => {
+  const orgIds = await getUserOrganizationIds(uid);
+  const orgs = await Promise.all(
+    orgIds.map(async (orgId) => {
+      const org = await getOrganizationById(orgId);
+      if (!org) return null;
+      return {
+        id: orgId,
+        organization: org,
+      };
+    }),
+  );
+  return orgs.filter((org) => !!org) as OrganizationWithId[];
+};
+
+export const getOrganizationById = async (organizationId: string) => await readPath<Database.Organization>(`organizations/${organizationId}`);
+
+export const getOrganizationPublicInfo = async (organizationId: string) =>
+  readPath<Database.Organization.Public>(`organizations/${organizationId}/public`);
+
 export const getOrganizationDecks = async (organizationId: string) => readPath<Database.Decks.Organization>(`decks/organization/${organizationId}`);
 export const getOrganizationPlaylists = async (organizationId: string) =>
   readPath<Database.Playlists.Organization>(`playlists/organization/${organizationId}`);
@@ -178,7 +229,7 @@ export const listAllUsers = async (nextPageToken?: string): Promise<UserRecord[]
 export const getUserFromEmail = (email: string) => auth.getUserByEmail(email);
 
 export const deleteUser = async (uid: string) => {
-  const userOrgs = await getUserOrganizations(uid);
+  const userOrgs = await getUserOrganizationIds(uid);
   const orgDeletePromises = userOrgs.map((orgId) => deletePath(`organizations/${orgId}/private/members/${uid}`));
   await Promise.all([
     ...orgDeletePromises,

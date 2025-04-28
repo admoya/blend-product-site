@@ -26,7 +26,7 @@ vi.mock('firebase-admin', async () => {
           if (token === 'pro') {
             return { uid: 'proUserId' };
           } else if (token === 'orgMember') {
-            return { uid: 'orgMemberId' };
+            return { uid: 'god' };
           } else if (token === 'basic') {
             return { uid: 'basicUserId' };
           }
@@ -38,7 +38,7 @@ vi.mock('firebase-admin', async () => {
               email: 'test@test.com',
               displayName: 'Test User',
             },
-            orgMemberId: {
+            god: {
               uid,
               email: 'test2@test.com',
               displayName: 'Test User 2',

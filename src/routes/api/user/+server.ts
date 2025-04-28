@@ -1,4 +1,4 @@
-import { authenticate, getOrganizationInfo, getUserData, getUserOrganizations } from '$lib/server/firebaseUtils';
+import { authenticate, getOrganizationPublicInfo, getUserData, getUserOrganizationIds } from '$lib/server/firebaseUtils';
 import { isProUser } from '$lib/server/subscriptionUtils';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
@@ -11,10 +11,10 @@ export const GET = (async (event) => {
   const [firebaseUserData, isSubscribedToBlendPro, organizationInfo] = await Promise.all([
     getUserData(uid),
     isProUser(uid),
-    getUserOrganizations(uid).then((orgs) =>
+    getUserOrganizationIds(uid).then((orgs) =>
       Promise.all(
         orgs.map(async (orgId) => {
-          const orgInfo = await getOrganizationInfo(orgId);
+          const orgInfo = await getOrganizationPublicInfo(orgId);
           return {
             orgName: orgInfo?.name ?? null,
             orgId,

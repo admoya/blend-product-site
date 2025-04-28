@@ -1,7 +1,7 @@
 <script lang="ts">
   import { validate } from 'email-validator';
-  import Modal from '../../../lib/components/Modal.svelte';
-  import type { ValidationRequestBody } from './invites/validation/+server';
+  import Modal from '../../../../lib/components/Modal.svelte';
+  import type { ValidationRequestBody } from '../invites/validation/+server';
   import { invalidateAll } from '$app/navigation';
   export let showModal: boolean;
   export let organization: Database.Organization | null;

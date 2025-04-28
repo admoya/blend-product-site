@@ -2,10 +2,10 @@ import { listmonkClient } from '$lib/server/emailUtils.js';
 import {
   checkSessionAuth,
   deleteUser,
-  getOrganizationInfo,
+  getOrganizationPublicInfo,
   getUserData,
   getUserFromEmail,
-  getUserOrganizations,
+  getUserOrganizationIds,
   isUserGlobalAdmin,
   listAllUsers,
   readPath,
@@ -53,10 +53,10 @@ const getUserSearchResult = async (user: UserRecord) => {
   const [userDecks, userPlaylists, organizationIds, stripeCustomer] = await Promise.all([
     readPath<Database.Decks.User>(`/decks/user/${uid}`),
     readPath<Database.Playlists.User>(`/playlists/user/${uid}`),
-    getUserOrganizations(uid),
+    getUserOrganizationIds(uid),
     getStripeCustomerWithSubscriptions(uid),
   ]);
-  const organizationInfo = (await Promise.all(organizationIds.map((id) => getOrganizationInfo(id)))).filter(
+  const organizationInfo = (await Promise.all(organizationIds.map((id) => getOrganizationPublicInfo(id)))).filter(
     (org): org is Database.Organization.Public => !!org,
   );
   const userSearchResult: UserSearchResult = {
@@ -94,7 +94,7 @@ const getAllUsers = async () => {
       lastRefresh: user.metadata.lastRefreshTime ?? 'N/A',
       deckCount: Object.keys(allUserDecks?.[user.uid] ?? {}).length,
       playlistCount: Object.keys(allUserPlaylists?.[user.uid] ?? {}).length,
-      organizations: (await getUserOrganizations(user.uid)).map((orgId) => allOrganizations?.[orgId]?.public?.name ?? ''),
+      organizations: (await getUserOrganizationIds(user.uid)).map((orgId) => allOrganizations?.[orgId]?.public?.name ?? ''),
     })),
   );
   return allUserData;

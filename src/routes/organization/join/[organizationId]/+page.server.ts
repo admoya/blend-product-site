@@ -1,4 +1,4 @@
-import { checkSessionAuth, getUserOrganizations, readPath, weaklyAuthenticate, writePath } from '$lib/server/firebaseUtils';
+import { checkSessionAuth, getUserOrganizationIds, readPath, weaklyAuthenticate, writePath } from '$lib/server/firebaseUtils';
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async ({ params: { organizationId }, cookies
   }
 
   const existingRequestPromise = readPath<Database.Organization.InviteRequest>(`/organizations/${organizationId}/private/inviteRequests/${uid}`);
-  const existingMemberPromise = getUserOrganizations(uid).then((orgs) => orgs.includes(organizationId));
+  const existingMemberPromise = getUserOrganizationIds(uid).then((orgs) => orgs.includes(organizationId));
   const [existingRequest, existingMember] = await Promise.all([existingRequestPromise, existingMemberPromise]);
 
   const message = url.searchParams.get('message');
